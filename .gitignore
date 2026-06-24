@@ -1,4 +1,21 @@
+# Sortie de build (générée par la CI, ne pas versionner)
 site/
+
+# Python (scripts/build_index.py)
 __pycache__/
-*.pyc
-.DS_Store
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Logs & fichiers temporaires
+*.log
+*.tmp
+
+# Éditeurs / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Note : .DS_Store et autres fichiers OS sont à mettre dans ton ~/.gitignore global
