@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidéosurveillance algorithmique : ce que le droit autorise (et interdit)</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --border:#2a3140;
+    --text:#e6edf3; --muted:#9aa6b2; --accent:#58a6ff; --accent2:#7ee787;
+    --warn:#f0883e; --danger:#ff7b72;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; padding:40px 20px;
+  }
+  .wrap{max-width:860px; margin:0 auto}
+  .kicker{
+    text-transform:uppercase; letter-spacing:.14em; font-size:.72rem;
+    color:var(--accent); font-weight:700; margin-bottom:10px;
+  }
+  h1{
+    font-size:2rem; line-height:1.25; margin:0 0 18px;
+    background:linear-gradient(90deg,#58a6ff,#7ee787);
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .key{
+    background:var(--panel2); border:1px solid var(--border);
+    border-left:4px solid var(--accent2); border-radius:10px;
+    padding:18px 22px; margin:22px 0; font-size:1.08rem;
+  }
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}}
+  .card{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:12px; padding:20px 22px;
+  }
+  .card h2{
+    font-size:1rem; margin:0 0 12px; color:var(--accent);
+    text-transform:uppercase; letter-spacing:.06em;
+  }
+  .card.affaire h2{color:var(--accent2)}
+  .card ul{margin:8px 0 0; padding-left:18px}
+  .card li{margin:6px 0}
+  .ref{font-size:.92rem}
+  .ref b{color:var(--text)}
+  .why{
+    background:linear-gradient(180deg,#1c2230,#161b22);
+    border:1px solid var(--border); border-top:3px solid var(--warn);
+    border-radius:12px; padding:20px 22px; margin:22px 0;
+  }
+  .why h2{font-size:1rem; margin:0 0 10px; color:var(--warn);
+    text-transform:uppercase; letter-spacing:.06em;}
+  .pills{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 0}
+  .pill{font-size:.78rem; padding:5px 11px; border-radius:999px;
+    border:1px solid var(--border); background:#0f141b; color:var(--muted)}
+  .pill.no{border-color:#5a2b2b; color:#ff9d96}
+  .pill.yes{border-color:#2b5a3a; color:#9ff0b3}
+  .gloss{margin:22px 0}
+  .gloss h2{font-size:1rem; color:var(--accent); text-transform:uppercase; letter-spacing:.06em}
+  .gloss dl{margin:0}
+  .gloss dt{font-weight:700; margin-top:12px; color:var(--text)}
+  .gloss dd{margin:2px 0 0; color:var(--muted)}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  footer{margin-top:30px; padding-top:18px; border-top:1px solid var(--border);
+    color:var(--muted); font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Droit Vivant · Sécurité intérieure & libertés</div>
+  <h1>Vidéosurveillance algorithmique : ce que le droit autorise (et interdit)</h1>
+
+  <div class="key">
+    <strong>Principe-clé :</strong> l'analyse automatisée d'images de vidéoprotection est constitutionnelle uniquement si elle exclut toute reconnaissance faciale, reste proportionnée et encadrée, et ne sert qu'à signaler — jamais à décider seule.
+  </div>
+
+  <div class="grid">
+    <div class="card ref">
+      <h2>Textes de référence</h2>
+      <ul>
+        <li><b>Décision n° 2023-850 DC</b> du 17 mai 2023, Conseil constitutionnel</li>
+        <li><b>Loi n° 2023-380</b> du 19 mai 2023 relative aux JO et Paralympiques de 2024, <b>article 7</b></li>
+        <li><b>DDHC 1789</b>, art. 2 (droit au respect de la vie privée)</li>
+        <li>Objectif de valeur constitutionnelle de <b>prévention des atteintes à l'ordre public</b></li>
+      </ul>
+    </div>
+    <div class="card affaire">
+      <h2>L'affaire</h2>
+      <p>Des députés contestaient l'article 7 autorisant, à titre expérimental, le traitement algorithmique des images de caméras et de drones pour détecter des événements à risque. Le Conseil l'a déclaré <b>conforme sous réserves</b> : pas de reconnaissance faciale ni de donnée biométrique, aucune interconnexion avec d'autres fichiers, autorisation préfectorale motivée et proportionnée (un mois max., renouvelable), simple <b>signalement d'attention</b> sous contrôle humain permanent.</p>
+    </div>
+  </div>
+
+  <div class="pills">
+    <span class="pill no">✗ Reconnaissance faciale</span>
+    <span class="pill no">✗ Données biométriques</span>
+    <span class="pill no">✗ Interconnexion de fichiers</span>
+    <span class="pill no">✗ Décision automatisée seule</span>
+    <span class="pill yes">✓ Détection d'événements prédéfinis</span>
+    <span class="pill yes">✓ Autorisation préfectorale motivée</span>
+    <span class="pill yes">✓ Contrôle humain</span>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>Cette décision fixe le standard français de la « VSA » et inspire les débats sur sa pérennisation au-delà de l'expérimentation olympique. Pour un architecte de système de sécurité, elle traduit en exigences concrètes : finalité limitée et documentée, interdiction d'enrichissement croisé des données, traçabilité de l'autorisation, et maintien d'un opérateur humain dans la boucle. C'est le pont entre conformité juridique (vie privée, RGPD) et conception technique d'un dispositif de détection.</p>
+  </div>
+
+  <div class="gloss">
+    <h2>Mini-glossaire</h2>
+    <dl>
+      <dt>VSA</dt><dd>Vidéosurveillance algorithmique : analyse logicielle automatisée de flux vidéo pour repérer des situations prédéfinies.</dd>
+      <dt>Réserve d'interprétation</dt><dd>Condition posée par le Conseil constitutionnel : la loi n'est conforme que si elle est appliquée dans le sens précisé par la décision.</dd>
+      <dt>Donnée biométrique</dt><dd>Donnée tirée des caractéristiques physiques, physiologiques ou comportementales permettant l'identification unique d'une personne.</dd>
+      <dt>Signalement d'attention</dt><dd>Alerte technique signalant un événement détecté, sans valeur de preuve ni effet juridique autonome.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Sources : <a href="https://www.conseil-constitutionnel.fr/decision/2023/2023850DC.htm">Conseil constitutionnel, déc. 2023-850 DC</a> ·
+    <a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047562010/">Légifrance</a><br>
+    Droit Vivant — contenu pédagogique, sans conseil juridique personnalisé.
+  </footer>
+</div>
+</body>
+</html>
