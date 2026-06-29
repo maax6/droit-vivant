@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le droit au chiffrement de bout en bout</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2333;
+    --border:#2b3340; --txt:#e6edf3; --muted:#9aa6b2;
+    --accent:#5eb1ef; --accent2:#7ee787; --warn:#f0b429; --pink:#f778ba;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; padding:40px 20px;
+  }
+  .wrap{max-width:860px; margin:0 auto}
+  .kicker{
+    text-transform:uppercase; letter-spacing:.18em; font-size:.72rem;
+    color:var(--accent); font-weight:700; margin-bottom:12px;
+  }
+  h1{
+    font-size:2.1rem; line-height:1.2; margin:0 0 18px;
+    background:linear-gradient(100deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .principle{
+    background:var(--panel2); border:1px solid var(--border);
+    border-left:4px solid var(--accent2); border-radius:10px;
+    padding:18px 22px; font-size:1.12rem; margin:26px 0;
+  }
+  .principle strong{color:var(--accent2)}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:26px 0}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}}
+  .card{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:20px 22px;
+  }
+  .card h2{
+    font-size:.78rem; text-transform:uppercase; letter-spacing:.12em;
+    color:var(--muted); margin:0 0 12px;
+  }
+  .card.full{grid-column:1/-1}
+  .ref{font-size:.95rem; color:var(--txt)}
+  .ref code{
+    background:#0a0e14; border:1px solid var(--border); border-radius:5px;
+    padding:1px 6px; font-size:.85rem; color:var(--accent);
+  }
+  .ref ul{margin:8px 0 0; padding-left:18px}
+  .ref li{margin-bottom:6px}
+  .case b{color:var(--pink)}
+  .why{
+    background:linear-gradient(180deg,rgba(240,180,41,.08),transparent);
+    border:1px solid var(--border); border-left:4px solid var(--warn);
+    border-radius:10px; padding:18px 22px; margin:26px 0;
+  }
+  .why h2{color:var(--warn); font-size:.85rem; text-transform:uppercase; letter-spacing:.1em; margin:0 0 10px}
+  .glossary dt{font-weight:700; color:var(--accent); margin-top:12px}
+  .glossary dd{margin:2px 0 0; color:var(--muted)}
+  footer{margin-top:36px; padding-top:18px; border-top:1px solid var(--border); color:var(--muted); font-size:.82rem}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Droit Vivant · CEDH · 29 juin 2026</div>
+  <h1>Le droit au chiffrement de bout en bout</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> imposer à un service de communication une porte dérobée
+    ou la remise des clés de déchiffrement affaiblit la sécurité de <em>tous</em> les utilisateurs
+    et constitue une ingérence disproportionnée dans la vie privée, contraire à l'article 8 de la Convention.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>Art. 8 CEDH</code> — droit au respect de la vie privée et de la correspondance</li>
+          <li><code>Art. 8 §2</code> — exigence de nécessité et de proportionnalité de toute ingérence</li>
+          <li>Loi russe dite « Iarovaïa » imposant aux <em>organisateurs de diffusion d'informations</em> de conserver et déchiffrer les communications</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <div class="ref">
+        <b>Podchasov c. Russie</b>, req. n° 33696/19, CEDH (3<sup>e</sup> section), arrêt du 13 février 2024.
+        Un utilisateur de Telegram contestait l'obligation légale faite à la messagerie de stocker toutes les
+        communications et d'en fournir, sur demande des services de sécurité (FSB), les clés permettant le déchiffrement.
+        La Cour conclut à la <b>violation de l'article 8</b> : la mesure ne peut viser une seule cible sans dégrader
+        le chiffrement de bout en bout pour l'ensemble des usagers, ce qui est disproportionné.
+      </div>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    C'est la première fois qu'une juridiction internationale affirme aussi nettement la valeur du chiffrement de
+    bout en bout comme garantie de la vie privée. L'arrêt fournit un argument juridique de poids contre les projets
+    législatifs européens (ex. débats sur le « client-side scanning » et le règlement CSAR) qui voudraient imposer un
+    accès aux contenus chiffrés. Pour un ingénieur sécurité, il valide l'idée qu'il n'existe pas de porte dérobée
+    « réservée aux gentils » : tout affaiblissement est systémique.
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>Chiffrement de bout en bout (E2EE)</dt>
+      <dd>Schéma où seuls l'émetteur et le destinataire détiennent les clés ; l'intermédiaire ne peut pas lire le contenu.</dd>
+      <dt>Porte dérobée (backdoor)</dt>
+      <dd>Mécanisme d'accès volontairement introduit dans un système, contournant la protection cryptographique.</dd>
+      <dt>Marge d'appréciation</dt>
+      <dd>Latitude laissée aux États pour restreindre un droit ; elle se réduit quand l'ingérence touche tous les utilisateurs.</dd>
+      <dt>Proportionnalité</dt>
+      <dd>Test exigeant qu'une mesure soit nécessaire et la moins attentatoire possible au regard du but poursuivi.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://hudoc.echr.coe.int/eng/?i=001-230854">HUDOC — CASE OF PODCHASOV v. RUSSIA (001-230854)</a>.
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+</div>
+</body>
+</html>
