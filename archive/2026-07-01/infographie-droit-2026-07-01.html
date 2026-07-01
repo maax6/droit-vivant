@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X, le réseau d'Elon Musk, premier condamné du DSA</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2333;
+    --border:#2b3340; --txt:#e6edf3; --muted:#9aa6b2;
+    --accent:#5eb1ef; --accent2:#7ee787; --warn:#f0b429; --pink:#f778ba;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; padding:40px 20px;
+  }
+  .wrap{max-width:860px; margin:0 auto}
+  .kicker{
+    text-transform:uppercase; letter-spacing:.18em; font-size:.72rem;
+    color:var(--accent); font-weight:700; margin-bottom:12px;
+  }
+  h1{
+    font-size:2.1rem; line-height:1.2; margin:0 0 18px;
+    background:linear-gradient(100deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .principle{
+    background:var(--panel2); border:1px solid var(--border);
+    border-left:4px solid var(--accent2); border-radius:10px;
+    padding:18px 22px; font-size:1.12rem; margin:26px 0;
+  }
+  .principle strong{color:var(--accent2)}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:26px 0}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}}
+  .card{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:20px 22px;
+  }
+  .card h2{
+    font-size:.78rem; text-transform:uppercase; letter-spacing:.12em;
+    color:var(--muted); margin:0 0 12px;
+  }
+  .card.full{grid-column:1/-1}
+  .ref{font-size:.95rem; color:var(--txt)}
+  .ref code{
+    background:#0a0e14; border:1px solid var(--border); border-radius:5px;
+    padding:1px 6px; font-size:.85rem; color:var(--accent);
+  }
+  .ref ul{margin:8px 0 0; padding-left:18px}
+  .ref li{margin-bottom:6px}
+  .case b{color:var(--pink)}
+  .why{
+    background:linear-gradient(180deg,rgba(240,180,41,.08),transparent);
+    border:1px solid var(--border); border-left:4px solid var(--warn);
+    border-radius:10px; padding:18px 22px; margin:26px 0;
+  }
+  .why h2{color:var(--warn); font-size:.85rem; text-transform:uppercase; letter-spacing:.1em; margin:0 0 10px}
+  .glossary dt{font-weight:700; color:var(--accent); margin-top:12px}
+  .glossary dd{margin:2px 0 0; color:var(--muted)}
+  footer{margin-top:36px; padding-top:18px; border-top:1px solid var(--border); color:var(--muted); font-size:.82rem}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Droit Vivant · Droit du numérique — DSA · 1er juillet 2026</div>
+  <h1>X, le réseau d'Elon Musk, premier condamné du DSA : 120 millions d'euros pour un badge bleu trompeur</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> le règlement européen sur les services numériques (DSA) sanctionne les
+    manquements de transparence des très grandes plateformes — interface trompeuse, registre publicitaire opaque,
+    accès aux données bloqué — indépendamment de tout contenu illicite hébergé.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li>Règlement <code>(UE) 2022/2065</code> — Digital Services Act (DSA)</li>
+          <li><code>Art. 25 DSA</code> — interdiction des interfaces trompeuses (« dark patterns »)</li>
+          <li><code>Art. 39 DSA</code> — registre public des publicités des très grandes plateformes</li>
+          <li><code>Art. 40 DSA</code> — accès des chercheurs agréés aux données publiques</li>
+          <li><code>Art. 74 DSA</code> — amendes jusqu'à 6 % du chiffre d'affaires mondial annuel</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <div class="ref">
+        <b>Commission européenne, décision du 5 décembre 2025</b> (communiqué IP/25/2934) — première décision de
+        non-conformité rendue sous le DSA. Visée : <b>X</b> (anciennement Twitter, racheté par <b>Elon Musk</b>
+        fin 2022), qualifiée de très grande plateforme en ligne. Trois griefs : le badge « certifié » est devenu
+        un <b>abonnement payant sans vérification réelle d'identité</b>, trompant les utilisateurs sur
+        l'authenticité des comptes ; le <b>registre publicitaire</b> ne permet pas d'identifier les annonceurs ni
+        le contenu réel des publicités ; les <b>chercheurs agréés</b> se heurtent à des conditions d'utilisation
+        qui bloquent l'accès aux données publiques. Amende : <b>120 M€</b>, avec délais de 60 et 90 jours ouvrés
+        pour se mettre en conformité. X a formé un <b>recours</b> devant le Tribunal de l'UE en février 2026.
+      </div>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    Pour un professionnel de la sécurité, cette décision élargit le périmètre de la conformité réglementaire
+    au-delà de la seule modération de contenu : la <strong>conception d'interface</strong> (dark patterns),
+    l'<strong>architecture des registres publics</strong> et les <strong>mécanismes de contrôle d'accès aux
+    données</strong> (art. 40) deviennent des surfaces d'audit à part entière. Un badge de vérification sans
+    contrôle d'identité réel est désormais qualifiable juridiquement de pratique trompeuse — tout comme un accès
+    mal conçu à une API peut être qualifié de manquement réglementaire. L'article 40 crée par ailleurs un cadre
+    légal d'accès aux données de plateforme à des fins de recherche sur les risques systémiques, un point de
+    référence pour quiconque conçoit ou audite des pipelines de collecte de données publiques.
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>DSA (Digital Services Act)</dt>
+      <dd>Règlement (UE) 2022/2065 encadrant la responsabilité, la modération et la transparence des services numériques et plateformes.</dd>
+      <dt>VLOP (très grande plateforme en ligne)</dt>
+      <dd>Plateforme touchant plus de 45 millions d'utilisateurs actifs mensuels dans l'UE, soumise à des obligations renforcées de transparence et d'audit.</dd>
+      <dt>Dark pattern (interface trompeuse)</dt>
+      <dd>Conception d'interface visant à orienter ou tromper l'utilisateur au détriment de son consentement libre et éclairé ; interdit par l'article 25 DSA.</dd>
+      <dt>Chercheur agréé (vetted researcher)</dt>
+      <dd>Chercheur habilité au sens de l'article 40 DSA à accéder aux données publiques d'une VLOP pour étudier les risques systémiques.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://ec.europa.eu/commission/presscorner/detail/en/ip_25_2934">Commission européenne — Commission fines X €120 million under the Digital Services Act (5 décembre 2025)</a>.
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+</div>
+</body>
+</html>
