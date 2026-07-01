@@ -44,3 +44,17 @@ Cette première sanction sous le DSA marque l'entrée de la régulation europée
 - [Commission européenne — Commission fines X €120 million under the Digital Services Act (communiqué IP/25/2934, 5 décembre 2025)](https://ec.europa.eu/commission/presscorner/detail/en/ip_25_2934)
 - [Digital Strategy EU — Commission fines X €120 million under the Digital Services Act](https://digital-strategy.ec.europa.eu/en/news/commission-fines-x-eu120-million-under-digital-services-act)
 - [EUR-Lex — Règlement (UE) 2022/2065 (Digital Services Act), texte consolidé](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32022R2065)
+
+## Angles de lecture pour NotebookLM (à coller dans « Personnaliser » de l'Audio Overview)
+
+Le texte ci-dessus suffit pour générer un podcast NotebookLM standard. Les angles suivants sont des instructions de focus prêtes à coller dans le champ de personnalisation, pour orienter la discussion vers des aspects plus techniques et opérationnels, adaptés à un profil sécurité offensive / automatisation.
+
+**Angle 1 — Audit offensif / points de contrôle.** Traite les trois griefs (art. 25, 39, 40 DSA) comme des points de contrôle d'un audit de conformité : pour chacun, explicite le mécanisme technique concret qui a fait défaut (vérification d'identité du badge, structure de l'API du registre publicitaire, contrôle d'accès aux données pour chercheurs) et ce qu'un auditeur externe devrait tester pour détecter une non-conformité similaire sur une autre plateforme.
+
+**Angle 2 — Architecture et APIs.** Concentre-toi sur la dimension technique des obligations DSA : comment un registre publicitaire conforme à l'article 39 devrait être architecturé (endpoints, authentification, rate-limiting), et comment un mécanisme d'accès chercheur conforme à l'article 40 se conçoit du point de vue contrôle d'accès et gestion des habilitations, en comparant avec des APIs de transparence déjà existantes (Meta Ad Library, TikTok Research API).
+
+**Angle 3 — Comparaison des régimes de sanction.** Mets en perspective cette sanction DSA (120 M€, art. 25/39/40) avec la sanction CNIL/RGPD contre Free (42 M€, art. 32, traitée dans un module précédent) : différences de logique — obligation de sécurité technique vs. obligation de transparence structurelle —, différences de calcul du montant, et ce que ça signifie pour une entreprise qui doit répondre simultanément à plusieurs cadres de conformité numérique européens.
+
+**Angle 4 — Veille réglementaire automatisée.** Discute de la manière dont un consultant en automatisation pourrait construire une veille continue sur les décisions DSA/RGPD/AI Act (sources officielles à surveiller, structuration des données de sanction, détection de patterns récurrents dans les manquements sanctionnés) pour anticiper les risques de conformité d'un client plutôt que de les découvrir après coup.
+
+**Angle 5 — Prospective contentieuse.** Explore ce que pourrait donner le recours de X devant le Tribunal de l'UE (Luxembourg) : arguments de défense plausibles, précédents de contentieux DSA/DMA, et impact possible sur les futures décisions de la Commission contre d'autres VLOP.
