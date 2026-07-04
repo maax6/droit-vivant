@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droit Vivant — 4 juillet 2026</title>
+<style>
+  body { background:#fff; color:#1a1a1a; font-family: Georgia, "Times New Roman", serif; line-height:1.55; margin:0; padding:0; }
+  @media (prefers-color-scheme: dark) { body { background:#111; color:#e8e8e8; } .card { background:#1a1a1a; border-color:#333; } .ref, dl.glossary { background:#161616; } }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 48px; }
+  .kicker { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.65; margin-bottom: 10px; font-family: Arial, sans-serif; }
+  h1 { font-size: 1.7rem; line-height:1.25; margin: 0 0 20px; }
+  h2 { font-size: 1.1rem; margin: 0 0 10px; }
+  .principle { border-left: 4px solid #7a3b3b; padding: 12px 16px; margin: 0 0 24px; background: rgba(122,59,59,0.06); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  .card { border: 1px solid #ddd; border-radius: 6px; padding: 16px 18px; }
+  .card.full { grid-column: 1 / -1; }
+  .ref ul { margin: 0; padding-left: 1.1em; }
+  .ref li { margin-bottom: 8px; }
+  code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; font-size: 0.92em; }
+  .why { margin-bottom: 24px; }
+  dl.glossary { margin: 0; }
+  dl.glossary dt { font-weight: bold; margin-top: 10px; }
+  dl.glossary dd { margin: 2px 0 0 0; }
+  footer { font-size: 0.85rem; opacity: 0.75; border-top: 1px solid #ddd; padding-top: 14px; margin-top: 8px; font-family: Arial, sans-serif; }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Droit Vivant · Droit pénal du numérique · 4 juillet 2026</div>
+
+  <h1>3 mois de prison, 10 000 € de dommages-intérêts : le prix d'un admin réseau qui lisait les mails de son patron</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> détenir un accès technique général à un système informatique ne vaut pas autorisation d'en faire n'importe quel usage — l'article 323-1 du code pénal punit le maintien frauduleux dans un système dès que cet accès sert une fin étrangère à la mission confiée, même par celui qui dispose légitimement des droits.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>Art. 323-1 CP</code> — accès et maintien frauduleux dans un système de traitement automatisé de données (STAD)</li>
+          <li><code>Art. 323-3 CP</code> — introduction, modification ou suppression frauduleuse de données (ici : remplacement du mot de passe du gérant)</li>
+          <li><code>Art. 2 et 3 CPP</code> — recevabilité de la constitution de partie civile, préjudice direct et personnel</li>
+          <li><code>Principe non bis in idem</code> — écarté faute de qualification définitive antérieure</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Un <b>administrateur réseau salarié</b> disposait d'un accès général et légitime à la messagerie professionnelle de l'entreprise, dans le cadre de ses missions de <b>sécurité et de maintenance</b>. Il a utilisé cet accès pour consulter, à l'insu de son <b>gérant</b>, la boîte mail de ce dernier, en a décodé le mot de passe, l'a remplacé par le sien, puis a mis en place un <b>transfert automatique des courriels professionnels vers son adresse personnelle</b>.</p>
+      <p>Condamné par la cour d'appel de Versailles à <b>3 mois de prison avec sursis</b> et <b>10 000 € de dommages-intérêts</b>, il s'est pourvu en cassation en soutenant qu'un droit d'accès technique général excluait tout caractère frauduleux. La <b>Cour de cassation rejette le pourvoi</b> le <b>2 septembre 2025</b> (n° 24-83.605, publié au Bulletin) : l'usage doit rester conforme à la mission, peu importe l'étendue des droits techniques détenus.</p>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>Tout le monde a déjà pensé : « est-ce que la personne qui gère mon réseau ou ma messagerie pourrait lire mes mails ? ». Techniquement, souvent oui. Juridiquement, la Cour de cassation vient de trancher : la réponse est non, sauf si c'est la mission. Pour un professionnel de la sécurité offensive ou un administrateur, cet arrêt est une pierre angulaire : il confirme que la légitimité d'un accès se juge à l'aune du <b>mandat</b> (contrat de travail, lettre de mission, périmètre d'un test d'intrusion), et non à l'aune des droits techniques effectivement possédés. Un compte admin, un accès root ou une autorisation d'audit qui « déborde » de son objet peut, à lui seul, constituer le délit de maintien frauduleux — exactement le risque juridique que doit couvrir une <b>lettre d'autorisation</b> (rules of engagement) avant tout pentest ou audit interne.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>STAD</dt>
+      <dd>Système de traitement automatisé de données : toute notion large couvrant un serveur, une messagerie, un réseau ou une application dès lors qu'un traitement informatisé y est opéré.</dd>
+      <dt>Maintien frauduleux</dt>
+      <dd>Fait de rester dans un système sans droit, y compris pour celui qui y avait initialement un accès légitime, dès lors qu'il en détourne l'usage.</dd>
+      <dt>Non bis in idem</dt>
+      <dd>Principe interdisant de juger deux fois une même personne pour les mêmes faits déjà définitivement qualifiés — ici jugé inapplicable, la qualification pénale n'étant pas encore arrêtée.</dd>
+      <dt>Constitution de partie civile</dt>
+      <dd>Action par laquelle une victime demande réparation de son préjudice dans le cadre d'une procédure pénale ; ici admise pour le gérant, distinct de l'employeur, en raison d'un préjudice moral personnel et direct.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://www.courdecassation.fr/decision/68b690429b7f3c45d0a40cb1">Cour de cassation, chambre criminelle, 2 septembre 2025, n° 24-83.605</a>.
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+</div>
+</body>
+</html>
