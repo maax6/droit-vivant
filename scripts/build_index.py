@@ -20,6 +20,9 @@ DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 # --------------------------------------------------------------------------- #
 #  Charte graphique partagee (clair / sombre auto)                            #
+#  NB design : pas de bordure coloree gauche/haut sur les cartes (tell IA      #
+#  generique). Differenciation uniquement par fond teinte + couleur de texte. #
+#  Radius restreint (8px), pas de box-shadow flottante.                       #
 # --------------------------------------------------------------------------- #
 STYLE = """
 :root{
@@ -29,7 +32,6 @@ STYLE = """
   --accent:#1f5fcc; --accent-ink:#13408c;
   --warn-bg:#fff8ea; --warn-border:#e6c374; --warn-ink:#8a5a00;
   --mark: rgba(31,95,204,.14);
-  --shadow:0 1px 2px rgba(16,24,40,.04),0 4px 16px rgba(16,24,40,.06);
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -41,7 +43,6 @@ STYLE = """
     --accent:#6aa6ff; --accent-ink:#a8c8ff;
     --warn-bg:#221d11; --warn-border:#574722; --warn-ink:#e6c177;
     --mark: rgba(106,166,255,.18);
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 22px rgba(0,0,0,.38);
   }
 }
 *{box-sizing:border-box}
@@ -72,13 +73,13 @@ h2{font-family:var(--serif);font-weight:700;font-size:1.32rem;margin:1.9em 0 .5e
 h3{font-size:1.05rem;margin:1.5em 0 .4em}
 p{margin:0 0 1.05em}
 
-.principle{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--accent);
-  border-radius:12px;padding:18px 22px;font-size:1.07rem;margin:26px 0;box-shadow:var(--shadow)}
+.principle{background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:18px 22px;font-size:1.07rem;margin:26px 0}
 .principle strong{color:var(--accent-ink)}
 
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 22px}
 .card h2{font-family:var(--sans);font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;
   color:var(--muted);margin:0 0 12px;font-weight:700}
 .card.full{grid-column:1/-1}
@@ -91,8 +92,8 @@ code{background:var(--surface-2);border:1px solid var(--border);border-radius:5p
 
 .case b,.case strong{color:var(--text);background:linear-gradient(transparent 62%,var(--mark) 0);padding:0 1px}
 
-.why{background:var(--warn-bg);border:1px solid var(--warn-border);border-left:4px solid var(--warn-border);
-  border-radius:12px;padding:18px 22px;margin:26px 0}
+.why{background:var(--warn-bg);border:1px solid var(--warn-border);
+  border-radius:8px;padding:18px 22px;margin:26px 0}
 .why h2{font-family:var(--sans);color:var(--warn-ink);font-size:.74rem;text-transform:uppercase;
   letter-spacing:.08em;margin:0 0 8px;font-weight:700}
 
@@ -104,14 +105,14 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border);color
 /* ---- index ---- */
 .lede{color:var(--muted);font-size:1.02rem;margin:0 0 30px;max-width:62ch}
 .entries{display:flex;flex-direction:column;gap:14px}
-.entry{background:var(--surface);border:1px solid var(--border);border-radius:14px;
-  padding:18px 22px;box-shadow:var(--shadow)}
+.entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:18px 22px}
 .entry .date{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .entry h2{font-family:var(--serif);font-size:1.18rem;margin:3px 0 0;line-height:1.3;letter-spacing:-.01em}
 .entry h2 a{color:var(--text)}
 .entry h2 a:hover{color:var(--accent)}
 .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.btn{font-size:13px;padding:7px 14px;border-radius:9px;text-decoration:none;
+.btn{font-size:13px;padding:7px 14px;border-radius:6px;text-decoration:none;
   background:var(--bg);color:var(--text);border:1px solid var(--border);transition:border-color .15s}
 .btn:hover{border-color:var(--accent);text-decoration:none}
 .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
