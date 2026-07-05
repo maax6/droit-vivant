@@ -1,46 +1,86 @@
 <!DOCTYPE html>
-<html lang="fr"><head><meta charset="UTF-8">
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber — Directive NIS2 & transposition française</title>
+<title>Droit Vivant — 5 juillet 2026</title>
 <style>
-:root{--bg:#0f1424;--card:#1a2236;--card2:#222c45;--accent:#4f8cff;--accent2:#ffb454;--danger:#ff6b6b;--ok:#3ddc97;--txt:#e8ecf5;--muted:#9aa6c2;--line:#2c3858}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5;padding:28px;max-width:920px;margin:0 auto}
-.kicker{display:inline-block;background:var(--accent);color:#06122e;font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
-h1{font-size:30px;margin:14px 0 6px;line-height:1.2}
-.date{color:var(--muted);font-size:14px;margin-bottom:22px}
-.principle{background:linear-gradient(135deg,#243154,#1a2236);border-left:5px solid var(--accent2);border-radius:12px;padding:18px 20px;margin-bottom:20px;font-size:18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:680px){.grid{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
-.card h2{font-size:16px;color:var(--accent);margin-bottom:10px}
-.refs li{margin:7px 0;font-size:14.5px}.refs b{color:var(--accent2)}
-.case{background:var(--card2)}.case .verdict{display:inline-block;margin-top:8px;background:rgba(255,180,84,.15);color:var(--accent2);border:1px solid var(--accent2);padding:3px 10px;border-radius:8px;font-size:13px;font-weight:600}
-.why{grid-column:1/-1;background:linear-gradient(135deg,#13321f,#16261d);border:1px solid var(--ok);border-radius:12px;padding:18px 20px}.why h2{color:var(--ok)}
-.glossary{grid-column:1/-1}.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
-@media(max-width:680px){.gloss-grid{grid-template-columns:1fr}}
-.term{background:var(--card2);border-radius:8px;padding:10px 12px}.term b{color:var(--accent2);display:block;font-size:14px;margin-bottom:3px}.term span{font-size:13.5px;color:var(--muted)}
-footer{margin-top:22px;color:var(--muted);font-size:12.5px;text-align:center}
-</style></head>
+  body { background:#fff; color:#1a1a1a; font-family: Georgia, "Times New Roman", serif; line-height:1.55; margin:0; padding:0; }
+  @media (prefers-color-scheme: dark) { body { background:#111; color:#e8e8e8; } .card { background:#1a1a1a; border-color:#333; } .principle { background:#20191a; border-color:#3a2a2a; } .why { background:#141a1a; border-color:#2a3333; } .ref, dl.glossary { background:#161616; } }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 48px; }
+  .kicker { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.65; margin-bottom: 10px; font-family: Arial, sans-serif; }
+  h1 { font-size: 1.7rem; line-height:1.25; margin: 0 0 20px; }
+  h2 { font-size: 1.1rem; margin: 0 0 10px; }
+  .principle { border: 1px solid #d8c6c6; border-radius: 8px; padding: 12px 16px; margin: 0 0 24px; background: rgba(122,59,59,0.06); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px 18px; }
+  .card.case { background: rgba(59,90,122,0.05); }
+  .card.full { grid-column: 1 / -1; }
+  .ref ul { margin: 0; padding-left: 1.1em; }
+  .ref li { margin-bottom: 8px; }
+  code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 3px; font-size: 0.92em; }
+  .why { border: 1px solid #cdd8c6; border-radius: 8px; padding: 12px 16px; margin-bottom: 24px; background: rgba(59,122,74,0.06); }
+  dl.glossary { margin: 0; }
+  dl.glossary dt { font-weight: bold; margin-top: 10px; }
+  dl.glossary dd { margin: 2px 0 0 0; }
+  footer { font-size: 0.85rem; opacity: 0.75; border-top: 1px solid #ddd; padding-top: 14px; margin-top: 8px; font-family: Arial, sans-serif; }
+  footer a { color: inherit; }
+</style>
+</head>
 <body>
-<span class="kicker">Cyber · UE / France</span>
-<h1>NIS2 : l'Europe muscle la cybersécurité, la France transpose (enfin)</h1>
-<div class="date">Directive (UE) 2022/2555 — transposition française en cours (2025-2026)</div>
-<div class="principle"><b>Principe-clé —</b> NIS2 élargit massivement le périmètre des entités soumises à des obligations de cybersécurité et responsabilise directement les <b>dirigeants</b>, sous la supervision de l'ANSSI.</div>
-<div class="grid">
-<div class="card"><h2>📜 Textes de référence</h2><ul class="refs">
-<li><b>Directive (UE) 2022/2555</b> (NIS2) du 14 décembre 2022.</li>
-<li><b>Échéance de transposition :</b> 17 octobre 2024 (non tenue par la France).</li>
-<li><b>Projet de loi FR</b> : résilience des infrastructures / cybersécurité (transpose REC, NIS2, DORA).</li>
-<li><b>Autorité compétente :</b> ANSSI.</li></ul></div>
-<div class="card case"><h2>🗓️ L'affaire (le droit qui se fait)</h2><p>Sénat : adoption en 1re lecture le <b>12 mars 2025</b>. Assemblée nationale : vote en commission spéciale le <b>10 septembre 2025</b>. Adoption définitive attendue en <b>session extraordinaire de juillet 2026</b>. Entre-temps, la Commission européenne a adressé à la France un <b>avis motivé</b> le 7 mai 2025 pour transposition tardive.</p><span class="verdict">En cours — procédure d'infraction UE en toile de fond</span></div>
-<div class="why"><h2>💡 Pourquoi c'est important</h2><p>NIS2 fait passer la France de quelques centaines d'opérateurs régulés à potentiellement des milliers d'entités (énergie, santé, transports, numérique, administrations, mais aussi de nombreuses PME de secteurs critiques). Obligations : gouvernance du risque, mesures techniques, et <b>notification des incidents</b> à l'ANSSI sous des délais courts. Nouveauté forte : la responsabilité des organes de direction. Pour un professionnel cyber, c'est un moteur de mise en conformité concret.</p></div>
-<div class="card glossary"><h2>📖 Mini-glossaire</h2><div class="gloss-grid">
-<div class="term"><b>Entité essentielle (EE)</b><span>Grande entité de secteur hautement critique ; supervision renforcée (contrôles ex ante).</span></div>
-<div class="term"><b>Entité importante (EI)</b><span>Entité critique à obligations graduées ; supervision surtout ex post.</span></div>
-<div class="term"><b>Transposition</b><span>Traduction d'une directive UE en droit national ; obligatoire, dans un délai fixé.</span></div>
-<div class="term"><b>Avis motivé</b><span>2e étape de la procédure d'infraction UE, avant saisine de la CJUE.</span></div>
-</div></div>
+<div class="wrap">
+  <div class="kicker">Droit Vivant · Droit de l'IA & cybersécurité · 5 juillet 2026</div>
+
+  <h1>250 € pour devenir riche : comment un deepfake a mis en scène la présidente de région Huguette Bello à son insu</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> utiliser l'image ou la voix d'une personne, générées ou modifiées par IA, sans son consentement est punissable en tant que tel — indépendamment de l'escroquerie, du harcèlement ou de la désinformation que ce montage peut par ailleurs caractériser.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>Art. 226-8 CP</code> — montage utilisant l'image ou les paroles d'une personne sans son consentement (1 an d'emprisonnement, 15 000 € d'amende)</li>
+          <li><code>Art. 226-8-1 CP</code> — hypertrucage à caractère sexuel et/ou diffusé via un service de communication en ligne : peines aggravées</li>
+          <li><code>Art. 313-1 CP</code> — escroquerie : tromperie en vue de remettre des fonds, un bien ou un service (5 ans, 375 000 €)</li>
+          <li><code>Art. 222-33-2-2 CP</code> — harcèlement, y compris en ligne (2 ans, 30 000 €)</li>
+          <li><code>Art. 227-23 CP</code> — contenus pédopornographiques, y compris générés par IA (5 ans, 75 000 €)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Le <b>3 février 2026</b>, la <b>CNIL</b> publie une fiche pratique qualifiant les hypertrucages de risque de masse et détaillant, article par article, les qualifications pénales applicables : usurpation d'identité, escroquerie, harcèlement, désinformation, contenus haineux ou pédopornographiques — en précisant explicitement que ces derniers sont punis <b>même produits par un outil d'IA</b>.</p>
+      <p>Illustration concrète du phénomène : en juin 2025, une vidéo truquée par IA a mis en scène <b>Huguette Bello</b>, présidente du <b>Conseil régional de La Réunion</b>, affirmant qu'un investissement de <b>250 €</b> permettait de « devenir riche rapidement » grâce à une plateforme prétendument soutenue par la Région — ce qui était faux. La collectivité a dû publiquement démentir. Bello n'est ici en rien fautive : elle est la <b>victime</b> d'une usurpation de son image à des fins d'escroquerie, un scénario que la CNIL range désormais parmi les usages malveillants les plus courants de l'IA générative, aux côtés de la fraude au président visant les entreprises.</p>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>Le deepfake n'est plus une prouesse technique isolée : c'est un vecteur d'attaque social-engineering industrialisé, accessible avec un simple face-swap et quelques secondes de voix. Pour un professionnel de la sécurité, l'affaire Bello illustre un axe d'attaque directement transposable au vishing d'entreprise (fraude au président par clonage vocal du dirigeant) et à la désinformation ciblée. Le droit français ne se contente pas de l'article 226-8 : il combine usurpation d'image, escroquerie et harcèlement en fonction du vecteur utilisé, ce qui multiplie les qualifications mobilisables contre un même contenu. Et la loi ne raisonne pas en « degré de réalisme » : dès le montage sans consentement, l'infraction est consommée, ce qui abaisse le seuil de preuve par rapport à une manipulation de marché ou une diffamation classique — un point utile à connaître pour évaluer la surface de risque juridique d'un test d'ingénierie sociale par deepfake en contexte offensif autorisé.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>Hypertrucage (deepfake)</dt>
+      <dd>Contenu audio, photo ou vidéo créé ou modifié par des techniques d'IA (deep learning) pour imiter un visage, une voix ou un mouvement de façon réaliste.</dd>
+      <dt>Face swapping / lip synching</dt>
+      <dd>Remplacement d'un visage dans une vidéo, ou resynchronisation des mouvements de lèvres avec un nouvel audio généré.</dd>
+      <dt>Fraude au président</dt>
+      <dd>Escroquerie visant une entreprise en se faisant passer, souvent par clonage vocal ou vidéo, pour un dirigeant afin d'obtenir un virement.</dd>
+      <dt>Projet GenFakes (PEReN / CNIL-LINC)</dt>
+      <dd>Programme de recherche français explorant la génération et la détection technique des deepfakes, incluant le tatouage numérique (watermarking) des contenus IA.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://www.cnil.fr/fr/hypertrucage-deepfake">CNIL — Hypertrucage (deepfake) : comment se protéger et signaler les contenus illicites ? (3 février 2026)</a>.
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
 </div>
-<footer>Contenu pédagogique — ne constitue pas un conseil juridique. Sources : EUR-Lex, ANSSI, Sénat, Commission européenne.</footer>
-</body></html>
+</body>
+</html>
