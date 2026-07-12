@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droit Vivant — 144 écoles sous algorithme : le camouflet du Conseil d'État à Nice</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --text:#1a1a1a;
+    --muted:#555555;
+    --border:#d8d8d8;
+    --card-bg:#f7f7f7;
+    --case-bg:#f0f4f2;
+    --why-bg:#f5f2ea;
+    --code-bg:#eaeaea;
+    --link:#1a4d8f;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14161a;
+      --text:#e8e8e8;
+      --muted:#a8a8a8;
+      --border:#3a3d42;
+      --card-bg:#1d2024;
+      --case-bg:#182420;
+      --why-bg:#231f18;
+      --code-bg:#26292e;
+      --link:#7fb0ff;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 48px;}
+  .kicker{
+    font-size:13px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+  h1{
+    font-size:26px;
+    line-height:1.3;
+    margin:0 0 20px;
+  }
+  h2{font-size:17px;margin:0 0 10px;}
+  .principle{
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--card-bg);
+    padding:14px 16px;
+    margin-bottom:22px;
+    font-size:15px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-bottom:22px;
+  }
+  @media (max-width:600px){
+    .grid{grid-template-columns:1fr;}
+  }
+  .card{
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--card-bg);
+    padding:16px;
+    font-size:14.5px;
+  }
+  .card.case{
+    background:var(--case-bg);
+  }
+  .card.full{
+    grid-column:1/-1;
+  }
+  .ref ul{margin:0;padding-left:18px;}
+  .ref li{margin-bottom:8px;}
+  code{
+    background:var(--code-bg);
+    border-radius:4px;
+    padding:1px 5px;
+    font-size:13px;
+  }
+  .why{
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--why-bg);
+    padding:16px;
+    margin-bottom:22px;
+    font-size:14.5px;
+  }
+  dl.glossary{margin:0;}
+  dl.glossary dt{font-weight:600;margin-top:10px;}
+  dl.glossary dt:first-child{margin-top:0;}
+  dl.glossary dd{margin:2px 0 0;color:var(--muted);}
+  footer{
+    font-size:12.5px;
+    color:var(--muted);
+    border-top:1px solid var(--border);
+    padding-top:14px;
+    margin-top:8px;
+  }
+  footer a{color:var(--link);}
+  a{color:var(--link);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Droit Vivant · Sécurité intérieure — vidéosurveillance algorithmique · 12 juillet 2026</div>
+
+  <h1>144 écoles sous algorithme : le Conseil d'État dit non à la vidéosurveillance intelligente de Christian Estrosi</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> une loi qui autorise à filmer la voie publique n'autorise pas, à elle seule, à faire analyser ces images en continu par un algorithme — il faut pour cela un texte spécifique, que le droit français ne prévoit pas aujourd'hui pour l'espace public hors dispositifs expressément encadrés.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>Article L. 251-2 du code de la sécurité intérieure</code> (<a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000047569457">Légifrance</a>) — autorise la vidéoprotection de la voie publique, mais reste muet sur l'analyse algorithmique des images.</li>
+          <li><code>Règlement (UE) 2024/1689 (AI Act)</code> — classification des systèmes d'IA par niveau de risque, invoquée sans succès par la commune.</li>
+          <li><code>Loi n° 2023-380 du 19 mai 2023</code> — seule base légale actuelle, expérimentale et limitée à la sécurité de grands événements, pour des caméras dites « augmentées ».</li>
+          <li><code>RGPD, art. 5</code> — principes de licéité et de minimisation du traitement de données à caractère personnel.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>
+        En <b>avril 2023</b>, un contrôle de la CNIL à la mairie de <b>Nice</b>, dirigée par <b>Christian Estrosi</b>, révèle deux traitements algorithmiques appliqués aux caméras de <b>144 écoles</b> : « franchissement de ligne » et « zone d'intrusion — entrées des écoles », qui détectent en continu les véhicules stationnés irrégulièrement plus de cinq minutes pendant les heures d'ouverture et déclenchent une alerte automatique vers la police municipale. Le <b>13 novembre 2024</b>, la CNIL met la commune en demeure de justifier le dispositif. Le <b>15 mai 2025</b>, elle rend un avis concluant à son illégalité en l'état du droit. Nice saisit alors le <b>Conseil d'État</b>, qui rejette son recours le <b>30 janvier 2026</b> (10<sup>e</sup>-9<sup>e</sup> chambres réunies, n° 506370) : l'article L. 251-2 autorise la captation d'images, pas leur <b>analyse automatisée et systématique</b> par algorithme — et peu importe que le système ne soit pas classé « haut risque » par l'AI Act, aucun texte français ne l'autorise aujourd'hui.
+      </p>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>
+      Pour n'importe quel parent d'élève niçois, cette décision signifie que la ville ne peut pas, pour l'instant, laisser un logiciel repérer seul les voitures mal garées devant l'école et prévenir la police à sa place — un humain doit rester dans la boucle. Pour un professionnel de la sécurité, l'arrêt trace une frontière nette entre deux régimes juridiques trop souvent confondus sur le terrain : la vidéoprotection « classique » (captation d'images, visionnage par un opérateur humain), largement encadrée depuis les années 1990, et la vidéosurveillance « augmentée » ou algorithmique (détection automatique, alertes déclenchées sans intervention humaine), qui reste sans base légale générale en dehors du cadre expérimental et temporaire ouvert par la loi JO 2023 pour certains grands événements. Le Conseil d'État écarte aussi un argument technique fréquent : la classification de risque d'un système au titre de l'AI Act européen ne crée, à elle seule, aucune autorisation en droit interne. Pour un auditeur ou un consultant en conformité, c'est un rappel utile que la légalité d'un traitement d'IA sur des images de vidéoprotection s'apprécie d'abord au regard du droit national de la sécurité intérieure, indépendamment de sa catégorie AI Act.
+    </p>
+  </div>
+
+  <div class="card full">
+    <h2>Glossaire express</h2>
+    <dl class="glossary">
+      <dt>Vidéoprotection</dt>
+      <dd>Captation d'images de la voie publique par des caméras fixes, autorisée par arrêté préfectoral sur le fondement du code de la sécurité intérieure ; le visionnage reste, par principe, assuré par un opérateur humain.</dd>
+      <dt>Caméra « augmentée » (vidéosurveillance algorithmique)</dt>
+      <dd>Dispositif ajoutant à la captation d'images un traitement automatisé — détection d'objets, de comportements ou d'événements — qui déclenche des alertes sans intervention humaine préalable.</dd>
+      <dt>Base légale</dt>
+      <dd>Disposition législative précise et explicite requise pour tout traitement de données personnelles ; en l'absence de texte spécifique, le silence de la loi ne vaut pas autorisation.</dd>
+      <dt>AI Act — système à haut risque</dt>
+      <dd>Catégorie du règlement européen sur l'IA soumise à des obligations renforcées ; sa non-application à un système donné ne dispense pas de respecter, par ailleurs, le droit national applicable au secteur concerné.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://www.conseil-etat.fr/actualites/nice-le-traitement-algorithmique-des-images-de-videosurveillance-de-la-voie-publique-n-est-en-l-etat-actuel-de-la-loi-pas-autorise">Conseil d'État — Nice : le traitement algorithmique des images de vidéosurveillance de la voie publique n'est, en l'état actuel de la loi, pas autorisé (30 janvier 2026)</a><br>
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+</div>
+</body>
+</html>
