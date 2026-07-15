@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droit Vivant — Admin système et maintien frauduleux dans un STAD</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #55595e;
+    --border: #d8dadd;
+    --card-bg: #f7f8f9;
+    --case-bg: #f2f6f5;
+    --why-bg: #f9f6ef;
+    --link: #1a4d8f;
+    --code-bg: #eceef0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --text: #e8e9eb;
+      --muted: #a3a8ad;
+      --border: #33373c;
+      --card-bg: #1c1f24;
+      --case-bg: #182322;
+      --why-bg: #201f19;
+      --link: #7aa7dd;
+      --code-bg: #23262b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  .kicker {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  h1 {
+    font-size: 1.6rem;
+    line-height: 1.28;
+    margin: 0 0 1.1rem;
+  }
+  h2 {
+    font-size: 1.02rem;
+    margin: 0 0 0.6rem;
+  }
+  .principle, .why, .card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 1.1rem;
+  }
+  .principle { background: var(--card-bg); }
+  .why { background: var(--why-bg); }
+  .why h2 { color: #8a6a1f; }
+  @media (prefers-color-scheme: dark) { .why h2 { color: #d3ab5c; } }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  .card { background: var(--card-bg); }
+  .card.case { background: var(--case-bg); }
+  .card.case h2 { color: #2a6b5f; }
+  @media (prefers-color-scheme: dark) { .card.case h2 { color: #6fb8a6; } }
+  .card.full { grid-column: 1 / -1; }
+  .ref ul { margin: 0; padding-left: 1.2rem; }
+  .ref li { margin-bottom: 0.4rem; }
+  code {
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.05rem 0.35rem;
+    font-size: 0.88em;
+  }
+  .glossary dt {
+    font-weight: 600;
+    margin-top: 0.7rem;
+  }
+  .glossary dt:first-child { margin-top: 0; }
+  .glossary dd {
+    margin: 0.15rem 0 0;
+    color: var(--muted);
+  }
+  a { color: var(--link); }
+  footer {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  b { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Droit Vivant · Droit du numérique / cybercriminalité · 15 juillet 2026</div>
+
+  <h1>Il avait les codes admin de toute la messagerie de l'entreprise : la Cour de cassation l'a quand même condamné pour piratage</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> avoir un accès technique légitime à un système informatique ne protège pas d'une condamnation pénale si cet accès est utilisé à des fins étrangères à sa mission — c'est le délit de maintien frauduleux dans un système de traitement automatisé de données (STAD), article 323-1 du code pénal.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>Art. 323-1, code pénal</code> — accès ou maintien frauduleux dans un STAD : 3 ans d'emprisonnement et 100 000 € d'amende ; 5 ans et 150 000 € si suppression, modification de données ou altération du fonctionnement du système.</li>
+          <li><code>Art. 323-3, code pénal</code> — introduction, suppression ou modification frauduleuse de données dans un STAD.</li>
+          <li>Arrêt attaqué : <b>cour d'appel de Versailles, 9<sup>e</sup> chambre, 2 mai 2024</b> (condamnation initiale à 3 mois d'emprisonnement avec sursis).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Un salarié, <b>administrateur du réseau informatique</b> de son entreprise, disposait par ses fonctions d'un <b>droit général d'accès à la messagerie</b> de tous les employés, y compris pour des missions de sécurité et de maintenance. Il a utilisé cet accès pour <b>consulter en secret la messagerie de son supérieur hiérarchique</b>, décoder son mot de passe, le remplacer par le sien, et mettre en place un <b>renvoi automatique des e-mails professionnels</b> vers sa propre adresse — à l'insu du titulaire du compte et sans lien avec sa mission technique.</p>
+      <p>Condamné en appel à trois mois de prison avec sursis, il s'est pourvu en cassation en soutenant que son accès était de toute façon autorisé. La <b>chambre criminelle de la Cour de cassation, le 2 septembre 2025 (pourvoi n° 24-83.605, publié au Bulletin), a rejeté le pourvoi</b> : disposer d'un droit d'accès général en tant qu'administrateur ne couvre pas un usage détourné de sa finalité — le maintien dans le système est frauduleux dès que la mission est dépassée.</p>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>Cette décision fixe une limite que tout professionnel disposant d'accès privilégiés — administrateur système, DSI, prestataire infogérance, pentesteur en mission — doit connaître : la <b>légitimité technique de l'accès ne vaut pas autorisation d'usage</b>. C'est exactement la logique qui sous-tend, côté offensif, l'exigence d'une lettre de mission et de règles d'engagement précises (périmètre, finalité, durée) pour tout audit ou test d'intrusion : sortir du périmètre autorisé, même avec des identifiants valides et légitimement obtenus, fait basculer une action licite dans le champ de l'article 323-1.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>STAD (système de traitement automatisé de données)</dt>
+      <dd>Notion large qui couvre tout système informatique — serveur de messagerie, réseau d'entreprise, application, infrastructure cloud — protégé par les articles 323-1 et suivants du code pénal.</dd>
+      <dt>Maintien frauduleux</dt>
+      <dd>Fait de rester dans un système, y compris avec un accès initialement autorisé, en détournant cet accès de sa finalité légitime.</dd>
+      <dt>Pourvoi en cassation / rejet</dt>
+      <dd>Recours contre une décision de cour d'appel porté devant la Cour de cassation ; un rejet confirme la décision attaquée et n'examine que les points de droit, pas les faits.</dd>
+      <dt>Finalité de la mission</dt>
+      <dd>Périmètre d'usage pour lequel un accès a été accordé (maintenance, sécurité, audit) ; en sortir — même techniquement possible — peut constituer une infraction.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : Cour de cassation, chambre criminelle, arrêt du 2 septembre 2025, pourvoi n° 24-83.605 (publié au Bulletin) — <a href="https://www.courdecassation.fr/recherche-judilibre">Judilibre, moteur de recherche officiel de la Cour de cassation</a>.<br>
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+</div>
+</body>
+</html>
