@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droit Vivant — RGPD et abus du droit d'accès</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #55595e;
+    --border: #d8dadd;
+    --card-bg: #f7f8f9;
+    --case-bg: #f2f6f5;
+    --why-bg: #f9f6ef;
+    --link: #1a4d8f;
+    --code-bg: #eceef0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --text: #e8e9eb;
+      --muted: #a3a8ad;
+      --border: #33373c;
+      --card-bg: #1c1f24;
+      --case-bg: #182322;
+      --why-bg: #201f19;
+      --link: #7aa7dd;
+      --code-bg: #23262b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  .kicker {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  h1 {
+    font-size: 1.6rem;
+    line-height: 1.28;
+    margin: 0 0 1.1rem;
+  }
+  h2 {
+    font-size: 1.02rem;
+    margin: 0 0 0.6rem;
+  }
+  .principle, .why, .card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    margin-bottom: 1.1rem;
+  }
+  .principle { background: var(--card-bg); }
+  .why { background: var(--why-bg); }
+  .why h2 { color: #8a6a1f; }
+  @media (prefers-color-scheme: dark) { .why h2 { color: #d3ab5c; } }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+  .card { background: var(--card-bg); }
+  .card.case { background: var(--case-bg); }
+  .card.case h2 { color: #2a6b5f; }
+  @media (prefers-color-scheme: dark) { .card.case h2 { color: #6fb8a6; } }
+  .card.full { grid-column: 1 / -1; }
+  .ref ul { margin: 0; padding-left: 1.2rem; }
+  .ref li { margin-bottom: 0.4rem; }
+  code {
+    background: var(--code-bg);
+    border-radius: 4px;
+    padding: 0.05rem 0.35rem;
+    font-size: 0.88em;
+  }
+  .glossary dt {
+    font-weight: 600;
+    margin-top: 0.7rem;
+  }
+  .glossary dt:first-child { margin-top: 0; }
+  .glossary dd {
+    margin: 0.15rem 0 0;
+    color: var(--muted);
+  }
+  a { color: var(--link); }
+  footer {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+  b { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Droit Vivant · Droit du numérique · 16 juillet 2026</div>
+
+  <h1>Newsletter, 13 jours, 1 000 € réclamés « au nom du RGPD » : la justice européenne met fin à la martingale</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> une demande d'accès à ses données personnelles (article 15 du RGPD), même une toute première demande, peut être qualifiée d'« excessive » et rejetée si le responsable du traitement démontre qu'elle vise, non à vérifier la licéité du traitement, mais à créer artificiellement les conditions d'une indemnisation.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>Art. 12 § 5, RGPD</code> — demandes manifestement infondées ou excessives : le responsable du traitement peut exiger des frais raisonnables ou refuser d'y donner suite.</li>
+          <li><code>Art. 15, RGPD</code> — droit d'accès de la personne concernée à ses données à caractère personnel et aux informations relatives à leur traitement.</li>
+          <li><code>Art. 82, RGPD</code> — droit à réparation du dommage matériel ou moral causé par une violation du règlement, sous réserve d'un dommage réel et d'un lien de causalité.</li>
+          <li>Décision : <b>CJUE (4<sup>e</sup> chambre), 19 mars 2026, affaire C-526/24, Brillen Rottler GmbH &amp; Co. KG c/ TC</b>, sur renvoi préjudiciel de l'Amtsgericht (tribunal de district) d'Arnsberg, Allemagne.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Un particulier résidant en Autriche s'abonne à la <b>newsletter de Brillen Rottler</b>, une entreprise familiale d'optique établie à Arnsberg, en renseignant ses données personnelles dans le formulaire d'inscription. <b>Treize jours plus tard</b>, il adresse à l'entreprise une demande d'accès au titre de l'article 15 du RGPD. Brillen Rottler refuse, estimant la demande abusive : selon des reportages, articles de blog et bulletins d'avocats versés aux débats, cet individu s'inscrirait systématiquement à des newsletters de multiples entreprises avant de réclamer l'accès à ses données, puis une indemnisation — ici <b>1 000 € au titre d'un préjudice moral</b>, sur le fondement de l'article 82 du RGPD.</p>
+      <p>Saisi du litige, le tribunal de district d'Arnsberg interroge la CJUE. Celle-ci répond qu'une première demande d'accès peut déjà être « excessive » si le responsable du traitement démontre une <b>intention abusive</b> — créer artificiellement les conditions d'une réparation plutôt que vérifier la licéité du traitement — et que le droit à réparation ne joue pas lorsque le comportement du demandeur est la <b>cause déterminante</b> du dommage qu'il invoque.</p>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>Pour quiconque conçoit ou audite des workflows de conformité, cet arrêt touche à un point sensible : le <b>droit d'accès RGPD est aussi une surface exploitable</b>, à des fins lucratives comme à des fins de reconnaissance ou d'ingénierie sociale. La CJUE valide l'usage d'un faisceau d'indices — comportement répétitif documenté publiquement, délai anormalement court entre collecte et demande — pour caractériser l'abus, ce qui donne une base juridique concrète à l'automatisation de la détection de demandes RGPD suspectes, tout en imposant un seuil de preuve élevé pour ne pas décourager l'exercice légitime du droit d'accès.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>RGPD</dt>
+      <dd>Règlement (UE) 2016/679, qui encadre le traitement des données à caractère personnel dans l'Union européenne et l'Espace économique européen.</dd>
+      <dt>Demande d'accès (art. 15 RGPD)</dt>
+      <dd>Droit d'obtenir la confirmation qu'un traitement de ses données existe, et d'accéder à ces données ainsi qu'aux informations qui s'y rattachent (finalités, destinataires, durée de conservation).</dd>
+      <dt>Demande excessive (art. 12 § 5 RGPD)</dt>
+      <dd>Exception permettant au responsable du traitement de facturer des frais raisonnables ou de refuser une demande manifestement infondée ou disproportionnée.</dd>
+      <dt>Renvoi préjudiciel</dt>
+      <dd>Mécanisme par lequel une juridiction nationale interroge la CJUE sur l'interprétation du droit de l'Union avant de trancher elle-même le litige ; la CJUE ne juge pas l'affaire au fond.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://curia.europa.eu/site/upload/docs/application/pdf/2026-03/cp260038fr.pdf">CJUE — Communiqué de presse n° 38/26 du 19 mars 2026, affaire C-526/24 Brillen Rottler</a>.<br>
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+</div>
+</body>
+</html>
