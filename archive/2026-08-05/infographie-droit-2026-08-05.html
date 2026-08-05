@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Droit Vivant — 5 août 2026 — France Travail, 5 M€ : l'obligation de sécurité de l'article 32 RGPD</title>
+<style>
+:root{
+  --bg:#ffffff; --fg:#1a1a1a; --muted:#5a5a5a; --border:#d8d8d8;
+  --tint:#f5f5f4; --accent:#4a4a8a; --code-bg:#f0f0ef;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141414; --fg:#e8e8e8; --muted:#a0a0a0; --border:#333333;
+    --tint:#1d1d1d; --accent:#a8a8d8; --code-bg:#222222;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.6;font-size:16px}
+.wrap{max-width:900px;margin:0 auto;padding:32px 20px 56px}
+.kicker{font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+h1{font-size:1.75rem;line-height:1.28;margin:0 0 22px;font-weight:700}
+h2{font-size:1.02rem;margin:0 0 10px;font-weight:700;letter-spacing:.01em}
+.principle{border:1px solid var(--border);border-radius:8px;background:var(--tint);padding:16px 18px;margin:0 0 22px}
+.principle strong{color:var(--accent)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 22px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.card{border:1px solid var(--border);border-radius:8px;padding:16px 18px;background:var(--bg)}
+.card.case{background:var(--tint)}
+.card.full{margin:0 0 22px}
+.ref ul{margin:0;padding-left:1.15em}
+.ref li{margin:.35em 0;font-size:.94rem}
+code{background:var(--code-bg);border:1px solid var(--border);border-radius:4px;
+  padding:.08em .35em;font-size:.86em;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.why{border:1px solid var(--border);border-radius:8px;background:var(--tint);padding:16px 18px;margin:0 0 22px}
+.glossary{margin:0}
+.glossary dt{font-weight:700;margin-top:.7em}
+.glossary dt:first-child{margin-top:0}
+.glossary dd{margin:.2em 0 0;color:var(--muted)}
+footer{border-top:1px solid var(--border);padding-top:14px;font-size:.86rem;color:var(--muted)}
+a{color:var(--accent)}
+p{margin:.6em 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Droit Vivant · Données personnelles &amp; cybersécurité · mercredi 5 août 2026</div>
+
+  <h1>43 millions de Français exposés, 5 millions d’euros d’amende : France Travail avait écrit noir sur blanc les mesures de sécurité qu’elle n’a pas appliquées</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> l’article 32 du RGPD impose une obligation de <em>moyens</em>, pas de résultat — être piraté n’est pas une faute en soi, mais avoir identifié soi-même les mesures adaptées au risque, dans sa propre analyse d’impact, puis ne pas les avoir mises en œuvre, en est une.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>art. 32 RGPD</code> — sécurité du traitement : mesures techniques et organisationnelles appropriées au risque (obligation de moyens)</li>
+          <li><code>art. 35 RGPD</code> — analyse d’impact relative à la protection des données (AIPD)</li>
+          <li><code>art. 33 RGPD</code> — notification d’une violation à l’autorité de contrôle dans les <b>72 heures</b></li>
+          <li><code>art. 34 RGPD</code> — communication de la violation aux personnes concernées en cas de risque élevé</li>
+          <li><code>art. 5 § 1 f) RGPD</code> — principe d’intégrité et de confidentialité</li>
+          <li><code>art. 83 § 4 a) RGPD</code> — plafond de <b>10 M€ ou 2 %</b> du chiffre d’affaires mondial pour un manquement à l’article 32</li>
+          <li>CNIL, formation restreinte, <b>délibération SAN-2026-003 du 22 janvier 2026</b> (publiée sur Légifrance le 29 janvier 2026)</li>
+          <li><code>art. 20</code> de la loi n° 78-17 du 6 janvier 1978 modifiée — pouvoirs de sanction et d’injonction sous astreinte de la formation restreinte</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card case">
+      <h2>L’affaire</h2>
+      <p>Au premier trimestre 2024, un ou plusieurs attaquants pénètrent le système d’information de <b>France Travail</b> (ex-Pôle Emploi) par <b>ingénierie sociale</b> : ils usurpent des comptes de conseillers de <b>CAP EMPLOI</b>, les structures d’accompagnement des personnes en situation de handicap, et accèdent par cette porte latérale aux données de <b>l’ensemble des personnes inscrites ou l’ayant été au cours des vingt dernières années</b> — numéros de sécurité sociale, adresses postales et électroniques, numéros de téléphone. France Travail avait annoncé publiquement, le 13 mars 2024, une fuite susceptible de concerner jusqu’à <b>43 millions de personnes</b>. Les dossiers complets des demandeurs d’emploi, qui peuvent contenir des données de santé, n’ont pas été atteints.</p>
+      <p>Le <b>22 janvier 2026</b>, la formation restreinte de la CNIL prononce une amende de <b>5 millions d’euros</b> pour manquement à l’<code>article 32</code>, assortie d’une <b>injonction sous astreinte de 5 000 € par jour de retard</b> de justifier des mesures correctrices selon un calendrier précis. Trois défaillances sont relevées : des <b>modalités d’authentification</b> insuffisamment robustes pour les conseillers CAP EMPLOI ; une <b>journalisation</b> trop pauvre pour détecter les comportements anormaux ; des <b>habilitations trop larges</b>, permettant à un conseiller d’accéder aux données de personnes qu’il n’accompagnait pas — ce qui a mécaniquement élargi le butin. Circonstance déterminante du quantum : <b>la plupart de ces mesures avaient été identifiées par France Travail elle-même, en amont, dans ses analyses d’impact</b>, sans avoir été effectivement déployées. L’organisme étant un établissement public financé par cotisations, l’amende n’est pas calculée sur un chiffre d’affaires mais dans une fourchette plafonnée à 10 M€.</p>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c’est important</h2>
+    <p>L’été 2026 offre à cette décision un écho brutal : la France a enchaîné les fuites revendiquées sur les forums criminels, jusqu’à celle du <b>26 juillet 2026</b> portant sur plus de <b>111 000 agents de l’État</b>, attribuée par la presse spécialisée à une plateforme de formation de la Gendarmerie nationale — revendication à ce jour <b>non confirmée officiellement</b>, et dont l’auteur revendique une motivation politique liée aux projets européens de surveillance des messageries. Le point commun avec France Travail n’est pas la faille exotique : c’est l’<b>identifiant volé d’un partenaire périphérique</b>, moins surveillé que le cœur du système.</p>
+    <p>Pour qui conçoit ou audite des systèmes, la décision est presque une grille de test : authentification multifacteur sur les accès tiers, journalisation exploitable, cloisonnement des habilitations au périmètre réellement accompagné. Elle contient surtout un avertissement méthodologique — une <b>AIPD est une pièce à charge</b>. Documenter un risque sans le traiter fournit au régulateur la preuve de la connaissance du risque, et transforme un incident subi en manquement caractérisé. En automatisation de conformité, cela signifie qu’un registre de mesures « identifiées » doit être couplé à une preuve de déploiement, pas seulement à une date de rédaction.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>Obligation de moyens (article 32 RGPD)</dt>
+      <dd>Le responsable de traitement ne s’engage pas à ce qu’aucune attaque n’aboutisse, mais à mettre en œuvre des mesures « appropriées au risque » compte tenu de l’état de l’art et des coûts. La sanction ne punit donc pas l’intrusion, mais l’écart entre les mesures attendues et celles réellement en place.</dd>
+
+      <dt>Ingénierie sociale</dt>
+      <dd>Technique d’attaque exploitant la confiance, l’ignorance ou la crédulité de personnes plutôt qu’une vulnérabilité logicielle : hameçonnage ciblé, usurpation d’identité téléphonique, faux support. Elle vise l’humain comme premier facteur d’authentification.</dd>
+
+      <dt>Analyse d’impact (AIPD, article 35 RGPD)</dt>
+      <dd>Étude préalable obligatoire lorsqu’un traitement est susceptible d’engendrer un risque élevé pour les droits et libertés. Elle décrit le traitement, évalue les risques et détermine les mesures pour y répondre — mesures qui deviennent ensuite opposables à leur auteur.</dd>
+
+      <dt>Injonction sous astreinte</dt>
+      <dd>Ordre de faire assorti d’une somme due par jour de retard, prononcé par la formation restreinte de la CNIL en complément de l’amende. Son objet n’est pas de punir le passé mais de contraindre la mise en conformité future selon un calendrier vérifiable.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://www.cnil.fr/fr/violation-de-donnees-sanction-5millions-france-travail">CNIL — « Violation de données : sanction de 5 millions d’euros à l’encontre de FRANCE TRAVAIL » (29 janvier 2026)</a>, et <a href="https://www.legifrance.gouv.fr/cnil/id/CNILTEXT000053408671">délibération SAN-2026-003 du 22 janvier 2026 sur Légifrance</a>.
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+
+</div>
+</body>
+</html>
