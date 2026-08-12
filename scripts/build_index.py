@@ -8,6 +8,23 @@ Source unique de design : ce script.
 - les infographies sont "re-skinnees" au build (CSS inline retire, charte appliquee)
 - index redessine
 Aucune dependance externe.
+
+PLUSIEURS MODULES PAR JOUR
+--------------------------
+Un dossier archive/AAAA-MM-JJ/ peut contenir plusieurs modules. Ils sont
+distingues par un SLUG, c'est-a-dire tout ce qui suit la date dans le nom de
+fichier. Les trois fichiers d'un meme module doivent porter le meme slug :
+
+    archive/2026-08-12/infographie-droit-2026-08-12.html          -> slug ""
+    archive/2026-08-12/brief-2026-08-12.md                        -> slug ""
+    archive/2026-08-12/source-notebooklm-2026-08-12.md            -> slug ""
+
+    archive/2026-08-12/infographie-droit-2026-08-12-cyber.html    -> slug "cyber"
+    archive/2026-08-12/brief-2026-08-12-cyber.md                  -> slug "cyber"
+    archive/2026-08-12/source-notebooklm-2026-08-12-cyber.md      -> slug "cyber"
+
+Le module sans slug est affiche en premier, les autres par ordre alphabetique.
+L'ancien schema (un seul module par jour, sans slug) reste valide tel quel.
 """
 import html, re, shutil
 from datetime import date
@@ -108,6 +125,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border);color
 .entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;
   padding:18px 22px}
 .entry .date{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.entry .date .slug{text-transform:uppercase;letter-spacing:.06em;font-size:11px;font-weight:700}
 .entry h2{font-family:var(--serif);font-size:1.18rem;margin:3px 0 0;line-height:1.3;letter-spacing:-.01em}
 .entry h2 a{color:var(--text)}
 .entry h2 a:hover{color:var(--accent)}
@@ -215,14 +233,27 @@ def reskin_infographie(t):
     return t
 
 # --------------------------------------------------------------------------- #
-#  Collecte + build                                                           #
+#  Collecte : un dossier de date peut contenir PLUSIEURS modules               #
 # --------------------------------------------------------------------------- #
-def find(d, *pats):
-    for p in pats:
-        h = sorted(d.glob(p))
-        if h:
-            return h[0]
-    return None
+def parse_name(name):
+    """Renvoie (kind, slug) pour un fichier de module, sinon None.
+
+    kind : "infographie" | "brief" | "source"
+    slug : ce qui suit la date dans le nom de fichier ("" pour le module de base)
+    """
+    low = name.lower()
+    if low.endswith(".html") and low.startswith("infographie"):
+        kind = "infographie"
+    elif low.endswith(".md") and low.startswith("brief"):
+        kind = "brief"
+    elif low.endswith(".md") and low.startswith("source"):
+        kind = "source"
+    else:
+        return None
+    stem = name.rsplit(".", 1)[0]
+    m = re.search(r"\d{4}-\d{2}-\d{2}(.*)$", stem)
+    slug = (m.group(1) if m else "").strip("-_ ").lower()
+    return kind, slug
 
 def rel(p):
     return None if not p else "archive/" + str(p.relative_to(ARCHIVE)).replace("\\", "/")
@@ -235,23 +266,61 @@ def title_of(p):
     if m:
         return re.sub(r"<[^>]+>", "", m.group(1)).strip()
     m = re.search(r"<title[^>]*>(.*?)</title>", t, re.S | re.I)
-    return m.group(1).strip() if m else p.parent.name
+    return m.group(1).strip() if m else ""
+
+def slug_sort_key(slug):
+    """Module sans slug d'abord, puis ordre alphabetique."""
+    return (1, slug) if slug else (0, "")
 
 def collect():
-    days = []
+    """Renvoie la liste a plat des modules, du plus recent au plus ancien."""
+    modules = []
     if not ARCHIVE.exists():
-        return days
+        return modules
     for d in sorted(ARCHIVE.iterdir(), reverse=True):
         if not d.is_dir() or not DATE_RE.match(d.name):
             continue
-        info = find(d, "infographie*.html", "*.html")
-        brief = find(d, "brief*.md")
-        source = find(d, "source-notebooklm*.md", "source*.md")
-        days.append({"date": d.name, "title": title_of(info) or d.name,
-                     "infographie": rel(info), "brief": rel(brief), "source": rel(source),
-                     "_brief": brief, "_source": source})
-    return days
+        buckets = {}
+        leftovers = []
+        for f in sorted(d.iterdir()):
+            if not f.is_file():
+                continue
+            parsed = parse_name(f.name)
+            if not parsed:
+                if f.suffix.lower() == ".html":
+                    leftovers.append(f)
+                continue
+            kind, slug = parsed
+            buckets.setdefault(slug, {}).setdefault(kind, f)
+        # Repli : une infographie au nom non conventionnel devient le module de base.
+        if leftovers and not any(b.get("infographie") for b in buckets.values()):
+            buckets.setdefault("", {})["infographie"] = leftovers[0]
+        for slug in sorted(buckets, key=slug_sort_key):
+            b = buckets[slug]
+            info, brief, source = b.get("infographie"), b.get("brief"), b.get("source")
+            if not (info or brief or source):
+                continue
+            title = title_of(info)
+            if not title and brief:
+                title = md_title(brief.read_text(encoding="utf-8", errors="ignore"))
+            modules.append({
+                "date": d.name,
+                "slug": slug,
+                "multi": False,          # renseigne juste apres
+                "title": title or d.name,
+                "infographie": rel(info),
+                "brief": rel(brief),
+                "source": rel(source),
+            })
+        if len(buckets) > 1:
+            for m in modules:
+                if m["date"] == d.name:
+                    m["multi"] = True
+    return modules
 
+# --------------------------------------------------------------------------- #
+#  Index                                                                      #
+# --------------------------------------------------------------------------- #
 def index_entry(x):
     links = []
     if x["infographie"]:
@@ -261,18 +330,27 @@ def index_entry(x):
     if x["source"]:
         links.append(f'<a class="btn" href="{x["source"][:-3]}.html">Source NotebookLM</a>')
         links.append(f'<a class="btn ghost" href="{x["source"]}">.md brut</a>')
-    return (f'<article class="entry"><div class="date">{html.escape(x["date"])}</div>'
-            f'<h2><a href="{x["infographie"] or "#"}">{html.escape(x["title"])}</a></h2>'
+    stamp = html.escape(x["date"])
+    if x["multi"]:
+        label = x["slug"].replace("-", " ") if x["slug"] else "module principal"
+        stamp += f' · <span class="slug">{html.escape(label)}</span>'
+    target = x["infographie"]
+    if not target and x["brief"]:
+        target = x["brief"][:-3] + ".html"
+    return (f'<article class="entry"><div class="date">{stamp}</div>'
+            f'<h2><a href="{target or "#"}">{html.escape(x["title"])}</a></h2>'
             f'<div class="links">{"".join(links)}</div></article>')
 
-def build_index(days):
-    entries = "\n".join(index_entry(d) for d in days) or "<p>Aucune entrée pour le moment.</p>"
+def build_index(modules):
+    entries = "\n".join(index_entry(m) for m in modules) or "<p>Aucune entrée pour le moment.</p>"
+    n_days = len({m["date"] for m in modules})
     body = (f'<main class="page"><h1>Droit Vivant</h1>'
             f'<p class="lede">Veille quotidienne sur le droit qui se construit — numérique, '
             f'libertés, IA, cybersécurité, jurisprudence française, européenne et CEDH. '
             f'Chaque entrée : une infographie, un brief court et une source longue pour podcast.</p>'
             f'<section class="entries">{entries}</section>'
-            f'<footer>{len(days)} entrée(s) · mise à jour {date.today().isoformat()} · {DISCLAIMER}</footer>'
+            f'<footer>{len(modules)} module(s) sur {n_days} jour(s) · '
+            f'mise à jour {date.today().isoformat()} · {DISCLAIMER}</footer>'
             f'</main>')
     return ("<!DOCTYPE html><html lang=\"fr\"><head><meta charset=\"UTF-8\">"
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
@@ -280,6 +358,9 @@ def build_index(days):
             "<link rel=\"stylesheet\" href=\"assets/style.css\"></head><body>"
             + topbar("", nav_label="Accueil", nav_href="index.html") + body + "</body></html>")
 
+# --------------------------------------------------------------------------- #
+#  Build                                                                      #
+# --------------------------------------------------------------------------- #
 def main():
     if SITE.exists():
         shutil.rmtree(SITE)
@@ -290,28 +371,30 @@ def main():
     (SITE / "assets").mkdir(parents=True, exist_ok=True)
     (SITE / "assets" / "style.css").write_text(STYLE, encoding="utf-8")
 
-    days = collect()
-    for x in days:
-        ddir = SITE / "archive" / x["date"]
-        info = find(ddir, "infographie*.html", "*.html")
-        if info:
-            info.write_text(reskin_infographie(info.read_text(encoding="utf-8", errors="ignore")),
-                            encoding="utf-8")
-        if x["_brief"]:
-            md = x["_brief"].read_text(encoding="utf-8", errors="ignore")
-            (ddir / (x["_brief"].stem + ".html")).write_text(
-                render_md_page(md, "Brief", "../../"), encoding="utf-8")
-        if x["_source"]:
-            md = x["_source"].read_text(encoding="utf-8", errors="ignore")
-            (ddir / (x["_source"].stem + ".html")).write_text(
-                render_md_page(md, "Source NotebookLM", "../../",
-                               raw_md_name=x["_source"].name,
+    modules = collect()
+    for x in modules:
+        if x["infographie"]:
+            p = SITE / x["infographie"]
+            p.write_text(reskin_infographie(p.read_text(encoding="utf-8", errors="ignore")),
+                         encoding="utf-8")
+        if x["brief"]:
+            p = SITE / x["brief"]
+            (p.parent / (p.stem + ".html")).write_text(
+                render_md_page(p.read_text(encoding="utf-8", errors="ignore"),
+                               "Brief", "../../"), encoding="utf-8")
+        if x["source"]:
+            p = SITE / x["source"]
+            (p.parent / (p.stem + ".html")).write_text(
+                render_md_page(p.read_text(encoding="utf-8", errors="ignore"),
+                               "Source NotebookLM", "../../",
+                               raw_md_name=p.name,
                                raw_label="Version .md brute (pour NotebookLM)"),
                 encoding="utf-8")
 
-    (SITE / "index.html").write_text(build_index(days), encoding="utf-8")
+    (SITE / "index.html").write_text(build_index(modules), encoding="utf-8")
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
-    print(f"{len(days)} jour(s) construits.")
+    n_days = len({m["date"] for m in modules})
+    print(f"{len(modules)} module(s) sur {n_days} jour(s) construits.")
 
 if __name__ == "__main__":
     main()
