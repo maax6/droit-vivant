@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Droit Vivant — 15 août 2026 : IA agentique, RGPD et kill switch — la note CNIL / CIANum du 20 juillet 2026</title>
+<style>
+  :root{
+    --bg:#ffffff; --fg:#1a1a1a; --muted:#5a5a5a; --border:#d4d4d4;
+    --tint:#f5f5f5; --tint2:#f0f0f0; --code:#f2f2f2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#141414; --fg:#ececec; --muted:#a3a3a3; --border:#333333;
+      --tint:#1d1d1d; --tint2:#212121; --code:#242424;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       line-height:1.6;font-size:16px}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 20px 48px}
+  .kicker{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  h1{font-size:1.75rem;line-height:1.3;margin:0 0 20px;font-weight:700}
+  h2{font-size:1rem;margin:0 0 10px;font-weight:700;letter-spacing:.01em}
+  p{margin:0 0 12px}
+  .principle,.why,.card{border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:16px}
+  .principle{background:var(--tint)}
+  .why{background:var(--tint2)}
+  .card{background:transparent}
+  .card.case{background:var(--tint)}
+  .card.full{background:transparent}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+  .grid .card{margin-bottom:0}
+  @media (max-width:640px){.grid{grid-template-columns:1fr}}
+  .ref ul{margin:0;padding-left:18px}
+  .ref li{margin-bottom:6px}
+  code{background:var(--code);border:1px solid var(--border);border-radius:4px;
+       padding:1px 5px;font-size:.85em;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .glossary{margin:0}
+  .glossary dt{font-weight:700;margin-top:10px}
+  .glossary dt:first-child{margin-top:0}
+  .glossary dd{margin:2px 0 0;color:var(--muted)}
+  footer{border-top:1px solid var(--border);margin-top:24px;padding-top:14px;font-size:.85rem;color:var(--muted)}
+  a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Droit Vivant · IA agentique &amp; données personnelles · 15 août 2026</div>
+
+  <h1>« Mettez votre cerveau dans un bocal » : la CNIL cite la patronne de Signal, nomme le protocole MCP d'Anthropic et recommande un bouton d'arrêt d'urgence pour votre agent IA</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> le RGPD reste <b>intégralement applicable</b> aux systèmes d'IA agentique — aucune exception n'a été créée pour eux — mais leur autonomie d'action, leur <b>mémoire persistante</b> et leur capacité à se brancher sur des services tiers mettent sous tension six principes de l'<code>article 5</code> et brouillent l'identification du responsable du traitement ; la réponse proposée par la CNIL et le CIANum n'est donc pas un nouveau texte, mais une <b>architecture</b> : cloisonnement des mémoires, bac à sable, journalisation du processus décisionnel et <b>validation humaine des actions critiques</b>.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>art. 5.1.a</code> (transparence), <code>5.1.b</code> (finalité), <code>5.1.c</code> (minimisation), <code>5.1.d</code> (exactitude), <code>5.1.e</code> (limitation de la conservation) du règlement <code>(UE) 2016/679</code> (<b>RGPD</b>) : les cinq principes que la note identifie nommément comme « mis en tension » par l'agentique</li>
+          <li><code>art. 6</code> du RGPD : licéité — six bases légales, dont le lien avec les opérations nouvelles initiées par l'agent devient difficile à établir</li>
+          <li><code>art. 9-1</code> du RGPD : définition des <b>données sensibles</b>, que les systèmes agentiques sont susceptibles de traiter au passage</li>
+          <li><code>art. 15</code> à <code>22</code> du RGPD : droits d'accès, rectification, effacement, opposition, limitation — dont l'exercice se heurte à la dispersion des mémoires entre agents</li>
+          <li><code>art. 22</code> du RGPD : <b>décision individuelle automatisée</b> produisant des effets juridiques ou affectant significativement la personne ; exceptions limitées au § 2 (contrat, droit de l'Union ou d'un État membre, consentement explicite)</li>
+          <li>CJUE, 1<sup>re</sup> ch., <b>7 décembre 2023</b>, <code>C-634/21</code>, <i>SCHUFA Holding (Scoring)</i> : l'intervention humaine doit être <b>réelle et effective</b> et influencer la décision finale — une validation purement formelle ne fait pas sortir du champ de l'article 22</li>
+          <li>Règlement <code>(UE) 2024/1689</code> (<b>RIA</b> / AI Act) : applicable aux systèmes agentiques, mais <b>sans catégorie ni régime propre</b> pour eux ; application complète prévue en <b>2027</b></li>
+          <li>Directive <code>(UE) 2024/2853</code> du 23 octobre 2024 (produits défectueux) et, à défaut de régime spécial, le droit commun français : <code>art. 1240</code> (faute) et <code>art. 1242</code> (fait des choses) du code civil</li>
+          <li>Lignes directrices <b>CEPD</b> / Commission européenne sur l'articulation RGPD–RIA : rédaction en cours, <b>parution attendue d'ici fin 2026</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Le <b>20 juillet 2026</b>, la <b>CNIL</b> et le <b>Conseil de l'intelligence artificielle et du numérique</b> (CIANum, coprésidé par <b>Anne Bouverot</b> et <b>Guillaume Poupard</b>, ancien directeur général de l'ANSSI) publient une note conjointe : « <i>IA agentique et protection des données personnelles : équation à inconnues multiples pour les utilisateurs</i> ». C'est la deuxième d'une série inaugurée en février 2026, et la première coécrite avec le régulateur.</p>
+      <p>La note ne se contente pas de généralités : elle décrit l'architecture réelle. Un agent <b>orchestrateur</b> qui dialogue en langage naturel avec l'utilisateur ; des agents <b>spécialisés</b> (génération de code, traitement de texte, paiements en ligne) ; des <b>services externes</b> — applications, bases de données, outils de recherche web. Le tout relié par des <b>protocoles d'échange standardisés</b>, dont la note cite deux exemples nommément : le <b>MCP</b> (Model Context Protocol) développé par <b>Anthropic</b> et l'<b>ACP</b> développé par <b>OpenAI</b>.</p>
+      <p>Elle distingue surtout deux mécanismes de données trop souvent confondus. Le <b>contexte</b>, qui porte l'historique d'un processus et <b>disparaît à la fin de celui-ci</b>. Et le <b>stockage mémoire</b>, <b>persistant et indépendant des processus</b>, alimenté par l'utilisateur ou enrichi automatiquement, dont <b>chaque agent dispose en propre</b> — avec, parfois, une mémoire partagée. C'est de là que vient le problème juridique : « si un utilisateur supprime un fichier sensible de son ordinateur dans un dossier partagé avec son IA agentique, il peut être difficile pour lui de s'assurer que les données personnelles ont bien été effacées de l'ensemble de la mémoire ».</p>
+      <p>Pour illustrer la bascule de l'assistance vers la <b>délégation décisionnelle</b>, la note reprend la formule de <b>Meredith Whittaker</b>, présidente de <b>Signal</b> : « <i>put your brain in a jar and let AI handle life</i> » — « mettez votre cerveau dans un bocal et laissez l'IA gérer votre vie ». Elle cite aussi le cas, rapporté par la presse, d'une employée d'une grande entreprise du numérique dont l'agent a supprimé de nombreux e-mails professionnels, avec des difficultés pour interrompre le processus à distance.</p>
+      <p>Côté remèdes, la note propose une pile de mesures <b>dès la conception</b> : filtrage et détection des requêtes détournées <b>à chaque appel de modèle</b> — pas seulement sur la requête initiale de l'utilisateur —, <b>mémoire dédiée et isolée par agent</b> avec expiration automatique et comparaison inter-agents, <b>sandboxing</b> de l'environnement de déploiement, classement des actions par niveau de risque avec <b>validation humaine</b> au-delà d'un seuil, journalisation permettant de reconstituer « les données mobilisées, les agents intervenus, les services tiers sollicités » et leur chronologie, et enfin un <b>kill switch</b> à la main de l'utilisateur. La note relève également un enjeu de <b>souveraineté</b> : la concentration des données d'usage chez quelques fournisseurs, renvoyant à la tribune d'Anne Bouverot dans <i>Les Échos</i>, « Les agents IA, chevaux de Troie pour la sécurité des organisations ? » (juin 2026).</p>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>Il faut d'abord dire ce que ce texte <b>n'est pas</b>. Ce n'est ni une sanction, ni une recommandation opposable, ni une délibération : c'est une <b>note exploratoire</b>, sans force contraignante. Personne ne sera condamné pour ne pas avoir installé de kill switch. Mais c'est précisément ce qui la rend utile à lire aujourd'hui plutôt que dans dix-huit mois : quand un régulateur écrit ce qu'il considère comme l'état de l'art, il décrit à l'avance la grille de lecture qu'il appliquera le jour où il contrôlera. La CNIL avait publié ses fiches pratiques IA avant de sanctionner sur ce terrain ; l'ordre des opérations est toujours le même.</p>
+    <p>Le point juridique le plus tranchant est l'<b>article 22</b> combiné à l'arrêt <i>SCHUFA</i>. Beaucoup d'architectures agentiques placent un humain en bout de chaîne — un écran de confirmation, un « approuver » — et considèrent le problème réglé. La Cour de justice a jugé le contraire dès 2023 : l'intervention humaine doit être <b>réelle, effective et exercer une influence sur la décision finale</b>. Un opérateur qui valide cent propositions à la minute sans marge d'appréciation ne fait pas sortir le traitement du régime de la décision exclusivement automatisée. Transposé à un agent qui enchaîne vingt appels d'outils, cela signifie que <b>le nombre de clics de validation ne mesure rien</b> : ce qui compte est la capacité documentée de l'humain à dire non en connaissance de cause.</p>
+    <p>Le deuxième déplacement concerne la responsabilité. La note rappelle un principe que l'on oublie vite : un système d'IA <b>n'a pas la personnalité juridique</b> et ne peut donc pas voir sa responsabilité engagée — mais il ne peut pas non plus être traité comme un simple outil passif. Entre les deux, il n'existe aujourd'hui aucun régime spécifique : le projet de directive européenne sur la responsabilité en matière d'IA a été <b>abandonné en 2025</b>, et le RIA impose des obligations de conformité sans créer de régime de responsabilité exprès. Restent donc le droit commun — faute, fait des choses, contrat — et le nouveau régime des produits défectueux. Autrement dit : en cas d'achat erroné, de courriel envoyé au mauvais destinataire ou de divulgation de données confidentielles à un système tiers, <b>c'est la traçabilité qui décidera de l'imputation</b>, faute de texte pour la décider à sa place.</p>
+    <p>Pour un praticien de la sécurité offensive et de l'automatisation, la lecture est directe, et l'inversion est intéressante. Les mesures que la note présente comme des garanties RGPD — cloisonnement mémoire, sandboxing, filtrage à chaque appel de modèle, classement des actions par niveau de risque, journalisation complète — sont exactement les <b>points de contrôle d'un audit offensif</b> d'une chaîne agentique. Une mémoire partagée entre agents est simultanément un défaut de minimisation et un vecteur de persistance ; un serveur MCP qui expose des outils d'écriture sans gradation de risque est simultanément un manquement à l'article 5.1.c et une primitive d'exfiltration ; une hallucination qui se propage dans les mémoires est simultanément une violation du principe d'exactitude et une compromission de l'intégrité. La conséquence pratique : le journal du processus décisionnel réclamé au titre de la transparence est aussi le seul artefact qui permettra, après incident, de savoir <b>quel agent a fait quoi</b> — et la plupart des déploiements actuels ne le produisent pas.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>IA agentique</dt>
+      <dd>Selon la note : un ensemble de programmes reposant sur des modèles d'IA générative, capables de prendre des décisions de manière autonome, d'orchestrer des actions complexes et d'interagir avec des services tiers, avec ou sans validation humaine. Le RIA ne la consacre pas comme catégorie distincte.</dd>
+
+      <dt>Contexte / mémoire persistante</dt>
+      <dd>Le <i>contexte</i> porte l'historique d'un processus et est supprimé à la fin de celui-ci. La <i>mémoire</i> survit aux processus, est propre à chaque agent (parfois partagée) et peut s'enrichir automatiquement. C'est cette persistance qui met en tension la limitation de la durée de conservation et rend l'effacement difficile à garantir.</dd>
+
+      <dt>Décision individuelle automatisée (article 22 du RGPD)</dt>
+      <dd>Décision fondée exclusivement sur un traitement automatisé, y compris le profilage, produisant des effets juridiques ou affectant significativement la personne. Interdite par principe, sauf contrat, autorisation légale ou consentement explicite. Depuis <i>SCHUFA</i> (C-634/21), une validation humaine purement formelle ne suffit pas à échapper à ce régime.</dd>
+
+      <dt>Sandboxing et kill switch</dt>
+      <dd>Le <i>sandboxing</i> isole l'exécution d'une application du cœur du système et des autres applications ; appliqué à un agent, il réduit le périmètre de données exfiltrables. Le <i>kill switch</i> est une fonctionnalité permettant à l'utilisateur d'interrompre à tout moment un processus agentique en cas de comportement inattendu.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://www.cnil.fr/fr/ia-agentique-cnil-cianum-note">CNIL et Conseil de l'IA et du numérique, « IA agentique et protection des données personnelles : équation à inconnues multiples pour les utilisateurs », note exploratoire, 20 juillet 2026</a>. Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+
+</div>
+</body>
+</html>
