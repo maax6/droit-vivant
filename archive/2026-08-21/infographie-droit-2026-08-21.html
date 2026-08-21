@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Droit Vivant — 21 août 2026 — Scoring de crédit, décision automatisée et droit à l'explication</title>
+<style>
+:root{
+  --bg:#ffffff; --fg:#1a1a1a; --muted:#5a5a5a; --border:#d8d8d8;
+  --tint:#f5f5f4; --tint2:#f0f1f3; --link:#1d4ed8; --code:#f2f2f2;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#131415; --fg:#e8e8e8; --muted:#a3a3a3; --border:#333537;
+    --tint:#1b1c1e; --tint2:#1e2023; --link:#8ab4f8; --code:#202224;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px;line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding:32px 20px 56px}
+.kicker{font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+h1{font-size:1.75rem;line-height:1.3;margin:0 0 20px;font-weight:700}
+h2{font-size:1.05rem;margin:0 0 10px;font-weight:600}
+p{margin:0 0 12px}
+a{color:var(--link)}
+code{background:var(--code);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:.88em}
+.principle,.why,.card{border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:18px}
+.principle{background:var(--tint2)}
+.why{background:var(--tint)}
+.card{background:transparent}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.grid .card{margin-bottom:0}
+@media (max-width:700px){.grid{grid-template-columns:1fr}}
+.ref ul{margin:0;padding-left:18px}
+.ref li{margin-bottom:7px}
+.glossary{margin:0}
+.glossary dt{font-weight:600;margin-top:10px}
+.glossary dt:first-child{margin-top:0}
+.glossary dd{margin:2px 0 0;color:var(--muted)}
+footer{border-top:1px solid var(--border);padding-top:14px;font-size:.87rem;color:var(--muted)}
+footer p{margin:0 0 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Droit Vivant · Données personnelles — scoring, décision automatisée et droit à l'explication · 21 août 2026</div>
+
+  <h1>Un forfait mobile à 10 € par mois refusé par un algorithme : mercredi, la CNIL a publié le mode d'emploi pour réclamer votre score de crédit — et pour la Cour de justice de l'UE, livrer l'algorithme n'est pas une explication</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> il n'existe pas de droit au crédit, mais il existe un droit de comprendre — lorsqu'une machine calcule un score qui décide, en pratique, de l'octroi ou du refus, le responsable du traitement doit décrire <em>la procédure et les principes réellement appliqués</em>, de manière assez concrète pour que la personne puisse contester la décision ; le secret des affaires peut restreindre ce qui lui est communiqué, jamais justifier un refus global et de principe.
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li>Règlement (UE) 2016/679 (RGPD), <code>art. 22, § 1</code> — droit de ne pas faire l'objet d'une décision fondée <b>exclusivement</b> sur un traitement automatisé produisant des effets juridiques ou affectant de manière significative ; <code>art. 22, § 3</code> — droit d'obtenir une intervention humaine, d'exprimer son point de vue et de contester la décision</li>
+          <li>RGPD, <code>art. 15, § 1, h)</code> — droit d'accès aux « informations utiles concernant la logique sous-jacente, ainsi que l'importance et les conséquences prévues » du traitement automatisé ; <code>art. 15, § 4</code> — le droit d'obtenir une copie « ne porte pas atteinte aux droits et libertés d'autrui »</li>
+          <li>RGPD, <code>art. 13, § 2, f)</code> et <code>art. 14, § 2, g)</code> — même information à fournir en amont ; <code>art. 16</code> — droit de rectification des données inexactes</li>
+          <li>Directive (UE) 2016/943 du 8 juin 2016 sur la protection des secrets d'affaires</li>
+          <li>Code civil, <code>art. 1101</code> — liberté contractuelle : le prêteur reste libre de contracter ou non</li>
+          <li>Code de la consommation, <code>art. L. 312-1</code> à <code>L. 312-95</code> — crédit à la consommation, obligation d'évaluer la solvabilité de l'emprunteur</li>
+          <li>Arrêté du 26 octobre 2010 relatif au fichier national des incidents de remboursement des crédits aux particuliers (<b>FICP</b>) — consultation obligatoire avant l'octroi d'un crédit</li>
+          <li>Délibération CNIL <code>n° 2026-047</code> du 2 avril 2026 (NOR <code>CNIS2611643X</code>, publiée le 8 mai 2026) — recommandation sur l'évaluation de la solvabilité dans le cadre de l'octroi de crédit ; abroge l'autorisation unique <code>AU-005</code> (délibération n° 2008-198 du 9 juillet 2008)</li>
+          <li>Règlement (UE) 2024/1689 (AI Act), <code>annexe III, point 5, b)</code> — les systèmes d'IA destinés à évaluer la solvabilité de personnes physiques ou à établir leur score de crédit sont classés <b>à haut risque</b> (calendrier d'application modifié en 2026, voir le module du 2 août 2026)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Le point de départ tient en une somme dérisoire. En Autriche, un opérateur de téléphonie mobile refuse à une cliente la conclusion d'un contrat impliquant un paiement mensuel de <b>10 euros</b>, au motif que sa solvabilité serait insuffisante. L'opérateur ne l'a pas jugée lui-même : il s'est appuyé sur une évaluation réalisée <b>par voie automatisée</b> par <b>Dun &amp; Bradstreet Austria</b>, société spécialisée dans ce type de notation. Une juridiction autrichienne juge, par une décision définitive, que l'entreprise a violé le RGPD faute d'avoir communiqué à la cliente des « <b>informations utiles concernant la logique sous-jacente</b> ». Restait à savoir ce que « utiles » veut dire concrètement — d'où le renvoi préjudiciel.</p>
+      <p>Par son arrêt du <b>27 février 2025</b> (<b>affaire C-203/22</b>, <i>Dun &amp; Bradstreet Austria</i>), la Cour de justice de l'Union européenne répond que le responsable du traitement doit décrire « <b>la procédure et les principes réellement appliqués</b> » de telle sorte que la personne puisse comprendre <b>quelles</b> de ses données ont été utilisées et <b>comment</b>. La Cour ajoute deux précisions déterminantes : il peut être approprié d'indiquer <b>dans quelle mesure une variation des données prises en compte aurait conduit à un résultat différent</b> ; et « la <b>simple communication d'un algorithme</b> ne constitue pas une explication suffisamment concise et intelligible ». Enfin, lorsque le responsable estime que l'information contient des données de tiers ou des secrets d'affaires, il doit la transmettre à <b>l'autorité de contrôle ou au juge</b>, à charge pour eux de mettre en balance les intérêts ; le RGPD s'oppose à une disposition nationale qui exclurait <b>par principe</b> le droit d'accès dès qu'un secret d'affaires est invoqué.</p>
+      <p>Cet arrêt prolonge celui du <b>7 décembre 2023</b>, <b>C-634/21</b>, <i>SCHUFA Holding (Scoring)</i> : l'établissement automatisé, par une société d'information sur le crédit, d'une <b>valeur de probabilité</b> relative à la capacité future de remboursement constitue lui-même une décision au sens de l'<code>art. 22, § 1</code>, dès lors que l'établissement, l'exécution ou la rupture de la relation contractuelle par le tiers destinataire dépend <b>de manière déterminante</b> de cette valeur. Autrement dit : la banque ne peut pas se retrancher derrière son prestataire, ni le prestataire derrière la banque.</p>
+      <p>C'est ce corpus que la <b>CNIL</b> a traduit en langage courant le <b>19 août 2026</b>, en publiant « <b>Le refus de crédit en questions</b> », déclinaison grand public de sa recommandation adoptée par la <b>délibération n° 2026-047 du 2 avril 2026</b>. La Commission y rappelle que l'on peut <b>demander à connaître son score</b>, assorti des informations permettant de le comprendre — par exemple les notes minimales et maximales requises —, que ces informations doivent être « <b>précises et personnalisées</b> » et non la répétition de ce qui a déjà été communiqué, et que le refus fondé sur le secret des affaires « <b>ne doit pas être global et absolu</b> ». Elle rappelle aussi que le refus lié à une inscription au <b>FICP</b> doit être porté à la connaissance du demandeur, recommande de ne pas exploiter un incident de paiement <b>au-delà de vingt-quatre mois</b>, et invite les établissements à <b>documenter la portée réelle de l'intervention humaine</b> lorsqu'ils utilisent un outil automatisé en aide à la décision sans se placer, disent-ils, sous l'<code>art. 22</code>.</p>
+    </div>
+
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>Le scoring est le cas d'école de la décision algorithmique de masse : invisible, silencieuse, sans motivation, et pourtant capable de fermer l'accès à un logement, à une voiture, voire à un forfait mobile à dix euros. Le droit européen n'a pas répondu en interdisant le calcul — il a répondu en imposant une <b>charge de restitution</b>. Et cette charge est bien plus exigeante qu'il n'y paraît : la Cour n'exige pas la transparence du modèle, elle exige l'<b>intelligibilité de la décision individuelle</b>. Publier des poids, un schéma d'architecture ou le code d'un gradient boosting ne satisfait pas l'<code>art. 15, § 1, h)</code>. Ce que la Cour décrit — « dans quelle mesure une variation des données aurait conduit à un résultat différent » — est très exactement une <b>explication contrefactuelle</b>, produite pour un individu, pour une décision, à un instant donné.</p>
+    <p>Pour un praticien de la sécurité ou de l'automatisation, cela transforme une obligation de communication en <b>exigence d'architecture</b>, et donc en surface auditable. Rendre une explication contrefactuelle suppose de <b>tracer la version du modèle</b> qui a servi, de conserver le <b>vecteur de features</b> effectivement soumis, de rejouer le scoring de façon déterministe et de le faire pour chaque demandeur, sur toute la durée d'exercice des droits. Un pipeline qui ne journalise que la sortie — « refusé, score 412 » — est structurellement incapable de répondre à une demande d'accès : la non-conformité n'est pas dans la politique de confidentialité, elle est dans le schéma de la base. Trois autres points de contrôle se déduisent directement des textes cités. D'abord la <b>frontière de l'article 22</b> : un « humain dans la boucle » qui valide 3 000 dossiers par jour sans pouvoir contredire le score n'est pas une intervention humaine, et la recommandation de la CNIL demande précisément de <b>documenter sa portée réelle</b> — c'est le genre d'affirmation qu'un audit peut confronter aux logs. Ensuite le <b>cloisonnement du secret des affaires</b> : puisque l'information litigieuse doit pouvoir être remise à l'autorité ou au juge, elle doit être <b>extractible</b> sur demande, ce qui suppose de savoir la produire sans reconstruire le système. Enfin les <b>durées</b> : vingt-quatre mois recommandés pour les incidents, six mois pour les données d'une demande refusée émanant d'un non-client — soit des règles de purge à implémenter, à tester et à prouver, pas des lignes dans une charte. Ajoutez que l'<b>annexe III de l'AI Act</b> range le scoring de crédit parmi les usages à haut risque, avec ses exigences de journalisation, de documentation technique et de gestion des biais, et l'on obtient un même objet — la chaîne de décision — regardé simultanément par le RGPD, par le règlement IA et par le droit de la consommation.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>Scoring (valeur de probabilité)</dt>
+      <dd>Note calculée automatiquement estimant la probabilité qu'une personne honore ses engagements de paiement. Depuis <i>SCHUFA</i> (C-634/21, 7 décembre 2023), ce calcul est lui-même une décision au sens de l'art. 22, § 1, du RGPD lorsque l'octroi ou le refus du contrat en dépend de manière déterminante.</dd>
+      <dt>Décision exclusivement automatisée (art. 22 RGPD)</dt>
+      <dd>Décision prise sans intervention humaine <b>effective</b>. La présence formelle d'un opérateur ne suffit pas : encore faut-il qu'il dispose de l'autorité, des informations et de la marge de manœuvre pour s'écarter du résultat de la machine. La CNIL recommande de documenter cette portée réelle, dossier par dossier.</dd>
+      <dt>Explication contrefactuelle</dt>
+      <dd>Explication de la forme « si telle donnée avait eu telle autre valeur, le résultat aurait changé ». C'est la voie que la Cour de justice indique comme appropriée dans l'arrêt C-203/22 pour satisfaire aux exigences de transparence et d'intelligibilité, par opposition à la remise brute d'un algorithme.</dd>
+      <dt>FICP</dt>
+      <dd>Fichier national des incidents de remboursement des crédits aux particuliers, géré par la Banque de France (arrêté du 26 octobre 2010). Sa consultation est en principe obligatoire avant l'octroi d'un crédit, et un refus fondé sur une inscription au FICP doit être signalé au demandeur — à la différence des fichiers internes aux établissements, pour lesquels la CNIL recommande sans l'imposer la même information.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    <p>Source principale : <a href="https://www.cnil.fr/fr/le-refus-de-credit-en-questions">CNIL — « Le refus de crédit en questions », 19 août 2026</a>.</p>
+    <p>Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.</p>
+  </footer>
+
+</div>
+</body>
+</html>
