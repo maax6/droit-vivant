@@ -55,6 +55,55 @@ MOIS_COURT = ("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.",
 TAGS_VISIBLES = 12      # taille du nuage avant repli dans <details>
 TAGS_PAR_CARTE = 3
 EXCERPT_MAX = 220
+TAGS_MIN = 2            # occurrences minimales pour figurer dans le nuage
+
+# Vocabulaire controle. Sans lui, la ligne « Theme » de chaque brief fabrique un
+# tag neuf chaque jour : 141 tags pour 47 modules, dont 80 % employes une seule
+# fois. Un tag utilise une fois n'est pas un filtre, c'est une etiquette.
+TAG_ALIAS = {
+    "cyber": "cybersecurite",
+    "securite-informatique": "cybersecurite",
+    "intelligence-artificielle": "ia",
+    "droit-de-l-ia": "ia",
+    "reglement-ia": "ai-act",
+    "ue": "union-europeenne",
+    "droit-de-l-union": "union-europeenne",
+    "cour-de-justice": "cjue",
+    "cour-de-justice-de-l-union-europeenne": "cjue",
+    "videoprotection-algorithmique": "videosurveillance-algorithmique",
+    "donnees-a-caractere-personnel": "donnees-personnelles",
+    "protection-des-donnees": "donnees-personnelles",
+    "regulation-des-plateformes": "dsa",
+    "digital-services-act": "dsa",
+    "digital-markets-act": "dma",
+    "vie-privee-numerique": "vie-privee",
+    "liberte-d-expression": "libertes",
+}
+
+
+def canon_tags(seq):
+    """Replie les synonymes sur leur forme canonique, sans doublon."""
+    out = []
+    for t in seq:
+        c = TAG_ALIAS.get(t, t)
+        if c and c not in out:
+            out.append(c)
+    return out
+
+
+def singles_label(singles):
+    """Les tags a occurrence unique sont masques du nuage, pas de la recherche."""
+    if not singles:
+        return ""
+    return (f" · {len(singles)} à occurrence unique, masqués mais"
+            " toujours interrogeables au clavier")
+
+
+def card_tags(x):
+    """Sur la carte, on masque le tag qui ne fait que repeter la categorie."""
+    cat = slugify(x.get("category", ""))
+    out = [t for t in x["tags"] if t != cat]
+    return (out or x["tags"])[:TAGS_PAR_CARTE]
 
 # --------------------------------------------------------------------------- #
 #  Charte graphique partagee (clair / sombre auto)                            #
@@ -245,6 +294,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border);color
 a.strip__c:hover{opacity:1;outline:1px solid var(--accent);outline-offset:1px}
 .strip__c.is-off{opacity:.12}
 .strip__c--out{visibility:hidden}
+.strip__c--future{border-style:dashed;opacity:.45}
+.strip__c--future.is-off{opacity:.45}
 
 .entries{display:flex;flex-direction:column;gap:12px;margin:0 0 26px}
 
@@ -270,13 +321,15 @@ a.strip__c:hover{opacity:1;outline:1px solid var(--accent);outline-offset:1px}
   display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
 /* les accroches font 8 a 42 mots : le clamp est un garde-fou, pas un recadrage.
    En colonne etroite il faut plus de lignes pour ne pas amputer la chute. */
-@media (max-width:560px){.entry__title{-webkit-line-clamp:10;font-size:1.1rem}}
-.entry__tags{display:flex;flex-wrap:wrap;gap:4px 10px;margin:9px 0 0;padding:0;list-style:none;
+@media (max-width:560px){.entry__title{-webkit-line-clamp:14;font-size:1.1rem}}
+.entry__tags{display:flex;flex-wrap:wrap;gap:2px;margin:7px 0 0 -7px;padding:0;list-style:none;
   position:relative;z-index:1;line-height:1.4}
 .entry__tags li{display:flex;line-height:1.4}
-.entry__tag{font-size:11.5px;color:var(--muted);background:none;border:0;padding:0;
+.entry__tag{display:inline-flex;align-items:center;min-height:24px;font-size:12px;
+  color:var(--muted);background:none;border:0;padding:4px 7px;border-radius:6px;
   font-family:inherit;cursor:pointer;line-height:1.4}
-.entry__tag:hover{color:var(--accent);text-decoration:underline}
+.entry__tag:hover,.entry__tag:focus-visible{color:var(--accent);background:var(--surface-2);
+  text-decoration:none}
 .entry__actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:13px 0 0}
 .btn{font-size:13px;padding:7px 14px;border-radius:6px;text-decoration:none;
   background:var(--bg);color:var(--text);border:1px solid var(--border);transition:border-color .15s}
@@ -647,7 +700,7 @@ def collect():
                 "source": rel(source),
                 "category": squash(category),
                 "category_full": squash(category_full),
-                "tags": tags,
+                "tags": canon_tags(tags),
                 "excerpt": excerpt_of(brief_txt),
                 "_brief_path": brief,
                 "_source_path": source,
@@ -699,7 +752,7 @@ def entry_card(x):
     tags = "".join(
         f'<li><button type="button" class="entry__tag" data-tag="{html.escape(t, quote=True)}">'
         f'#{html.escape(t)}</button></li>'
-        for t in x["tags"][:TAGS_PAR_CARTE])
+        for t in card_tags(x))
     tags = f'<ul class="entry__tags">{tags}</ul>' if tags else ""
 
     actions = []
@@ -761,6 +814,22 @@ SEARCH_JS = r"""
 (function () {
   var root = document.getElementById('dv');
   if (!root) return;
+
+  /* Jours a venir : un carre vide du futur ne doit pas se lire comme un jour
+     saute. Cote client, la comparaison suit la date du lecteur, pas du build. */
+  (function () {
+    var d = new Date();
+    var today = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0")
+      + "-" + String(d.getDate()).padStart(2, "0");
+    Array.prototype.forEach.call(
+      document.querySelectorAll(".strip__c[data-day]"), function (c) {
+        if (c.tagName !== "A" && c.getAttribute("data-day") > today) {
+          c.classList.add("strip__c--future");
+          c.setAttribute("title", (c.getAttribute("title") || "")
+            .replace("aucune publication", "à venir"));
+        }
+      });
+  })();
   var data = {};
   try { data = JSON.parse(document.getElementById('dv-data').textContent); } catch (e) { return; }
 
@@ -986,6 +1055,47 @@ SEARCH_JS = r"""
 """
 
 # --------------------------------------------------------------------------- #
+#  Flux Atom : une veille quotidienne se lit dans un agregateur                #
+# --------------------------------------------------------------------------- #
+SITE_URL = "https://maax6.github.io/droit-vivant/"
+FEED_MAX = 40
+
+
+def build_feed(modules):
+    """Flux Atom des derniers modules. Aucune dependance : chaines et html.escape."""
+    latest = modules[:FEED_MAX]
+    stamp = (latest[0]["date"] if latest else date.today().isoformat()) + "T12:00:00Z"
+
+    def esc(v):
+        return html.escape(v or "", quote=True)
+
+    out = ['<?xml version="1.0" encoding="utf-8"?>',
+           '<feed xmlns="http://www.w3.org/2005/Atom">',
+           "<title>Droit Vivant</title>",
+           "<subtitle>Veille quotidienne sur le droit du numérique, les libertés,"
+           " l'IA et la cybersécurité.</subtitle>",
+           f'<link rel="alternate" type="text/html" href="{SITE_URL}"/>',
+           f'<link rel="self" type="application/atom+xml" href="{SITE_URL}feed.xml"/>',
+           f"<id>{SITE_URL}</id>",
+           f"<updated>{stamp}</updated>",
+           "<author><name>Droit Vivant</name></author>"]
+    for x in latest:
+        url = SITE_URL + module_url(x)
+        out.append("<entry>")
+        out.append("<title>" + esc(x["title"]) + "</title>")
+        out.append(f'<link rel="alternate" type="text/html" href="{esc(url)}"/>')
+        out.append("<id>" + esc(url) + "</id>")
+        out.append("<updated>" + x["date"] + "T12:00:00Z</updated>")
+        for t in x["tags"]:
+            out.append(f'<category term="{esc(t)}"/>')
+        if x["excerpt"]:
+            out.append("<summary>" + esc(x["excerpt"]) + "</summary>")
+        out.append("</entry>")
+    out.append("</feed>")
+    return "\n".join(out)
+
+
+# --------------------------------------------------------------------------- #
 #  Index                                                                      #
 # --------------------------------------------------------------------------- #
 def build_index(modules, tag_counts):
@@ -1020,12 +1130,15 @@ def build_index(modules, tag_counts):
         for ym in sorted(by_month, reverse=True))
 
     # --- nuage de tags, tries par frequence puis alphabetiquement
-    ordered = sorted(tag_counts.items(), key=lambda kv: (-kv[1], kv[0]))
+    _all = sorted(tag_counts.items(), key=lambda kv: (-kv[1], kv[0]))
+    _singles = [kv for kv in _all if kv[1] < TAGS_MIN]
+    ordered = [kv for kv in _all if kv[1] >= TAGS_MIN]
     head = "".join(tag_chip(t, n) for t, n in ordered[:TAGS_VISIBLES])
     rest = ordered[TAGS_VISIBLES:]
     more = ""
-    if rest:
+    if rest or _singles:
         more = ('<details><summary>' + plural(len(rest), "autre mot-clé", "autres mots-clés")
+                + singles_label(_singles)
                 + '</summary><ul class="tags__list">'
                 + "".join(tag_chip(t, n) for t, n in rest) + "</ul></details>")
     tags_block = (f'<section class="tags" aria-label="Mots-clés">'
@@ -1080,6 +1193,7 @@ def build_index(modules, tag_counts):
 
         f'<div id="dv" class="timeline">{timeline}</div>'
         f'<footer>{plural(len(modules), "module")} sur {plural(n_days, "jour")} · '
+        f'<a href="feed.xml">Flux Atom</a> · '
         f'mise à jour {date.today().isoformat()} · {DISCLAIMER}</footer>'
         '</main>'
         '<script type="application/json" id="dv-data">'
@@ -1092,6 +1206,8 @@ def build_index(modules, tag_counts):
             '<title>Droit Vivant — veille juridique</title>'
             '<meta name="description" content="Veille quotidienne sur le droit du numérique, '
             'les libertés, l\'IA et la cybersécurité : infographie, brief et source longue.">'
+            '<link rel="alternate" type="application/atom+xml" '
+            'title="Droit Vivant — flux Atom" href="feed.xml">'
             '<link rel="stylesheet" href="assets/style.css"></head><body>'
             + topbar("", nav_label="Accueil", nav_href="index.html") + body + "</body></html>")
 
@@ -1151,6 +1267,7 @@ def main():
         json.dumps(full, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     (SITE / "index.html").write_text(build_index(modules, tag_counts), encoding="utf-8")
+    (SITE / "feed.xml").write_text(build_feed(modules), encoding="utf-8")
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
     n_days = len({m["date"] for m in modules})
     print(f"{len(modules)} module(s) sur {n_days} jour(s) construits, "
