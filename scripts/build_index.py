@@ -283,9 +283,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border);color
   padding:12px 0 8px;display:flex;align-items:baseline;justify-content:space-between;gap:10px;
   font-family:var(--sans);font-size:.95rem;font-weight:700;letter-spacing:0}
 .month__name{text-transform:capitalize}
+.month__meta{display:inline-flex;align-items:baseline;gap:10px}
 .month__count{font-size:12px;font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums}
+.strip__read{font-size:12px;font-weight:400;color:var(--accent-ink);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.strip__ticks{display:grid;grid-template-columns:repeat(31,1fr);gap:3px;list-style:none;
+  margin:3px 0 16px;padding:0;font-size:9.5px;line-height:1;color:var(--muted);
+  font-variant-numeric:tabular-nums;opacity:.75}
+.strip__ticks li{text-align:center}
 .strip{display:grid;grid-template-columns:repeat(31,1fr);gap:3px;list-style:none;
-  margin:0 0 16px;padding:0}
+  margin:0;padding:0}
 .strip li{aspect-ratio:1/1;min-height:7px}
 .strip__c{display:block;width:100%;height:100%;border-radius:2px;
   border:1px solid var(--border);background:transparent}
@@ -781,7 +788,11 @@ def entry_card(x):
             f'</article>')
 
 def month_strip(ym, by_day):
-    """Bande calendaire : un carre par jour du mois, rempli s'il y a un module."""
+    """Bande calendaire : un carre par jour du mois, rempli s'il y a un module.
+
+    Sans reperes chiffres, la bande se lit comme un graphe de contributions
+    GitHub : on voit qu'il se passe quelque chose sans comprendre quoi. L'axe
+    des quantiemes suffit a la faire lire comme un mois."""
     y, m = (int(v) for v in ym.split("-"))
     ndays = calendar.monthrange(y, m)[1]
     cells = []
@@ -800,8 +811,13 @@ def month_strip(ym, by_day):
         cells.append(f'<li><a class="{cls}" data-day="{iso}" href="#e-{module_id(mods[0])}" '
                      f'title="{html.escape(lab, quote=True)}" '
                      f'aria-label="{html.escape(lab, quote=True)}"></a></li>')
+    ticks = []
+    for d in range(1, 32):
+        show = d in (1, 5, 10, 15, 20, 25) or d == ndays
+        ticks.append(f'<li>{d if show and d <= ndays else ""}</li>')
     return (f'<ol class="strip" aria-label="Cadence de publication — {fr_month(ym)}">'
-            + "".join(cells) + "</ol>")
+            + "".join(cells) + "</ol>"
+            + '<ol class="strip__ticks" aria-hidden="true">' + "".join(ticks) + "</ol>")
 
 def tag_chip(tag, n, extra=""):
     return (f'<li><a class="tag{extra}" href="?tag={tag}" data-tag="{tag}">'
@@ -942,6 +958,7 @@ SEARCH_JS = r"""
     typed.forEach(function (t) { if (t && all.indexOf(t) === -1) all.push(t); });
     query = free.join(' ');
 
+    var filtering = !!(query || active.length || typed.length);
     var n = 0, perMonth = {}, perDay = {};
     cards.forEach(function (card) {
       var ok = matches(card.getAttribute('data-id'), all);
@@ -963,11 +980,21 @@ SEARCH_JS = r"""
       if (badge) {
         badge.textContent = c + (c > 1 ? ' modules' : ' module');
       }
+      var days = 0;
       Array.prototype.forEach.call(sec.querySelectorAll('.strip__c'), function (cell) {
         var d = cell.getAttribute('data-day');
         if (!d) return;
         cell.classList.toggle('is-off', !perDay[d]);
+        if (perDay[d]) days++;
       });
+      /* La bande n'a d'interet immediat que pendant une recherche : on dit
+         alors combien de jours restent allumes, au lieu de laisser deviner. */
+      var read = sec.querySelector('.strip__read');
+      if (read) {
+        read.dataset.filtered = filtering
+          ? days + (days > 1 ? ' jours' : ' jour') : '';
+        if (!read.dataset.hover) read.textContent = read.dataset.filtered;
+      }
     });
     years.forEach(function (h) {
       var y = h.getAttribute('data-year'), any = false;
@@ -984,7 +1011,6 @@ SEARCH_JS = r"""
       a.setAttribute('aria-pressed', active.indexOf(a.getAttribute('data-tag')) !== -1);
     });
 
-    var filtering = !!(query || active.length || typed.length);
     count.textContent = n + (n > 1 ? ' modules' : ' module')
       + (filtering ? ' sur ' + cards.length : '');
     reset.hidden = !filtering;
@@ -1039,6 +1065,29 @@ SEARCH_JS = r"""
       catch (err) { top.scrollIntoView(); }
     }
   });
+  /* Lecture immediate de la bande : l'infobulle native met une seconde a venir
+     et n'explique pas ce qu'on regarde. On affiche le jour survole dans
+     l'en-tete du mois, ou il est lu comme une legende. */
+  Array.prototype.forEach.call(root.querySelectorAll('.month'), function (sec) {
+    var read = sec.querySelector('.strip__read');
+    var strip = sec.querySelector('.strip');
+    if (!read || !strip) return;
+    function show(e) {
+      var cell = e.target.closest && e.target.closest('.strip__c[data-day]');
+      if (!cell) return;
+      read.dataset.hover = '1';
+      read.textContent = cell.getAttribute('title') || '';
+    }
+    function hide() {
+      delete read.dataset.hover;
+      read.textContent = read.dataset.filtered || '';
+    }
+    strip.addEventListener('mouseover', show);
+    strip.addEventListener('focusin', show);
+    strip.addEventListener('mouseleave', hide);
+    strip.addEventListener('focusout', hide);
+  });
+
   window.addEventListener('popstate', function () { readURL(); apply(false); });
   document.addEventListener('keydown', function (e) {
     if (e.key === '/' && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
@@ -1118,7 +1167,10 @@ def build_index(modules, tag_counts):
             f'aria-labelledby="h-{ym}">'
             f'<h3 class="month__head" id="h-{ym}">'
             f'<span class="month__name">{fr_month(ym)}</span>'
-            f'<span class="month__count">{plural(len(mods), "module")}</span></h3>'
+            f'<span class="month__meta">'
+            f'<span class="strip__read" aria-live="polite"></span>'
+            f'<span class="month__count">{plural(len(mods), "module")}</span>'
+            f'</span></h3>'
             f'{month_strip(ym, by_day)}'
             f'<div class="entries">{cards}</div></section>')
     timeline = "\n".join(sections) or "<p>Aucune entrée pour le moment.</p>"
