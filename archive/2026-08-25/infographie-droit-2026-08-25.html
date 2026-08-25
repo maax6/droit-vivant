@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Droit Vivant — 25 août 2026 — Cyber Resilience Act : le compte à rebours des 24 heures</title>
+<style>
+  :root{
+    --bg:#ffffff; --fg:#1b1b1b; --muted:#5a5a5a; --border:#d8d8d8;
+    --tint:#f5f5f4; --tint2:#f0f1f3; --code:#f2f2f2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#141414; --fg:#e9e9e9; --muted:#a5a5a5; --border:#3a3a3a;
+      --tint:#1d1d1d; --tint2:#1a1c1f; --code:#242424;
+    }
+  }
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+       font-size:17px;line-height:1.6}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 64px}
+  .kicker{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+          font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+          color:var(--muted);margin-bottom:14px}
+  h1{font-size:1.85rem;line-height:1.25;margin:0 0 22px;font-weight:700}
+  h2{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+     font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;
+     color:var(--muted);margin:0 0 10px;font-weight:600}
+  p{margin:0 0 12px}
+  .principle,.why,.card{border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin:0 0 20px}
+  .principle{background:var(--tint2)}
+  .why{background:var(--tint)}
+  .card{background:transparent}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+  .grid .card{margin:0}
+  .card.case{background:var(--tint)}
+  .card.full{margin-bottom:20px}
+  @media (max-width:720px){ .grid{grid-template-columns:1fr} h1{font-size:1.5rem} }
+  ul{margin:0;padding-left:1.15em}
+  li{margin-bottom:8px}
+  code{background:var(--code);border-radius:4px;padding:1px 5px;
+       font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em}
+  .ref{font-size:.95rem}
+  dl.glossary{margin:0}
+  dl.glossary dt{font-weight:700;margin-top:12px}
+  dl.glossary dt:first-child{margin-top:0}
+  dl.glossary dd{margin:2px 0 0;color:var(--fg)}
+  footer{border-top:1px solid var(--border);padding-top:14px;margin-top:8px;
+         font-size:.85rem;color:var(--muted)}
+  a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Droit Vivant · Cybersécurité des produits · mardi 25 août 2026</div>
+
+  <h1>Routeur, smartphone, brosse à dents connectée : dans 17 jours, le fabricant aura 24 heures pour signaler une faille exploitée à Bruxelles — sous peine de 15 millions d'euros</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> à compter du 11 septembre 2026, l'article 14 du Cyber Resilience Act oblige le <em>fabricant</em> d'un produit numérique — et non l'entreprise qui l'utilise — à signaler en 24 heures toute vulnérabilité <em>activement exploitée</em> de son produit, c'est-à-dire, au sens de l'article 3, point 42, celle pour laquelle il existe une preuve fiable qu'un acteur malveillant l'a exploitée sans l'autorisation du propriétaire du système : un test d'intrusion autorisé ou une preuve de concept publiée ne déclenchent donc pas, à eux seuls, le chronomètre.
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+      <ul>
+        <li>Règlement (UE) <code>2024/2847</code> du 23 octobre 2024 (Cyber Resilience Act), <code>art. 14</code> — obligations de signalement du fabricant : alerte précoce à 24 h, notification à 72 h, rapport final à 14 jours (vulnérabilité) ou 1 mois (incident grave)</li>
+        <li>Même règlement, <code>art. 3, pt 42</code> (vulnérabilité activement exploitée) et <code>art. 3, pt 44</code> (incident grave) ; critères de gravité à l'<code>art. 14, § 5</code> ; CSIRT compétent à l'<code>art. 14, § 7</code></li>
+        <li><code>Art. 15</code> — signalement <b>volontaire</b>, ouvert à toute personne physique ou morale</li>
+        <li><code>Art. 16</code> — plateforme unique de signalement gérée par l'ENISA ; <code>art. 16, § 2</code> — report exceptionnel de la diffusion, précisé par le règlement délégué (UE) <code>2026/881</code></li>
+        <li><code>Annexe I, partie II</code> — gestion des vulnérabilités : SBOM, politique de <b>divulgation coordonnée</b>, point de contact public</li>
+        <li><code>Art. 64</code> — sanctions : jusqu'à <b>15 M€ ou 2,5 % du chiffre d'affaires annuel mondial</b></li>
+        <li><code>Art. 71</code> — application différenciée : chapitre IV en juin 2026, <b>article 14 le 11 septembre 2026</b>, reste du règlement le 11 décembre 2027</li>
+        <li>Règlement d'exécution (UE) <code>2025/2392</code> — catégories de produits importants et critiques</li>
+      </ul>
+      </div>
+    </div>
+
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Il ne s'agit pas d'un contentieux mais d'une <b>échéance</b>, et elle tombe dans dix-sept jours. L'ANSSI, dirigée par <b>Vincent Strubel</b>, publie un calendrier sans ambiguïté : <b>juin 2026 – décembre 2026</b> pour l'accréditation et la notification des organismes d'évaluation de la conformité, <b>septembre 2026</b> pour l'entrée en vigueur des obligations de signalement, <b>décembre 2027</b> pour l'application pleine et entière.</p>
+      <p>Le <b>11 septembre 2026</b>, la <b>plateforme unique de signalement</b> (<i>Single Reporting Platform</i>) opérée par l'<b>ENISA</b> devient opérationnelle. Le fabricant y dépose une notification unique, automatiquement relayée au CSIRT coordinateur de son pays d'établissement — le <b>CERT-FR</b> de l'ANSSI pour la France —, aux CSIRT des autres États où le produit est disponible, et à l'ENISA. Les CSIRT en partagent ensuite une partie avec les autorités de surveillance du marché : en France, l'<b>ANFR</b>, appuyée techniquement par l'ANSSI.</p>
+      <p>Le périmètre est volontairement banal : selon l'ANSSI, la catégorie « par défaut » couvre « tous les produits comportant des éléments numériques », <b>brosses à dents électriques, smartphones et ordinateurs</b> compris ; les systèmes d'exploitation, routeurs, navigateurs et gestionnaires de mots de passe relèvent des produits importants de classe I ; hyperviseurs, pare-feu, IDS/IPS et microprocesseurs <i>tamper resistant</i> de la classe II ; HSM, cartes à puce et passerelles de compteurs intelligents des produits critiques.</p>
+      <p>L'agence a par ailleurs rappelé, dans son actualité du <b>21 juillet 2026</b> sur le processus de notification des organismes notifiés, que la conformité ne dépend pas de la disponibilité des normes harmonisées : leur usage reste <b>volontaire</b> et ne vaut que présomption de conformité.</p>
+    </div>
+
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>Le CRA déplace le point de bascule juridique. Jusqu'ici, l'obligation de notifier en 72 heures pesait sur celui qui subissait la fuite (article 33 du RGPD) ou sur l'entité essentielle et importante au titre de NIS 2. Ici, c'est <b>l'éditeur du code</b> qui doit parler, y compris lorsque ses clients n'ont rien remarqué, et le délai est ramené à <b>24 heures</b> — un ordre de grandeur qui n'est plus compatible avec un arbitrage manuel entre juridique, communication et ingénierie.</p>
+    <p>Pour qui audite ou automatise, l'obligation se traduit en artefacts vérifiables : capacité à établir la « preuve fiable » d'une exploitation réelle (télémétrie, journaux, IOC) et non un simple risque théorique ; SBOM à jour permettant de savoir en quelques minutes si une dépendance vulnérable est présente dans quelles versions ; politique de divulgation coordonnée réellement publiée et joignable, typiquement via un fichier <code>security.txt</code> ; procédure de notification testée à blanc, avec un titulaire et un suppléant, puisque le chronomètre part de la <i>prise de connaissance</i> et non de la découverte du correctif.</p>
+    <p>Le point le plus délicat pour un chercheur est l'asymétrie qu'installe l'article 3, point 42 : la même faille, testée avec autorisation, n'est pas notifiable ; exploitée par un tiers malveillant, elle l'est en 24 heures. La qualification dépend donc moins de la vulnérabilité que de la <b>qualité de la preuve d'exploitation</b> — et cette preuve, ce sont les journaux du fabricant qui la portent.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>Vulnérabilité activement exploitée</dt>
+      <dd>Faille pour laquelle il existe une preuve fiable qu'un acteur malveillant l'a exploitée dans un système sans l'autorisation de son propriétaire (art. 3, pt 42, CRA). Exclut par construction le test d'intrusion autorisé et la recherche de bonne foi.</dd>
+
+      <dt>Plateforme unique de signalement (SRP)</dt>
+      <dd>Système électronique géré par l'ENISA, opérationnel le 11 septembre 2026, permettant de notifier une seule fois pour informer simultanément le CSIRT coordinateur national, les CSIRT des autres États membres concernés et l'ENISA (art. 16 CRA).</dd>
+
+      <dt>CSIRT coordinateur</dt>
+      <dd>Équipe nationale de réponse à incident désignée comme point d'entrée des signalements CRA. Pour la France, il s'agit du CERT-FR, au sein de l'ANSSI, qui centralise les signalements et coordonne les remédiations avec les fabricants.</dd>
+
+      <dt>SBOM (<i>Software Bill of Materials</i>)</dt>
+      <dd>Inventaire lisible par machine des composants logiciels d'un produit, exigé par l'annexe I, partie II, du CRA. Format standardisé de type SPDX ou CycloneDX ; il conditionne la capacité à répondre dans les délais à une exploitation active touchant une dépendance.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://cyber.gouv.fr/reglementation/cybersecurite-des-produits/cyber-resilience-act/cadre-r%C3%A8glementaire-du-cra/">ANSSI — Cadre règlementaire du Cyber Resilience Act (CRA)</a>. Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+
+</div>
+</body>
+</html>
