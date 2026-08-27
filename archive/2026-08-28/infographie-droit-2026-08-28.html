@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Droit Vivant — 28 août 2026 — Filigrane des textes générés : Nature, l'AI Act et ceux qui n'ont pas signé</title>
+<style>
+:root{--bg:#ffffff;--fg:#1a1a1a;--muted:#5a5a5a;--border:#d8d8d8;--tint:#f5f5f4;--tint2:#f0f2f4;--code:#f2f2f0;}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--fg:#e8e8e8;--muted:#a0a0a0;--border:#333333;--tint:#1d1d1d;--tint2:#1b1e21;--code:#202020;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;}
+.wrap{max-width:860px;margin:0 auto;padding:32px 20px 56px;}
+.kicker{font-size:.8rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+h1{font-size:1.7rem;line-height:1.3;margin:0 0 20px;font-weight:700;}
+h2{font-size:1rem;margin:0 0 10px;font-weight:700;}
+.principle,.why,.card{border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:18px;}
+.principle{background:var(--tint);}
+.why{background:var(--tint2);}
+.card{background:var(--bg);}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.grid .card{margin-bottom:0;}
+@media (max-width:680px){.grid{grid-template-columns:1fr;}}
+.ref ul{margin:0;padding-left:1.1em;}
+.ref li{margin-bottom:6px;}
+code{background:var(--code);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:.85em;}
+.card.full{margin-bottom:18px;}
+dl.glossary{margin:0;}
+dl.glossary dt{font-weight:700;margin-top:10px;}
+dl.glossary dt:first-child{margin-top:0;}
+dl.glossary dd{margin:2px 0 0;color:var(--muted);}
+footer{border-top:1px solid var(--border);padding-top:14px;font-size:.85rem;color:var(--muted);}
+a{color:inherit;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Droit Vivant · Intelligence artificielle &amp; transparence des contenus générés · 28 août 2026</div>
+
+  <h1>Le filigrane de Gemini est né dans <i>Nature</i>, pas à Bruxelles : Demis Hassabis l'a cosigné en octobre 2024, l'Europe vient d'en faire une obligation — xAI a refusé de signer le chapitre transparence, et la Chine l'impose sans avoir rien signé du tout</h1>
+
+  <div class="principle">
+    <strong>Principe-clé :</strong> l'article 50, §2, de l'AI Act n'impose pas une technologie mais un <em>résultat</em> — les sorties d'un système d'IA générative doivent être marquées dans un format <b>lisible par machine</b> et <b>détectables</b> comme artificielles, par des solutions « efficaces, interopérables, robustes et fiables » et « techniquement réalisables » au regard de l'état de l'art. C'est donc la recherche publiée qui définit, en pratique, le niveau d'exigence que le droit peut réclamer.
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>règlement (UE) 2024/1689</code> (AI Act), <code>art. 50, §1</code> — informer la personne qu'elle interagit avec une IA</li>
+          <li><code>art. 50, §2</code> — marquage <b>lisible par machine</b> et détectabilité des contenus de synthèse (audio, image, vidéo, <b>texte</b>) ; obligation pesant sur le <b>fournisseur</b></li>
+          <li><code>art. 50, §4</code> — obligation du <b>déployeur</b> : révéler un hypertrucage, et signaler les textes publiés pour informer le public sur des questions d'intérêt général</li>
+          <li><code>art. 50, §7</code> — codes de bonnes pratiques encouragés par le Bureau de l'IA pour la détection et l'étiquetage</li>
+          <li><code>art. 53</code> et <code>art. 55</code> — obligations des modèles à usage général, socle du code de bonnes pratiques GPAI</li>
+          <li><code>art. 99</code> — sanctions : jusqu'à <b>15 M€ ou 3 %</b> du chiffre d'affaires mondial pour un manquement à l'article 50</li>
+          <li><b>Chine</b> — <i>Mesures d'étiquetage des contenus générés ou synthétisés par IA</i> (CAC, 14 mars 2025) et norme nationale obligatoire <code>GB 45438-2025</code>, en vigueur depuis le <b>1<sup>er</sup> septembre 2025</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Le <b>23 octobre 2024</b>, <i>Nature</i> publie « <b>Scalable watermarking for identifying large language model outputs</b> » (vol. <b>634</b>, p. <b>818-823</b>), signé par vingt-trois chercheurs de <b>Google DeepMind</b> — Sumanth Dathathri et Abigail See en tête, <b>Demis Hassabis</b> et Pushmeet Kohli en dernier. L'article décrit <b>SynthID-Text</b> et, fait rare pour un papier d'industrie, documente un déploiement réel : le filigrane est actif dans <b>Gemini</b>, et sa neutralité sur la qualité du texte est évaluée sur près de <b>20 millions de réponses</b> issues d'interactions réelles.</p>
+      <p>Trois choix techniques comptent. Le filigrane <b>ne touche pas à l'entraînement</b> : il ne modifie que la procédure d'<b>échantillonnage</b>, en biaisant le tirage du prochain jeton à l'aide de fonctions pseudo-aléatoires amorcées par le contexte récent et une <b>clé</b>. La <b>détection ne nécessite pas le modèle</b> : elle est peu coûteuse, ce qui la rend industrialisable. Et le schéma est compatible avec le <b>sampling spéculatif</b>, sans quoi il serait inutilisable en production. Une variante <b>non distordante</b> préserve la distribution de sortie ; une variante distordante détecte mieux, au prix de la qualité.</p>
+      <p>Le calendrier réglementaire vient <b>après</b>. Le code de bonnes pratiques <b>GPAI</b> est publié le <b>10 juillet 2025</b>, la liste des signataires le <b>1<sup>er</sup> août 2025</b> : <b>Google y figure</b>, aux côtés d'OpenAI, Anthropic, Microsoft, Amazon, IBM, Mistral AI, Aleph Alpha. <b>Meta a refusé</b> de signer. <b>xAI a signé le seul chapitre « sûreté et sécurité »</b> — pas le chapitre <b>transparence</b>, pas le chapitre droit d'auteur, qu'elle juge « profondément préjudiciables à l'innovation ». <b>Aucun laboratoire chinois</b> ne figure parmi les signataires.</p>
+      <p>Or l'obligation dure, elle, est ailleurs. L'<b>article 50</b> de l'AI Act est applicable depuis le <b>2 août 2026</b>. Pour l'obligation de marquage du <b>§2</b>, les systèmes déjà mis sur le marché avant cette date bénéficient d'un délai de grâce jusqu'au <b>2 décembre 2026</b> ; les systèmes nouveaux s'y conforment dès leur mise sur le marché. La Commission a publié des <b>lignes directrices</b> en projet le <b>8 mai 2026</b> et travaille à un <b>code de bonnes pratiques sur la transparence des contenus générés par IA</b>.</p>
+    </div>
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>L'idée reçue voudrait que Bruxelles ait arraché le filigrane à une industrie réticente. La chronologie dit l'inverse : SynthID tournait en production et l'article était dans <i>Nature</i> avant que l'obligation ne morde. Ce que le droit européen a fait, c'est <b>changer le statut</b> de cette technique — d'argument commercial volontaire à <b>exigence opposable</b>, assortie d'une sanction pouvant atteindre 15 M€ ou 3 % du chiffre d'affaires mondial. Le rapport de force réel n'est pas « le régulateur contre l'ingénieur » : c'est un texte qui renvoie à l'état de l'art, et un état de l'art fixé par les publications des laboratoires qu'il régule.</p>
+    <p>Le refus de signer mérite la même précision. Un code de bonnes pratiques est un <b>instrument volontaire</b> : le signer procure une présomption de conformité et un dialogue facilité, ne pas le signer n'exonère de rien — un fournisseur non signataire reste tenu par le règlement dès qu'il place un modèle sur le marché de l'Union, et doit simplement démontrer sa conformité par d'autres moyens. Quant à l'argument « les Chinois n'ont pas signé » : il est exact et trompeur à la fois. Pékin n'a rien signé parce que Pékin <b>légifère</b> — depuis le 1<sup>er</sup> septembre 2025, les <i>Mesures</i> de la CAC et la norme <b>GB 45438-2025</b> imposent un double étiquetage, <b>explicite</b> (visible pour l'utilisateur) et <b>implicite</b> (métadonnées ou filigrane numérique dans le fichier), avec des obligations qui remontent jusqu'aux magasins d'applications. Sur le marquage machine, la Chine est en avance d'un an sur l'Union.</p>
+    <p>Pour qui teste des systèmes, l'exigence se traduit en surface d'attaque. Un filigrane par échantillonnage résiste mal à la <b>paraphrase</b>, à la <b>traduction</b>, au découpage en fragments courts — la détection est statistique et s'effondre quand le texte est bref. Il suppose une <b>gestion de clé</b> : qui la détient, qui peut détecter, comment révoquer. Et il ne dit rien de l'inverse — un texte <b>sans</b> filigrane n'est pas humain, il peut simplement venir d'un modèle ouvert exécuté localement. C'est précisément la mise en garde que <i>Nature</i> a formulée dans son éditorial d'octobre 2024 : un filigrane doit être <b>étanche</b> pour servir à quelque chose.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>Filigrane numérique (watermarking)</dt>
+      <dd>Signal statistique délibérément inséré dans un contenu généré, invisible à la lecture, détectable par qui possède la clé. Pour du texte, il est encodé dans le choix des jetons plutôt que dans des pixels ou des métadonnées.</dd>
+      <dt>Filigrane non distordant</dt>
+      <dd>Variante qui, en moyenne sur les tirages, laisse inchangée la distribution de sortie du modèle : le texte filigrané est statistiquement indiscernable du texte non filigrané. Elle protège la qualité, mais exige plus de texte pour être détectée.</dd>
+      <dt>Sampling spéculatif</dt>
+      <dd>Technique d'accélération où un petit modèle propose plusieurs jetons qu'un grand modèle valide en bloc. Tout filigrane destiné à la production doit s'y intégrer, sans quoi il coûte la latence qu'on venait de gagner.</dd>
+      <dt>Code de bonnes pratiques (AI Act)</dt>
+      <dd>Instrument volontaire élaboré sous l'égide du Bureau de l'IA. Y adhérer vaut présomption de conformité et allège la charge de la preuve ; s'en abstenir n'écarte pas l'obligation légale, mais impose de démontrer sa conformité autrement.</dd>
+      <dt>Étiquetage explicite / implicite (droit chinois)</dt>
+      <dd>Explicite : mention visible ou audible destinée à l'utilisateur. Implicite : marque lisible par machine inscrite dans les métadonnées ou le filigrane du fichier. Les deux sont obligatoires depuis le 1<sup>er</sup> septembre 2025.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://www.nature.com/articles/s41586-024-08025-4">S. Dathathri, A. See, S. Ghaisas <i>et al.</i>, « Scalable watermarking for identifying large language model outputs », <i>Nature</i> 634, 818-823 (2024)</a>. — Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+
+</div>
+</body>
+</html>
