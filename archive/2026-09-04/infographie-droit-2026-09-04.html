@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>73 dossiers patients par minute : 500 000 € d'amende pour un hôpital sans VPN ni double authentification — Droit Vivant, 4 septembre 2026</title>
+<style>
+  :root{ color-scheme: light dark; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; padding:2rem 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.6; font-size:17px;
+    background:#fdfdfc; color:#1c1c1a;
+  }
+  .wrap{ max-width:860px; margin:0 auto; }
+  .kicker{ font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; opacity:.72; margin-bottom:.75rem; }
+  h1{ font-size:1.75rem; line-height:1.25; margin:0 0 1.25rem; font-weight:700; }
+  h2{ font-size:1rem; margin:0 0 .6rem; font-weight:700; letter-spacing:.01em; }
+  p{ margin:0 0 .8rem; }
+  p:last-child{ margin-bottom:0; }
+  .principle, .why, .card{
+    border:1px solid #dcdcd6; border-radius:8px; padding:1rem 1.1rem; margin-bottom:1rem;
+  }
+  .principle{ background:#f4f4f0; }
+  .why{ background:#f4f4f0; }
+  .card{ background:#ffffff; }
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+  .grid > .card{ margin-bottom:0; }
+  .full{ display:block; }
+  code{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:.9em; background:#f0f0ec; padding:.08em .35em; border-radius:4px; }
+  .ref ul{ margin:0; padding-left:1.15rem; }
+  .ref li{ margin-bottom:.35rem; }
+  .glossary{ margin:0; }
+  .glossary dt{ font-weight:700; margin-top:.7rem; }
+  .glossary dt:first-child{ margin-top:0; }
+  .glossary dd{ margin:.2rem 0 0; }
+  footer{ font-size:.85rem; opacity:.75; margin-top:2rem; padding-top:.5rem; }
+  a{ color:inherit; }
+  @media (max-width:640px){ .grid{ grid-template-columns:1fr; } h1{ font-size:1.45rem; } }
+  @media (prefers-color-scheme: dark){
+    body{ background:#16171a; color:#e8e8e4; }
+    .principle,.why{ background:#1e2024; border-color:#33353a; }
+    .card{ background:#1a1c1f; border-color:#33353a; }
+    code{ background:#26282c; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Droit Vivant · Cybersécurité &amp; données de santé · vendredi 4 septembre 2026</div>
+
+  <h1>73 dossiers patients aspirés par minute pendant près d'une semaine : la CNIL sanctionne 500 000 € un hôpital privé du groupe Ramsay Santé qui n'avait ni VPN ni double authentification</h1>
+
+  <div class="principle">
+    <p><strong>Principe-clé :</strong> l'article 32 du RGPD est une <em>obligation de moyens</em>, mais des moyens que l'état de l'art rend exigibles — l'absence simultanée d'authentification forte à la frontière, de cloisonnement des habilitations et de détection en temps réel transforme un compte compromis en exfiltration totale, et c'est cette chaîne de carences élémentaires, plus que l'intrusion elle-même, que le régulateur sanctionne.</p>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>Textes de référence</h2>
+      <div class="ref">
+        <ul>
+          <li><code>Art. 32 RGPD</code> — sécurité du traitement : mesures techniques et organisationnelles appropriées au risque (chiffrement, résilience, procédure de test et d'évaluation régulière).</li>
+          <li><code>Art. 34 RGPD</code> — communication de la violation <em>à la personne concernée</em>, dans les meilleurs délais, en cas de risque élevé. Distincte de la notification à l'autorité (<code>art. 33</code>).</li>
+          <li><code>Art. 9 RGPD</code> — les données concernant la santé sont des catégories particulières, ce qui rehausse le niveau de sécurité attendu.</li>
+          <li><code>Art. 5.1.f RGPD</code> — principe d'intégrité et de confidentialité.</li>
+          <li><code>Art. 83 RGPD</code> et <code>art. 20 loi n° 78-17 du 6 janvier 1978</code> — pouvoirs de sanction et d'injonction de la formation restreinte de la CNIL.</li>
+          <li><code>Art. L. 1110-4</code> et <code>L. 1110-12 CSP</code> — secret professionnel et notion d'<em>équipe de soins</em>, qui borne le périmètre légitime d'accès au dossier.</li>
+          <li><code>Art. L. 1111-6 CSP</code> — personne de confiance désignée par le patient.</li>
+          <li><code>Arrêté du 28 mars 2022</code> — référentiel d'identification électronique des utilisateurs des services numériques en santé (authentification à deux facteurs pour les accès externes).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card case">
+      <h2>L'affaire</h2>
+      <p>Délibération de la formation restreinte <b>n° SAN-2026-009 du 21 juillet 2026</b>, rendue publique par la CNIL le <b>3 septembre 2026</b>, contre la société <b>HÔPITAL PRIVÉ DE LA LOIRE</b> (Saint-Étienne), établissement du <b>groupe Ramsay Santé</b>.</p>
+      <p>En <b>juin 2025</b>, un attaquant se connecte au <b>dossier patient informatisé (DPI)</b> avec les identifiants d'un <b>médecin libéral</b> rattaché à l'établissement. Entre le <b>26 juin et le 1<sup>er</sup> juillet 2025</b>, il exfiltre <b>524 867 fiches patients</b> (état civil, numéro de sécurité sociale, coordonnées, identifiant permanent) ; plus de <b>46 000</b> comportent le recto d'une carte d'identité, <b>202 246</b> les données d'une personne de confiance, et <b>43</b> des données de santé.</p>
+      <p>Trois carences fondent le manquement à l'article 32 : l'accès externe au DPI se faisait par simple identifiant / mot de passe, <b>sans VPN ni authentification à deux facteurs</b> ; la <b>politique d'habilitation</b> ignorait la notion d'équipe de soins, si bien qu'un seul compte ouvrait l'intégralité de la base ; et si l'hôpital disposait d'un <b>SOC</b>, d'une supervision et d'une journalisation, l'<b>analyse automatique en temps réel des traces applicatives du DPI n'était pas activée</b> — l'attaquant a consulté en moyenne <b>73 fiches par minute</b> pendant près d'une semaine sans déclencher d'alerte. La CNIL relève encore l'<b>accès permanent et non contrôlé de l'éditeur du logiciel</b> aux données patients, et une remédiation défaillante : après la violation, un <b>mot de passe temporaire identique</b> a été attribué à l'ensemble des praticiens et communiqué au président de la commission médicale d'établissement à charge pour lui de le rediffuser.</p>
+      <p>Le manquement à l'article 34 est distinct : seuls les patients ont été informés, jamais les <b>202 246 tiers de confiance</b>, pourtant touchés. Sanction : <b>500 000 €</b>, <b>injonction de mise en conformité</b> à échéances échelonnées de <b>trois à quinze mois</b>, et publication nominative de la délibération. Recours possible devant le Conseil d'État dans un délai de deux mois.</p>
+    </div>
+
+  </div>
+
+  <div class="why">
+    <h2>Pourquoi c'est important</h2>
+    <p>La CNIL sanctionne rarement lourdement les établissements de santé, qu'elle préfère accompagner : le montant dit donc quelque chose du seuil franchi. Et ce seuil n'est pas juridique, il est technique. Aucun 0-day, aucune sophistication : un identifiant valide, une porte sans second facteur, une base sans cloisonnement, un SOC qui journalise mais n'analyse pas. Le raisonnement de l'autorité est explicitement <em>architectural</em> — elle démontre, logs à l'appui, qu'un détecteur automatisé aurait vu passer 73 requêtes/minute et coupé l'hémorragie au premier jour plutôt qu'au sixième.</p>
+    <p>Pour qui conçoit ou audite des systèmes, trois enseignements opérationnels. <b>Un</b> : la conformité ne se prouve pas par la présence d'outils mais par leur activation effective — un SOC dont les règles de détection ne couvrent pas l'application qui porte les données sensibles n'existe pas juridiquement. <b>Deux</b> : le rayon d'explosion d'un compte compromis est un paramètre de conception, et une politique d'habilitation qui ne matérialise pas l'équipe de soins convertit mécaniquement une compromission unitaire en fuite massive. <b>Trois</b> : la réponse à incident est elle-même un traitement à sécuriser — le mot de passe temporaire partagé a créé, pendant une semaine, une seconde vulnérabilité au moins aussi large que la première. Enfin, l'article 34 rappelle que le périmètre des personnes à informer n'est pas celui de la base clients : les tiers présents dans les fiches — proches, personnes de confiance, aidants — sont des personnes concernées à part entière.</p>
+  </div>
+
+  <div class="card full">
+    <h2>Mini-glossaire</h2>
+    <dl class="glossary">
+      <dt>Dossier patient informatisé (DPI)</dt>
+      <dd>Application centralisant l'ensemble des données des personnes prises en charge par un établissement. C'est le cœur de cible : sa compromission expose simultanément identité, administratif et santé.</dd>
+
+      <dt>Authentification multifacteur (MFA / 2FA)</dt>
+      <dd>Vérification de l'identité par au moins deux facteurs de nature différente (savoir, possession, inhérence). Exigée pour les accès externes aux services numériques en santé par le référentiel annexé à l'arrêté du 28 mars 2022.</dd>
+
+      <dt>Traces applicatives et analyse en temps réel</dt>
+      <dd>Journaliser consiste à enregistrer les opérations ; détecter consiste à les corréler à des règles de comportement anormal. La CNIL distingue nettement les deux : la première sans la seconde ne satisfait pas l'article 32.</dd>
+
+      <dt>Personne de confiance / tiers de confiance</dt>
+      <dd>Proche désigné par le patient au titre de l'article L. 1111-6 du code de la santé publique. Ses données figurent dans le dossier : elle est une personne concernée, donc destinataire de l'information de l'article 34 en cas de violation.</dd>
+    </dl>
+  </div>
+
+  <footer>
+    Source principale : <a href="https://www.cnil.fr/fr/sanction-hopital-prive-loire">CNIL — « Violation de données en matière de santé : sanction de 500 000 euros à l'encontre de l'HÔPITAL PRIVÉ DE LA LOIRE », 3 septembre 2026</a> ; délibération <a href="https://www.legifrance.gouv.fr/cnil/id/CNILTEXT000054790100">n° SAN-2026-009 du 21 juillet 2026</a> (Légifrance).<br>
+    Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.
+  </footer>
+
+</div>
+</body>
+</html>
