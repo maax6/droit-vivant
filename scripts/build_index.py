@@ -19,7 +19,18 @@ que la CI, qui ne surveille que archive/, scripts/ et .github/workflows/, se
 declenche quand on les modifie). Cle = identifiant du module (AAAA-MM-JJ ou
 AAAA-MM-JJ-slug) ; champs : titre_court, quoi, qui, change, theme. Tous
 optionnels : un module sans resume s'affiche avec son titre d'origine et
-l'analyse complete ouverte.
+l'analyse complete ouverte. Champs editoriaux facultatifs :
+  note        encadre « Note de cohérence » (deux briefs qui divergent, etc.)
+  voir        liste d'ids de fiches liees (« Sur le même sujet »)
+  doublon_de  id de la fiche de reference : la fiche reste servie (URL stable,
+              canonical vers la reference) mais sort de l'accueil et du flux.
+L'archive n'est jamais reecrite : toute correction passe par ce fichier.
+
+ASSETS
+------
+scripts/assets/fonts/ (woff2 sous licence OFL, auto-heberges) et
+scripts/assets/og.png sont copies tels quels dans site/assets/. Aucune
+ressource n'est chargee depuis un tiers.
 
 PLUSIEURS MODULES PAR JOUR
 --------------------------
@@ -59,6 +70,7 @@ ARCHIVE = ROOT / "archive"
 SITE = ROOT / "site"
 RESUMES = ROOT / "scripts" / "data" / "resumes.json"
 FONTS = ROOT / "scripts" / "assets" / "fonts"
+OG_IMAGE = ROOT / "scripts" / "assets" / "og.png"    # image de partage, statique
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 MOIS = ("janvier", "février", "mars", "avril", "mai", "juin", "juillet",
@@ -742,7 +754,10 @@ def head(title, prefix, desc="", path="", canonical=None, og_type="website", ext
             f'<meta property="og:type" content="{og_type}">',
             f'<meta property="og:title" content="{t}">',
             f'<meta property="og:url" content="{html.escape(url, quote=True)}">',
-            '<meta name="twitter:card" content="summary">',
+            f'<meta property="og:image" content="{SITE_URL}assets/og.png">',
+            '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">',
+            '<meta property="og:image:alt" content="Droit Vivant, veille juridique du droit du numérique">',
+            '<meta name="twitter:card" content="summary_large_image">',
             '<meta name="theme-color" content="#0f1217">',
             f'<link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml">',
             f'<link rel="alternate" type="application/atom+xml" title="Droit Vivant — flux Atom" href="{prefix}feed.xml">',
@@ -1795,6 +1810,8 @@ def main():
     (SITE / "assets" / "favicon.svg").write_text(FAVICON, encoding="utf-8")
     if FONTS.exists():
         shutil.copytree(FONTS, SITE / "assets" / "fonts")
+    if OG_IMAGE.exists():
+        shutil.copy(OG_IMAGE, SITE / "assets" / "og.png")
     (SITE / FICHES_DIR).mkdir(parents=True, exist_ok=True)
 
     modules = collect()
