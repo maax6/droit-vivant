@@ -187,6 +187,7 @@ a{color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text
 a:hover{color:var(--accent-hover);text-decoration-color:currentColor}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 [hidden]{display:none !important}
+html:not(.js) .needs-js{display:none !important}
 ::selection{background:var(--accent);color:var(--on-accent)}
 em,i,cite{font-style:italic}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -711,7 +712,8 @@ FAVICON = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
            '</g></svg>')
 
 # Lu avant le premier rendu : evite le flash de theme. Sombre si aucun choix.
-THEME_INIT = ("<script>try{var t=localStorage.getItem('dv-theme');"
+THEME_INIT = ("<script>document.documentElement.classList.add('js');"
+              "try{var t=localStorage.getItem('dv-theme');"
               "if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>")
 
 def topbar(prefix, current=None):
@@ -1495,7 +1497,7 @@ SEARCH_JS = r"""
 SITE_JS = r"""
 (function () {
   var doc = document.documentElement;
-  doc.classList.add('js');
+  doc.classList.add('js');   /* deja pose dans <head> ; repli si absent */
 
   /* ---- theme : sombre par defaut, choix memorise ---- */
   var btn = document.getElementById('theme-toggle');
@@ -1693,7 +1695,7 @@ def build_index(modules, tag_counts):
                 f'data-label="{html.escape(lab, quote=True)}" aria-pressed="false">'
                 f'<span class="dot" aria-hidden="true"></span>'
                 f'{html.escape(lab)} <span class="n">{per_theme[k]}</span></button>')
-    themes_block = ('<div class="themes" role="group" aria-label="Filtrer par thème">'
+    themes_block = ('<div class="themes needs-js" role="group" aria-label="Filtrer par thème">'
                     + "".join(theme_btns) + '</div>')
 
     # --- nuage de tags (replie), tries par frequence puis alphabetiquement
@@ -1706,7 +1708,7 @@ def build_index(modules, tag_counts):
         more = ('<details><summary>' + plural(len(rest), "autre mot-clé", "autres mots-clés")
                 + '</summary><ul class="tags__list">'
                 + "".join(tag_chip(t, n) for t, n in rest) + "</ul></details>")
-    tags_block = (f'<details class="tagbox"><summary>Filtrer par mot-clé</summary>'
+    tags_block = (f'<details class="tagbox needs-js"><summary>Filtrer par mot-clé</summary>'
                   f'<section class="tags" aria-label="Mots-clés">'
                   f'<ul class="tags__list">{head_tags}</ul>{more}</section></details>'
                   ) if ordered else ""
@@ -1737,7 +1739,7 @@ def build_index(modules, tag_counts):
         '</header>'
 
         '<div class="toolbar">'
-        '<form class="search" role="search" action="index.html" method="get">'
+        '<form class="search needs-js" role="search" action="index.html" method="get">'
         '<label class="sr-only" for="q">Rechercher une fiche</label>'
         f'<span class="search__field">{icon("search")}'
         '<input type="search" id="q" name="q" autocomplete="off" spellcheck="false" '
@@ -1747,7 +1749,7 @@ def build_index(modules, tag_counts):
         '<button type="button" class="search__clear" id="q-clear" hidden '
         'aria-label="Effacer la recherche">&times;</button>'
         '</span></form>'
-        '<p class="search__opts">'
+        '<p class="search__opts needs-js">'
         '<label><input type="checkbox" id="ft"> Chercher aussi dans le texte intégral</label>'
         '<span class="hint" id="q-hint"><code>#mot-clé</code> pour filtrer · '
         '<code>/</code> pour revenir au champ</span>'
@@ -1755,8 +1757,8 @@ def build_index(modules, tag_counts):
         '<p class="hint" id="ft-note" role="status" hidden></p>'
         f'{themes_block}'
         f'{tags_block}'
-        '<noscript><p class="nojs">La recherche et les filtres nécessitent '
-        'JavaScript. La chronologie complète reste consultable ci-dessous.</p></noscript>'
+        '<noscript><p class="nojs">La recherche et les filtres par thème nécessitent JavaScript. '
+        'Toutes les fiches restent consultables ci-dessous, du plus récent au plus ancien.</p></noscript>'
         '</div>'
 
         '<div class="status">'
