@@ -6,8 +6,20 @@ Source unique de design : ce script.
 - brief.md / source.md rendus en pages HTML stylees (Markdown -> HTML, stdlib seule)
 - les .md bruts restent disponibles (utile pour NotebookLM)
 - les infographies sont "re-skinnees" au build (CSS inline retire, charte appliquee)
-- index redessine : cartes hierarchisees, recherche client, chronologie mensuelle
+- une FICHE par module (fiches/<id>.html) : titre court, resume en 3 lignes,
+  analyse complete repliable (le brief, inchange), sources
+- index : fiches filtrables par theme, recherche client, chronologie mensuelle
+- page « Comment c'est fait » (comment-cest-fait.html)
 Aucune dependance externe (stdlib seule au build, aucun CDN cote client).
+
+RESUMES
+-------
+Les resumes en 3 lignes vivent dans scripts/data/resumes.json (dans scripts/ pour
+que la CI, qui ne surveille que archive/, scripts/ et .github/workflows/, se
+declenche quand on les modifie). Cle = identifiant du module (AAAA-MM-JJ ou
+AAAA-MM-JJ-slug) ; champs : titre_court, quoi, qui, change, theme. Tous
+optionnels : un module sans resume s'affiche avec son titre d'origine et
+l'analyse complete ouverte.
 
 PLUSIEURS MODULES PAR JOUR
 --------------------------
@@ -38,19 +50,33 @@ Trois sources cumulatives, toutes optionnelles, du plus precis au plus degrade :
 
 Aucun module d'archive n'a besoin d'etre retouche : le niveau 3 sert de filet.
 """
-import calendar, html, json, re, shutil, unicodedata
+import html, json, re, shutil, sys, unicodedata
 from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ARCHIVE = ROOT / "archive"
 SITE = ROOT / "site"
+RESUMES = ROOT / "scripts" / "data" / "resumes.json"
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 MOIS = ("janvier", "février", "mars", "avril", "mai", "juin", "juillet",
         "août", "septembre", "octobre", "novembre", "décembre")
 MOIS_COURT = ("janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.",
               "août", "sept.", "oct.", "nov.", "déc.")
+JOURS = ("lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche")
+
+# Themes des filtres de l'accueil : cle (slug) -> libelle affiche.
+THEMES = {"ia": "IA", "cyber": "Cyber", "rgpd": "RGPD", "dsa": "DSA",
+          "jurisprudence": "Jurisprudence", "autres": "Autres"}
+THEME_DEFAUT = "autres"
+# Les trois lignes de la fiche : (cle dans resumes.json, intitule affiche).
+LIGNES = (("quoi", "Ce qui s’est passé"),
+          ("qui", "Qui est concerné"),
+          ("change", "Ce qui change"))
+CHAMPS_RESUME = ("titre_court", "quoi", "qui", "change", "theme")
+FICHES_DIR = "fiches"
+ABOUT_PAGE = "comment-cest-fait.html"
 
 TAGS_VISIBLES = 12      # taille du nuage avant repli dans <details>
 TAGS_PAR_CARTE = 3
@@ -146,8 +172,17 @@ a:hover{text-decoration:underline}
   align-items:center;justify-content:space-between;gap:14px}
 .brand{font-family:var(--serif);font-weight:700;font-size:18px;color:var(--text);letter-spacing:-.01em}
 .brand span{color:var(--accent)}
-.topbar nav a{font-size:14px;color:var(--muted)}
-.topbar nav a:hover{color:var(--accent)}
+.topbar nav{display:flex;gap:18px;flex-wrap:wrap}
+.topbar nav a{font-size:14px;color:var(--muted);padding:4px 0;border-bottom:2px solid transparent}
+.topbar nav a:hover{color:var(--accent);text-decoration:none}
+.topbar nav a[aria-current=page]{color:var(--text);border-bottom-color:var(--accent)}
+.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:#fff;
+  padding:10px 16px;border-radius:0 0 8px 0;z-index:10;font-size:14px}
+.skip:focus{left:0}
+@media (prefers-color-scheme: dark){.skip{color:#0b1320}}
+.sitefoot{margin:0;padding:0;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem}
+.sitefoot .inner{max-width:780px;margin:0 auto;padding:18px 22px 44px}
+.sitefoot p{margin:0 0 .5em}
 
 .page,.wrap{max-width:780px;margin:0 auto;padding:34px 22px 72px}
 
@@ -274,76 +309,66 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border);color
   padding:22px;margin:18px 0;text-align:center;color:var(--muted)}
 .empty b{color:var(--text);font-weight:600}
 
+/* ---- index : filtres par theme ---- */
+.themes{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
+.theme-btn{font:inherit;font-size:13.5px;line-height:1.2;padding:7px 13px;border-radius:999px;
+  border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;
+  display:inline-flex;align-items:baseline;gap:7px}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+.theme-btn .n{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.theme-btn[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.theme-btn[aria-pressed=true] .n{color:inherit;opacity:.9}
+@media (prefers-color-scheme: dark){.theme-btn[aria-pressed=true]{color:#0b1320}}
+.tagbox{margin:0 0 14px}
+.tagbox>summary{font-size:13px;color:var(--muted);cursor:pointer;width:fit-content;padding:4px 0}
+.tagbox>summary:hover{color:var(--accent)}
+.tagbox .tags{margin:8px 0 0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
 /* ---- index : chronologie ---- */
-.year{font-family:var(--sans);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--muted);font-weight:700;margin:34px 0 0;padding-bottom:6px;
-  border-bottom:1px solid var(--border);font-variant-numeric:tabular-nums}
-.month{margin:0 0 10px}
+.section-title{font-family:var(--serif);font-size:1.3rem;margin:28px 0 2px}
+.month{margin:0 0 10px;scroll-margin-top:8px}
 .month__head{position:sticky;top:0;z-index:3;background:var(--bg);margin:0;
   padding:12px 0 8px;display:flex;align-items:baseline;justify-content:space-between;gap:10px;
   font-family:var(--sans);font-size:.95rem;font-weight:700;letter-spacing:0}
 .month__name{text-transform:capitalize}
-.month__meta{display:inline-flex;align-items:baseline;gap:10px}
 .month__count{font-size:12px;font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums}
-.strip__read{font-size:12px;font-weight:400;color:var(--accent-ink);
-  font-variant-numeric:tabular-nums;white-space:nowrap}
-.strip__ticks{display:grid;grid-template-columns:repeat(31,1fr);gap:3px;list-style:none;
-  margin:3px 0 16px;padding:0;font-size:9.5px;line-height:1;color:var(--muted);
-  font-variant-numeric:tabular-nums;opacity:.75}
-.strip__ticks li{text-align:center}
-.strip{display:grid;grid-template-columns:repeat(31,1fr);gap:3px;list-style:none;
-  margin:0;padding:0}
-.strip li{aspect-ratio:1/1;min-height:7px}
-.strip__c{display:block;width:100%;height:100%;border-radius:2px;
-  border:1px solid var(--border);background:transparent}
-.strip__c--on{border-color:transparent;background:var(--accent);opacity:.45}
-.strip__c--multi{opacity:1}
-a.strip__c:hover{opacity:1;outline:1px solid var(--accent);outline-offset:1px}
-.strip__c.is-off{opacity:.12}
-.strip__c--out{visibility:hidden}
-.strip__c--future{border-style:dashed;opacity:.45}
-.strip__c--future.is-off{opacity:.45}
+.entries{display:flex;flex-direction:column;gap:14px;margin:0 0 26px}
 
-.entries{display:flex;flex-direction:column;gap:12px;margin:0 0 26px}
-
-/* ---- index : carte ---- */
+/* ---- fiche (carte d'accueil et page) ---- */
 .entry{position:relative;background:var(--surface);border:1px solid var(--border);
-  border-radius:8px;padding:16px 20px 14px;scroll-margin-top:74px}
-.month{scroll-margin-top:8px}
+  border-radius:8px;padding:18px 22px 16px;scroll-margin-top:74px}
 .entry:hover{border-color:var(--muted)}
 @supports selector(:has(*)){
   .entry:has(.entry__open:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
   .entry .entry__open:focus-visible{outline:none}
 }
-.entry__meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;
-  font-size:12.5px;color:var(--muted);margin:0 0 6px}
-.entry__meta time{font-variant-numeric:tabular-nums;font-weight:600;color:var(--text)}
-.entry__cat{color:var(--muted)}
-.entry__sep{opacity:.5}
+.entry__meta,.fiche__meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;
+  font-size:12.5px;color:var(--muted);margin:0 0 8px}
+.entry__meta time,.fiche__meta time{font-variant-numeric:tabular-nums;font-weight:600;color:var(--text)}
 .entry__slug{text-transform:uppercase;letter-spacing:.06em;font-size:10.5px;font-weight:700;
   color:var(--accent-ink);background:var(--surface-2);border:1px solid var(--border);
   border-radius:999px;padding:2px 8px}
-.entry__title{font-family:var(--serif);font-size:1.16rem;font-weight:700;line-height:1.34;
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--accent-ink);background:var(--surface-2);
+  border:1px solid var(--border);border-radius:999px;padding:2px 10px}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--dot,var(--muted))}
+.badge--ia{--dot:#8e5bd1}.badge--cyber{--dot:#d1603d}.badge--rgpd{--dot:#2b8a6e}
+.badge--dsa{--dot:#c28a00}.badge--jurisprudence{--dot:#3b7be0}.badge--autres{--dot:#7a8494}
+.entry__title{font-family:var(--serif);font-size:1.2rem;font-weight:700;line-height:1.32;
   letter-spacing:-.01em;margin:0;color:var(--text);text-wrap:balance;
-  display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
-/* les accroches font 8 a 42 mots : le clamp est un garde-fou, pas un recadrage.
-   En colonne etroite il faut plus de lignes pour ne pas amputer la chute. */
-@media (max-width:560px){.entry__title{-webkit-line-clamp:14;font-size:1.1rem}}
-.entry__tags{display:flex;flex-wrap:wrap;gap:2px;margin:7px 0 0 -7px;padding:0;list-style:none;
-  position:relative;z-index:1;line-height:1.4}
-.entry__tags li{display:flex;line-height:1.4}
-.entry__tag{display:inline-flex;align-items:center;min-height:24px;font-size:12px;
-  color:var(--muted);background:none;border:0;padding:4px 7px;border-radius:6px;
-  font-family:inherit;cursor:pointer;line-height:1.4}
-.entry__tag:hover,.entry__tag:focus-visible{color:var(--accent);background:var(--surface-2);
-  text-decoration:none}
-.entry__actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:13px 0 0}
+  display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.trois{margin:12px 0 0;display:grid;gap:10px}
+.trois>div{display:grid;grid-template-columns:9.5em 1fr;gap:3px 14px;align-items:baseline}
+.trois dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--muted)}
+.trois dd{margin:0;font-size:.98rem;line-height:1.55}
+@media (max-width:560px){.trois>div{grid-template-columns:1fr;gap:1px}}
+.entry__actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 0}
 .btn{font-size:13px;padding:7px 14px;border-radius:6px;text-decoration:none;
   background:var(--bg);color:var(--text);border:1px solid var(--border);transition:border-color .15s}
 .btn:hover{border-color:var(--accent);text-decoration:none}
 .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
 @media (prefers-color-scheme: dark){.btn.primary{color:#0b1320}}
-.btn.ghost{color:var(--muted);font-size:12px}
 .entry__open::after{content:"";position:absolute;inset:0;border-radius:8px}
 .entry__actions > :not(.entry__open){position:relative;z-index:1}
 .res{margin-left:auto;font-size:12.5px}
@@ -353,8 +378,7 @@ a.strip__c:hover{opacity:1;outline:1px solid var(--accent);outline-offset:1px}
 .res>summary::after{content:"›";display:inline-block;transition:transform .15s;font-size:14px}
 .res[open]>summary::after{transform:rotate(90deg)}
 .res>summary:hover{color:var(--accent)}
-.res__body{display:flex;flex-direction:column;align-items:flex-start;gap:2px;
-  padding:8px 0 2px}
+.res__body{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 0 2px}
 .res__body a{color:var(--muted);font-size:12.5px}
 .res__body a:hover{color:var(--accent)}
 @media (max-width:520px){
@@ -363,12 +387,50 @@ a.strip__c:hover{opacity:1;outline:1px solid var(--accent);outline-offset:1px}
   .btn{padding:7px 12px}
 }
 
-/* ---- pages MD rendues ---- */
+/* ---- page fiche ---- */
+.backlink{font-size:.88rem;margin:0 0 18px}
+.fiche__meta{font-size:13px;gap:10px;margin:0 0 12px}
+.fiche__full{color:var(--muted);font-size:.98rem;margin:0 0 4px}
+.resume{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  padding:20px 24px;margin:22px 0}
+.resume .trois{margin:0;gap:14px}
+.resume .trois dd{font-size:1.04rem}
+.analyse{margin:26px 0;border:1px solid var(--border);border-radius:8px}
+.analyse>summary{cursor:pointer;padding:14px 20px;font-weight:600;list-style:none;
+  display:flex;justify-content:space-between;align-items:center;gap:12px}
+.analyse>summary::-webkit-details-marker{display:none}
+.analyse>summary::after{content:"+";font-size:1.4rem;line-height:1;color:var(--muted)}
+.analyse[open]>summary::after{content:"\\2212"}
+.analyse>summary:hover{color:var(--accent)}
+.analyse[open]>summary{border-bottom:1px solid var(--border)}
+.analyse__body{padding:16px 20px 4px}
+.fiche h2{font-size:1.15rem;margin:1.6em 0 .5em}
+.linkrow{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 1.2em}
+.pager{display:flex;justify-content:space-between;gap:16px;margin:36px 0 0;
+  padding-top:16px;border-top:1px solid var(--border);font-size:.92rem}
+.pager a{display:block;max-width:48%}
+.pager small{display:block;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.07em}
+.pager__next{margin-left:auto;text-align:right}
+.fiche-tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0 0 1.4em;padding:0}
+.fiche-tags a{display:inline-block;font-size:12.5px;color:var(--muted);border:1px solid var(--border);
+  border-radius:999px;padding:3px 10px;background:var(--surface)}
+.fiche-tags a:hover{color:var(--accent);border-color:var(--accent);text-decoration:none}
+
+/* ---- pages MD rendues et page « Comment c'est fait » ---- */
 .doc .meta{color:var(--muted);font-size:.9rem;margin:-2px 0 1.8em}
-.doc ul{padding-left:22px;margin:0 0 1.05em}
+.doc ul,.doc ol{padding-left:22px;margin:0 0 1.05em}
 .doc li{margin-bottom:.4em}
 .doc h2{font-size:1.22rem}
 .doc a{word-break:break-word}
+.about .lede{max-width:none}
+.about ol.steps{list-style:none;counter-reset:s;padding:0;margin:0 0 1.4em}
+.about ol.steps li{counter-increment:s;position:relative;padding:12px 16px 12px 52px;margin:0 0 8px;
+  background:var(--surface);border:1px solid var(--border);border-radius:8px}
+.about ol.steps li::before{content:counter(s);position:absolute;left:16px;top:12px;width:24px;
+  height:24px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);
+  color:var(--accent-ink);font-weight:700;font-size:.85rem;display:flex;align-items:center;
+  justify-content:center}
+.about ol.steps strong{display:block}
 """.strip()
 
 # --------------------------------------------------------------------------- #
@@ -551,22 +613,39 @@ def excerpt_of(md_text):
 # --------------------------------------------------------------------------- #
 #  Gabarits                                                                   #
 # --------------------------------------------------------------------------- #
-def topbar(prefix, nav_label="Toutes les entrées", nav_href=None):
-    href = nav_href if nav_href is not None else prefix + "index.html"
-    return (f'<header class="topbar"><div class="inner">'
-            f'<a class="brand" href="{prefix}index.html">Droit <span>Vivant</span></a>'
-            f'<nav><a href="{href}">&larr; {html.escape(nav_label)}</a></nav>'
-            f'</div></header>')
+NAV = (("index", "index.html", "Fiches"),
+       ("about", ABOUT_PAGE, "Comment c’est fait"))
 
-def shell(title, body, prefix):
-    return (f'<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">'
-            f'<meta name="viewport" content="width=device-width, initial-scale=1.0">'
-            f'<title>{html.escape(title)}</title>'
-            f'<link rel="stylesheet" href="{prefix}assets/style.css"></head><body>'
-            f'{topbar(prefix)}{body}</body></html>')
+def topbar(prefix, current=None):
+    links = "".join(
+        f'<a href="{prefix}{href}"' + (' aria-current="page"' if key == current else "")
+        + f'>{html.escape(label)}</a>'
+        for key, href, label in NAV)
+    return (f'<a class="skip" href="#main">Aller au contenu</a>'
+            f'<header class="topbar"><div class="inner">'
+            f'<a class="brand" href="{prefix}index.html">Droit <span>Vivant</span></a>'
+            f'<nav aria-label="Navigation principale">{links}</nav>'
+            f'</div></header>')
 
 DISCLAIMER = ("Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé. "
               "Droit Vivant — veille sur le droit qui se construit.")
+
+def site_footer(prefix, feed=False):
+    links = [f'<a href="{prefix}{ABOUT_PAGE}">Comment c’est fait</a>']
+    if feed:
+        links.append(f'<a href="{prefix}feed.xml">Flux Atom</a>')
+    return (f'<footer class="sitefoot"><div class="inner">'
+            f'<p>{DISCLAIMER}</p><p>{" · ".join(links)}</p></div></footer>')
+
+def shell(title, body, prefix, current=None, desc="", footer=True, feed=False):
+    meta = (f'<meta name="description" content="{html.escape(desc, quote=True)}">'
+            if desc else "")
+    return (f'<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">'
+            f'<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+            f'<title>{html.escape(title)}</title>{meta}'
+            f'<link rel="stylesheet" href="{prefix}assets/style.css"></head><body>'
+            f'{topbar(prefix, current)}{body}'
+            f'{site_footer(prefix, feed) if footer else ""}</body></html>')
 
 def render_md_page(md_text, kicker, prefix, raw_md_name=None, raw_label=None):
     title = md_title(md_text) or kicker
@@ -574,9 +653,8 @@ def render_md_page(md_text, kicker, prefix, raw_md_name=None, raw_label=None):
     if raw_md_name:
         meta = (f'<p class="meta"><a href="{raw_md_name}">&#8595; '
                 f'{html.escape(raw_label or "Version .md brute")}</a></p>')
-    body = (f'<main class="page"><span class="kicker">{html.escape(kicker)}</span>'
-            f'<article class="doc">{meta}{md_to_html(md_text)}</article>'
-            f'<footer>{DISCLAIMER}</footer></main>')
+    body = (f'<main class="page" id="main"><span class="kicker">{html.escape(kicker)}</span>'
+            f'<article class="doc">{meta}{md_to_html(md_text)}</article></main>')
     return shell(title, body, prefix)
 
 def reskin_infographie(t):
@@ -591,7 +669,7 @@ def reskin_infographie(t):
     if re.search(r"<body[^>]*>", t, re.I):
         t = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + "\n" + topbar("../../"),
                    t, count=1, flags=re.I)
-    return ensure_wrap(t)
+    return promote_main(ensure_wrap(t))
 
 def ensure_wrap(t):
     """Les toutes premieres infographies n'ont pas de conteneur .wrap : sans lui,
@@ -605,6 +683,18 @@ def ensure_wrap(t):
         return t
     return (t[:head.end()] + '\n<div class="wrap">'
             + t[head.end():tail.start()] + '</div>\n' + t[tail.start():])
+
+def promote_main(t):
+    """Le conteneur .wrap devient le repere <main> (cible du lien d'evitement).
+    Sans effet si la structure n'est pas celle attendue (.wrap ferme juste
+    avant </body>)."""
+    m = re.search(r'<div class="wrap"', t)
+    end = re.search(r"</div>(\s*)</body>", t, re.I)
+    if not m or not end or end.start() < m.start():
+        return t
+    t = t[:end.start()] + "</main>" + t[end.start() + len("</div>"):]
+    return (t[:m.start()] + '<main class="wrap" id="main"'
+            + t[m.start() + len('<div class="wrap"'):])
 
 # --------------------------------------------------------------------------- #
 #  Collecte : un dossier de date peut contenir PLUSIEURS modules               #
@@ -719,13 +809,55 @@ def collect():
     return modules
 
 # --------------------------------------------------------------------------- #
-#  Index : helpers de presentation                                             #
+#  Resumes : scripts/data/resumes.json                                         #
+# --------------------------------------------------------------------------- #
+def load_resumes(path=RESUMES):
+    """id de module -> {titre_court, quoi, qui, change, theme}.
+
+    Tolerant : fichier absent, JSON invalide, entree ou champ mal forme -> on
+    avertit (stderr) et on continue, la fiche s'affiche alors sans resume."""
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {}
+    except (OSError, ValueError) as e:
+        print(f"AVERTISSEMENT : {path.name} illisible ({e}) ; aucune fiche resumee.",
+              file=sys.stderr)
+        return {}
+    if not isinstance(raw, dict):
+        print(f"AVERTISSEMENT : {path.name} doit etre un objet JSON ; ignore.",
+              file=sys.stderr)
+        return {}
+    out = {}
+    for key, val in raw.items():
+        if isinstance(val, dict):
+            out[str(key)] = {f: squash(val[f]) for f in CHAMPS_RESUME
+                             if isinstance(val.get(f), str) and squash(val[f])}
+    return out
+
+def attach_resumes(modules, resumes):
+    """Ajoute a chaque module : short (titre court), theme (cle de THEMES),
+    lines (dict des lignes presentes). Rend la liste des modules sans les 3 lignes."""
+    sans = []
+    for x in modules:
+        r = resumes.get(module_id(x), {})
+        theme = slugify(r.get("theme", ""))
+        x["short"] = r.get("titre_court") or x["title"]
+        x["theme"] = theme if theme in THEMES else THEME_DEFAUT
+        x["lines"] = {k: r[k] for k, _ in LIGNES if r.get(k)}
+        if len(x["lines"]) < len(LIGNES):
+            sans.append(module_id(x))
+    return sans
+
+# --------------------------------------------------------------------------- #
+#  Helpers de presentation                                                     #
 # --------------------------------------------------------------------------- #
 def module_id(x):
     return x["date"] + ("-" + x["slug"] if x["slug"] else "")
 
 def module_url(x):
-    """Cible principale : l'infographie, a defaut le brief, a defaut la source."""
+    """Cible historique (flux Atom, index de recherche) : l'infographie, a defaut
+    le brief, a defaut la source."""
     if x["infographie"]:
         return x["infographie"]
     for k in ("brief", "source"):
@@ -733,9 +865,16 @@ def module_url(x):
             return x[k][:-3] + ".html"
     return ""
 
+def fiche_href(x, prefix=""):
+    return f"{prefix}{FICHES_DIR}/{module_id(x)}.html"
+
 def fr_day(iso):
     y, m, d = (int(v) for v in iso.split("-"))
     return ("1er" if d == 1 else str(d)) + " " + MOIS[m - 1]
+
+def fr_long(iso):
+    y, m, d = (int(v) for v in iso.split("-"))
+    return f"{JOURS[date(y, m, d).weekday()]} {fr_day(iso)} {y}"
 
 def fr_month(ym):
     y, m = (int(v) for v in ym.split("-"))
@@ -744,33 +883,46 @@ def fr_month(ym):
 def plural(n, one, many=None):
     return f"{n} {one if n <= 1 else (many or one + 's')}"
 
+def theme_badge(key):
+    return f'<span class="badge badge--{key}">{html.escape(THEMES[key])}</span>'
+
+def slug_label(x):
+    return x["slug"].replace("-", " ") if x["slug"] else "module principal"
+
+def lines_html(x, cls="trois"):
+    rows = "".join(f'<div><dt>{lab}</dt><dd>{html.escape(x["lines"][k])}</dd></div>'
+                   for k, lab in LIGNES if k in x["lines"])
+    return f'<dl class="{cls}">{rows}</dl>' if rows else ""
+
+def split_brief(md):
+    """Brief -> (corps sans titre ni sources, section Sources). Le contenu du
+    corps n'est pas modifie : le H1 est repris en titre de page, la liste des
+    sources est affichee a part en bas de fiche."""
+    text = (md or "").replace("\r\n", "\n")
+    m = re.search(r"^##\s+Sources?\b.*$", text, re.M | re.I)
+    body, sources = (text[:m.start()], text[m.end():]) if m else (text, "")
+    body = re.sub(r"^#\s+.*\n?", "", body, count=1, flags=re.M)
+    return body.strip(), sources.strip()
+
+# --------------------------------------------------------------------------- #
+#  Accueil : une fiche par module                                              #
+# --------------------------------------------------------------------------- #
 def entry_card(x):
     mid = module_id(x)
-    url = module_url(x)
-    label = html.escape(x["title"], quote=True)
-    meta = [f'<time datetime="{x["date"]}">{fr_day(x["date"])}</time>']
-    if x["category"]:
-        meta.append('<span class="entry__sep">·</span>'
-                    f'<span class="entry__cat">{html.escape(x["category"])}</span>')
+    label = html.escape(x["short"], quote=True)
+    meta = [f'<time datetime="{x["date"]}">{fr_day(x["date"])}</time>',
+            theme_badge(x["theme"])]
     if x["multi"]:
-        lab = x["slug"].replace("-", " ") if x["slug"] else "module principal"
-        meta.append(f'<span class="entry__slug">{html.escape(lab)}</span>')
+        meta.append(f'<span class="entry__slug">{html.escape(slug_label(x))}</span>')
 
-    tags = "".join(
-        f'<li><button type="button" class="entry__tag" data-tag="{html.escape(t, quote=True)}">'
-        f'#{html.escape(t)}</button></li>'
-        for t in card_tags(x))
-    tags = f'<ul class="entry__tags">{tags}</ul>' if tags else ""
-
-    actions = []
+    actions = [f'<a class="btn primary entry__open" href="{fiche_href(x)}" '
+               f'aria-label="Lire la fiche — {label}">Lire la fiche</a>']
     if x["infographie"]:
-        actions.append(f'<a class="btn primary entry__open" href="{x["infographie"]}" '
+        actions.append(f'<a class="btn" href="{x["infographie"]}" '
                        f'aria-label="Infographie — {label}">Infographie</a>')
-    if x["brief"]:
-        cls = "btn" if x["infographie"] else "btn primary entry__open"
-        actions.append(f'<a class="{cls}" href="{x["brief"][:-3]}.html" '
-                       f'aria-label="Brief — {label}">Brief</a>')
     res = []
+    if x["brief"]:
+        res.append(f'<a href="{x["brief"][:-3]}.html">Brief (page)</a>')
     if x["source"]:
         res.append(f'<a href="{x["source"][:-3]}.html">Source NotebookLM (page)</a>')
         res.append(f'<a href="{x["source"]}" download>Fichier source pour NotebookLM (.md)</a>')
@@ -780,72 +932,96 @@ def entry_card(x):
         actions.append('<details class="res"><summary>Ressources</summary>'
                        f'<div class="res__body">{"".join(res)}</div></details>')
 
-    return (f'<article class="entry" id="e-{mid}" data-id="{mid}" data-day="{x["date"]}">'
+    return (f'<article class="entry" id="e-{mid}" data-id="{mid}" data-day="{x["date"]}" '
+            f'data-theme="{x["theme"]}">'
             f'<div class="entry__meta">{"".join(meta)}</div>'
-            f'<h4 class="entry__title">{html.escape(x["title"])}</h4>'
-            f'{tags}'
+            f'<h4 class="entry__title">{html.escape(x["short"])}</h4>'
+            f'{lines_html(x)}'
             f'<div class="entry__actions">{"".join(actions)}</div>'
             f'</article>')
-
-def month_strip(ym, by_day):
-    """Bande calendaire : un carre par jour du mois, rempli s'il y a un module.
-
-    Sans reperes chiffres, la bande se lit comme un graphe de contributions
-    GitHub : on voit qu'il se passe quelque chose sans comprendre quoi. L'axe
-    des quantiemes suffit a la faire lire comme un mois."""
-    y, m = (int(v) for v in ym.split("-"))
-    ndays = calendar.monthrange(y, m)[1]
-    cells = []
-    for d in range(1, 32):
-        if d > ndays:
-            cells.append('<li><span class="strip__c strip__c--out" aria-hidden="true"></span></li>')
-            continue
-        iso = f"{ym}-{d:02d}"
-        mods = by_day.get(iso, [])
-        if not mods:
-            cells.append(f'<li><span class="strip__c" data-day="{iso}" '
-                         f'title="{fr_day(iso)} — aucune publication"></span></li>')
-            continue
-        cls = "strip__c strip__c--on" + (" strip__c--multi" if len(mods) > 1 else "")
-        lab = f'{fr_day(iso)} {y} — {plural(len(mods), "module")}'
-        cells.append(f'<li><a class="{cls}" data-day="{iso}" href="#e-{module_id(mods[0])}" '
-                     f'title="{html.escape(lab, quote=True)}" '
-                     f'aria-label="{html.escape(lab, quote=True)}"></a></li>')
-    ticks = []
-    for d in range(1, 32):
-        show = d in (1, 5, 10, 15, 20, 25) or d == ndays
-        ticks.append(f'<li>{d if show and d <= ndays else ""}</li>')
-    return (f'<ol class="strip" aria-label="Cadence de publication — {fr_month(ym)}">'
-            + "".join(cells) + "</ol>"
-            + '<ol class="strip__ticks" aria-hidden="true">' + "".join(ticks) + "</ol>")
 
 def tag_chip(tag, n, extra=""):
     return (f'<li><a class="tag{extra}" href="?tag={tag}" data-tag="{tag}">'
             f'#{html.escape(tag)}<span class="tag__n">{n}</span></a></li>')
 
 # --------------------------------------------------------------------------- #
-#  Index : script de recherche (inline, aucune dependance)                     #
+#  Page fiche                                                                  #
+# --------------------------------------------------------------------------- #
+def render_fiche(x, i, modules):
+    prefix = "../"
+    body_md, src_md = split_brief(read(x["_brief_path"]))
+    meta = [f'<time datetime="{x["date"]}">{fr_long(x["date"])}</time>',
+            theme_badge(x["theme"])]
+    if x["multi"]:
+        meta.append(f'<span class="entry__slug">{html.escape(slug_label(x))}</span>')
+
+    parts = [f'<p class="backlink"><a href="{prefix}index.html">&larr; Toutes les fiches</a></p>',
+             f'<div class="fiche__meta">{"".join(meta)}</div>',
+             f'<h1>{html.escape(x["short"])}</h1>']
+    if x["short"] != x["title"]:
+        parts.append(f'<p class="fiche__full"><span class="sr-only">Titre complet : </span>'
+                     f'{html.escape(x["title"])}</p>')
+    if x["lines"]:
+        parts.append('<section class="resume" aria-label="En trois lignes">'
+                     f'{lines_html(x)}</section>')
+
+    if body_md:
+        # sans resume, l'analyse est la seule matiere de la page : on la deplie
+        opened = "" if x["lines"] else " open"
+        parts.append(f'<details class="analyse"{opened}><summary>Lire l’analyse complète</summary>'
+                     f'<div class="analyse__body doc">{md_to_html(body_md)}</div></details>')
+    else:
+        parts.append('<p>Ce module ne comporte pas de brief écrit.'
+                     + (' L’infographie en donne la synthèse.' if x["infographie"] else "")
+                     + '</p>')
+
+    if src_md:
+        parts.append('<section aria-labelledby="sources"><h2 id="sources">Sources</h2>'
+                     f'<div class="doc">{md_to_html(src_md)}</div></section>')
+
+    links = []
+    if x["infographie"]:
+        links.append(f'<a class="btn" href="{prefix}{x["infographie"]}">Infographie</a>')
+    if x["source"]:
+        links.append(f'<a class="btn" href="{prefix}{x["source"][:-3]}.html">Source NotebookLM</a>')
+    if x["brief"]:
+        links.append(f'<a class="btn" href="{prefix}{x["brief"]}" download>Brief (.md)</a>')
+    if links:
+        parts.append(f'<section aria-labelledby="plus"><h2 id="plus">Aller plus loin</h2>'
+                     f'<div class="linkrow">{"".join(links)}</div></section>')
+
+    if x["tags"]:
+        chips = "".join(f'<li><a href="{prefix}index.html?tag={t}">#{html.escape(t)}</a></li>'
+                        for t in x["tags"])
+        parts.append(f'<nav aria-label="Mots-clés"><ul class="fiche-tags">{chips}</ul></nav>')
+
+    newer = modules[i - 1] if i > 0 else None
+    older = modules[i + 1] if i + 1 < len(modules) else None
+    pager = ""
+    if older:
+        pager += (f'<a href="{sibling_href(older)}"><small>&larr; Fiche précédente</small>'
+                  f'{html.escape(older["short"])}</a>')
+    if newer:
+        pager += (f'<a class="pager__next" href="{sibling_href(newer)}"><small>Fiche suivante &rarr;</small>'
+                  f'{html.escape(newer["short"])}</a>')
+    if pager:
+        parts.append(f'<nav class="pager" aria-label="Autres fiches">{pager}</nav>')
+
+    desc = x["lines"].get("quoi") or x["title"]
+    body = f'<main class="page fiche" id="main"><article>{"".join(parts)}</article></main>'
+    return shell(f'{x["short"]} — Droit Vivant', body, prefix, desc=desc)
+
+def sibling_href(x):
+    """Lien vers une autre fiche depuis une fiche (meme dossier)."""
+    return f"{module_id(x)}.html"
+
+# --------------------------------------------------------------------------- #
+#  Index : script de recherche et de filtrage (inline, aucune dependance)      #
 # --------------------------------------------------------------------------- #
 SEARCH_JS = r"""
 (function () {
   var root = document.getElementById('dv');
   if (!root) return;
-
-  /* Jours a venir : un carre vide du futur ne doit pas se lire comme un jour
-     saute. Cote client, la comparaison suit la date du lecteur, pas du build. */
-  (function () {
-    var d = new Date();
-    var today = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0")
-      + "-" + String(d.getDate()).padStart(2, "0");
-    Array.prototype.forEach.call(
-      document.querySelectorAll(".strip__c[data-day]"), function (c) {
-        if (c.tagName !== "A" && c.getAttribute("data-day") > today) {
-          c.classList.add("strip__c--future");
-          c.setAttribute("title", (c.getAttribute("title") || "")
-            .replace("aucune publication", "à venir"));
-        }
-      });
-  })();
   var data = {};
   try { data = JSON.parse(document.getElementById('dv-data').textContent); } catch (e) { return; }
 
@@ -859,17 +1035,26 @@ SEARCH_JS = r"""
   var emptyQ   = document.getElementById('empty-q');
   var cards    = Array.prototype.slice.call(root.querySelectorAll('.entry'));
   var months   = Array.prototype.slice.call(root.querySelectorAll('.month'));
-  var years    = Array.prototype.slice.call(root.querySelectorAll('.year'));
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.monthnav a'));
   var tagLinks = Array.prototype.slice.call(document.querySelectorAll('.tag[data-tag]'));
+  var themeBtns = Array.prototype.slice.call(document.querySelectorAll('.theme-btn'));
 
   var fullText = null;      // chargé paresseusement
   var ftState  = 'idle';    // idle | loading | ready | error
   var active   = [];        // tags actifs
+  var theme    = '';        // thème actif ('' = tous)
   var query    = '';        // texte libre (déjà replié)
 
   function fold(s) {
     return (s || '').normalize('NFD').replace(/\p{Mn}/gu, '').toLowerCase();
+  }
+  function themeLabel(key) {
+    for (var i = 0; i < themeBtns.length; i++) {
+      if (themeBtns[i].getAttribute('data-theme') === key) {
+        return themeBtns[i].getAttribute('data-label') || key;
+      }
+    }
+    return key;
   }
 
   /* ---- lecture / écriture de l'état dans l'URL ---- */
@@ -878,6 +1063,10 @@ SEARCH_JS = r"""
     var t = (p.get('tag') || '').split(',').map(function (s) { return s.trim(); })
               .filter(Boolean);
     active = t;
+    theme = p.get('theme') || '';
+    if (theme && !themeBtns.some(function (b) { return b.getAttribute('data-theme') === theme; })) {
+      theme = '';
+    }
     input.value = p.get('q') || '';
     if (p.get('ft') === '1' && ftBox) { ftBox.checked = true; loadFullText(); }
   }
@@ -885,6 +1074,7 @@ SEARCH_JS = r"""
     var p = new URLSearchParams();
     var q = input.value.trim();
     if (q) p.set('q', q);
+    if (theme) p.set('theme', theme);
     if (active.length) p.set('tag', active.join(','));
     if (ftBox && ftBox.checked) p.set('ft', '1');
     var s = p.toString();
@@ -929,6 +1119,7 @@ SEARCH_JS = r"""
   function matches(id, tags) {
     var rec = data[id];
     if (!rec) return false;
+    if (theme && rec.t !== theme) return false;
     for (var i = 0; i < tags.length; i++) {
       if ((rec.g || []).indexOf(tags[i]) === -1) return false;
     }
@@ -958,86 +1149,69 @@ SEARCH_JS = r"""
     typed.forEach(function (t) { if (t && all.indexOf(t) === -1) all.push(t); });
     query = free.join(' ');
 
-    var filtering = !!(query || active.length || typed.length);
-    var n = 0, perMonth = {}, perDay = {};
+    var filtering = !!(query || theme || active.length || typed.length);
+    var n = 0, perMonth = {};
     cards.forEach(function (card) {
       var ok = matches(card.getAttribute('data-id'), all);
       card.hidden = !ok;
       if (ok) {
         n++;
-        var d = card.getAttribute('data-day');
-        perDay[d] = (perDay[d] || 0) + 1;
-        var ym = d.slice(0, 7);
+        var ym = card.getAttribute('data-day').slice(0, 7);
         perMonth[ym] = (perMonth[ym] || 0) + 1;
       }
     });
 
     months.forEach(function (sec) {
-      var ym = sec.getAttribute('data-month');
-      var c = perMonth[ym] || 0;
+      var c = perMonth[sec.getAttribute('data-month')] || 0;
       sec.hidden = c === 0;
       var badge = sec.querySelector('.month__count');
-      if (badge) {
-        badge.textContent = c + (c > 1 ? ' modules' : ' module');
-      }
-      var days = 0;
-      Array.prototype.forEach.call(sec.querySelectorAll('.strip__c'), function (cell) {
-        var d = cell.getAttribute('data-day');
-        if (!d) return;
-        cell.classList.toggle('is-off', !perDay[d]);
-        if (perDay[d]) days++;
-      });
-      /* La bande n'a d'interet immediat que pendant une recherche : on dit
-         alors combien de jours restent allumes, au lieu de laisser deviner. */
-      var read = sec.querySelector('.strip__read');
-      if (read) {
-        read.dataset.filtered = filtering
-          ? days + (days > 1 ? ' jours' : ' jour') : '';
-        if (!read.dataset.hover) read.textContent = read.dataset.filtered;
-      }
-    });
-    years.forEach(function (h) {
-      var y = h.getAttribute('data-year'), any = false;
-      months.forEach(function (sec) {
-        if (sec.getAttribute('data-month').slice(0, 4) === y && !sec.hidden) any = true;
-      });
-      h.hidden = !any;
+      if (badge) { badge.textContent = c + (c > 1 ? ' fiches' : ' fiche'); }
     });
     navLinks.forEach(function (a) {
       a.classList.toggle('is-empty', !perMonth[a.getAttribute('data-month')]);
     });
     tagLinks.forEach(function (a) {
-      a.classList.toggle('is-active', active.indexOf(a.getAttribute('data-tag')) !== -1);
-      a.setAttribute('aria-pressed', active.indexOf(a.getAttribute('data-tag')) !== -1);
+      var on = active.indexOf(a.getAttribute('data-tag')) !== -1;
+      a.classList.toggle('is-active', on);
+      a.setAttribute('aria-pressed', on);
+    });
+    themeBtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-theme') === theme);
     });
 
-    count.textContent = n + (n > 1 ? ' modules' : ' module')
+    count.textContent = n + (n > 1 ? ' fiches' : ' fiche')
       + (filtering ? ' sur ' + cards.length : '');
     reset.hidden = !filtering;
     empty.hidden = n !== 0;
     if (n === 0) {
-      emptyQ.textContent = [raw.trim(), active.map(function (t) { return '#' + t; }).join(' ')]
+      emptyQ.textContent = [raw.trim(), theme ? themeLabel(theme) : '',
+        active.map(function (t) { return '#' + t; }).join(' ')]
         .filter(Boolean).join(' ');
     }
     clearBtn.hidden = !raw;
     writeURL(!!push);
   }
 
+  function clearAll() { input.value = ''; active = []; theme = ''; }
+
   /* ---- interactions ---- */
   input.addEventListener('input', function () { apply(false); });
   input.form.addEventListener('submit', function (e) { e.preventDefault(); apply(true); });
-  clearBtn.addEventListener('click', function () {
-    input.value = ''; active = []; apply(true); input.focus();
-  });
-  reset.addEventListener('click', function (e) {
-    e.preventDefault(); input.value = ''; active = []; apply(true);
-  });
+  clearBtn.addEventListener('click', function () { clearAll(); apply(true); input.focus(); });
+  reset.addEventListener('click', function (e) { e.preventDefault(); clearAll(); apply(true); });
   if (ftBox) {
     ftBox.addEventListener('change', function () {
       if (ftBox.checked) { loadFullText(); } else { note(''); }
       apply(true);
     });
   }
+  themeBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var t = b.getAttribute('data-theme');
+      theme = (t && t === theme) ? '' : t;
+      apply(true);
+    });
+  });
   function toggleTag(tag, push) {
     var i = active.indexOf(tag);
     if (i === -1) { active.push(tag); } else { active.splice(i, 1); }
@@ -1054,39 +1228,6 @@ SEARCH_JS = r"""
       }
     });
   });
-  root.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.entry__tag');
-    if (!b) return;
-    e.preventDefault();
-    toggleTag(b.getAttribute('data-tag'));
-    var top = document.querySelector('.toolbar');
-    if (top && top.scrollIntoView) {
-      try { top.scrollIntoView({ block: 'start', behavior: 'smooth' }); }
-      catch (err) { top.scrollIntoView(); }
-    }
-  });
-  /* Lecture immediate de la bande : l'infobulle native met une seconde a venir
-     et n'explique pas ce qu'on regarde. On affiche le jour survole dans
-     l'en-tete du mois, ou il est lu comme une legende. */
-  Array.prototype.forEach.call(root.querySelectorAll('.month'), function (sec) {
-    var read = sec.querySelector('.strip__read');
-    var strip = sec.querySelector('.strip');
-    if (!read || !strip) return;
-    function show(e) {
-      var cell = e.target.closest && e.target.closest('.strip__c[data-day]');
-      if (!cell) return;
-      read.dataset.hover = '1';
-      read.textContent = cell.getAttribute('title') || '';
-    }
-    function hide() {
-      delete read.dataset.hover;
-      read.textContent = read.dataset.filtered || '';
-    }
-    strip.addEventListener('mouseover', show);
-    strip.addEventListener('focusin', show);
-    strip.addEventListener('mouseleave', hide);
-    strip.addEventListener('focusout', hide);
-  });
 
   window.addEventListener('popstate', function () { readURL(); apply(false); });
   document.addEventListener('keydown', function (e) {
@@ -1094,7 +1235,7 @@ SEARCH_JS = r"""
       e.preventDefault(); input.focus(); input.select();
     }
     if (e.key === 'Escape' && document.activeElement === input) {
-      input.value = ''; active = []; apply(true);
+      clearAll(); apply(true);
     }
   });
 
@@ -1104,14 +1245,16 @@ SEARCH_JS = r"""
 """
 
 # --------------------------------------------------------------------------- #
-#  Flux Atom : une veille quotidienne se lit dans un agregateur                #
+#  Flux Atom : une veille se lit dans un agregateur                            #
 # --------------------------------------------------------------------------- #
 SITE_URL = "https://maax6.github.io/droit-vivant/"
 FEED_MAX = 40
 
 
 def build_feed(modules):
-    """Flux Atom des derniers modules. Aucune dependance : chaines et html.escape."""
+    """Flux Atom des derniers modules. Aucune dependance : chaines et html.escape.
+    Les liens restent ceux des infographies : changer l'identifiant d'une entree
+    la republierait aupres de tous les abonnes."""
     latest = modules[:FEED_MAX]
     stamp = (latest[0]["date"] if latest else date.today().isoformat()) + "T12:00:00Z"
 
@@ -1121,7 +1264,7 @@ def build_feed(modules):
     out = ['<?xml version="1.0" encoding="utf-8"?>',
            '<feed xmlns="http://www.w3.org/2005/Atom">',
            "<title>Droit Vivant</title>",
-           "<subtitle>Veille quotidienne sur le droit du numérique, les libertés,"
+           "<subtitle>Veille sur le droit du numérique, les libertés,"
            " l'IA et la cybersécurité.</subtitle>",
            f'<link rel="alternate" type="text/html" href="{SITE_URL}"/>',
            f'<link rel="self" type="application/atom+xml" href="{SITE_URL}feed.xml"/>',
@@ -1145,21 +1288,74 @@ def build_feed(modules):
 
 
 # --------------------------------------------------------------------------- #
+#  Page « Comment c'est fait »                                                 #
+# --------------------------------------------------------------------------- #
+def build_about():
+    steps = (
+        ("Collecte",
+         "Des tâches récurrentes, exécutées avec un LLM (grand modèle de langage) dans "
+         "Claude Cowork, rassemblent les sources d’un sujet : textes officiels, décisions "
+         "de justice, communiqués d’autorités, presse spécialisée."),
+        ("Rédaction",
+         "Pour chaque sujet, la tâche produit trois documents : un brief (texte court, "
+         "sources à l’appui), une infographie HTML et un texte source plus long, destiné à "
+         "NotebookLM pour la production d’un podcast."),
+        ("Archivage",
+         "Les trois fichiers sont déposés dans le dépôt Git du projet, dans un dossier par "
+         "date (<code>archive/AAAA-MM-JJ/</code>)."),
+        ("Génération",
+         "Un script Python, qui n’utilise que la bibliothèque standard, lit l’archive et "
+         "produit le site statique : fiches, pages de brief, index de recherche, flux Atom."),
+        ("Publication",
+         "À chaque mise à jour de l’archive ou du script sur la branche principale, "
+         "GitHub Actions relance le script et publie le résultat sur GitHub Pages."),
+    )
+    lis = "".join(f"<li><strong>{t}</strong>{d}</li>" for t, d in steps)
+    body = (
+        '<main class="page about" id="main"><article class="doc">'
+        '<h1>Comment c’est fait</h1>'
+        '<p class="lede">Droit Vivant est une veille sur le droit du numérique, produite avec '
+        'l’aide d’un LLM et publiée sous forme de site statique. Cette page décrit la chaîne '
+        'de production et ses limites.</p>'
+        '<h2>La chaîne de production</h2>'
+        f'<ol class="steps">{lis}</ol>'
+        '<h2>Les fiches</h2>'
+        '<p>Chaque fiche affiche un titre court et un résumé en trois lignes (ce qui s’est '
+        'passé, qui est concerné, ce qui change). Ces éléments sont rédigés à partir du brief '
+        'du module, avec l’aide d’un LLM. L’analyse complète, repliée par défaut, reprend le '
+        'brief tel qu’il a été publié. Les sources sont listées en bas de page. Le thème '
+        '(IA, cyber, RGPD, DSA, jurisprudence, autres) sert de filtre sur la page d’accueil.</p>'
+        '<h2>Limites</h2>'
+        '<ul>'
+        '<li>Un LLM peut se tromper sur une date, un montant ou une interprétation. Les liens '
+        'de sources permettent de vérifier chaque point.</li>'
+        '<li>Une fiche reflète l’état des sources à sa date de publication. Une décision peut '
+        'ensuite être réformée, un texte modifié, un calendrier décalé.</li>'
+        '<li>Le résumé en trois lignes condense l’analyse et en omet les nuances. L’analyse '
+        'complète et les sources font foi.</li>'
+        '</ul>'
+        '<h2>Avertissement</h2>'
+        '<p>Droit Vivant est un contenu pédagogique. Il ne constitue pas un conseil juridique '
+        'et ne remplace pas l’avis d’un avocat ou d’un juriste pour une situation particulière.</p>'
+        '<h2>Code et archive</h2>'
+        '<p>Le script de génération, l’archive et les résumés sont versionnés dans un dépôt '
+        'Git. Les nouveautés sont aussi disponibles par <a href="feed.xml">flux Atom</a>.</p>'
+        '</article></main>')
+    return shell("Comment c’est fait — Droit Vivant", body, "", current="about",
+                 desc="Comment Droit Vivant est produit : tâches récurrentes avec LLM, "
+                      "génération statique, publication sur GitHub Pages.", feed=True)
+
+# --------------------------------------------------------------------------- #
 #  Index                                                                      #
 # --------------------------------------------------------------------------- #
 def build_index(modules, tag_counts):
-    by_month, by_day = {}, {}
+    by_month = {}
     for m in modules:
         by_month.setdefault(m["date"][:7], []).append(m)
-        by_day.setdefault(m["date"], []).append(m)
 
-    # --- chronologie : mois du plus recent au plus ancien, separateur d'annee
-    sections, seen_years = [], set()
+    # --- chronologie : mois du plus recent au plus ancien
+    sections = []
     for ym in sorted(by_month, reverse=True):
-        year = ym[:4]
-        if year not in seen_years:
-            seen_years.add(year)
-            sections.append(f'<h2 class="year" data-year="{year}">{year}</h2>')
         mods = by_month[ym]
         cards = "".join(entry_card(m) for m in mods)
         sections.append(
@@ -1167,11 +1363,8 @@ def build_index(modules, tag_counts):
             f'aria-labelledby="h-{ym}">'
             f'<h3 class="month__head" id="h-{ym}">'
             f'<span class="month__name">{fr_month(ym)}</span>'
-            f'<span class="month__meta">'
-            f'<span class="strip__read" aria-live="polite"></span>'
-            f'<span class="month__count">{plural(len(mods), "module")}</span>'
-            f'</span></h3>'
-            f'{month_strip(ym, by_day)}'
+            f'<span class="month__count">{plural(len(mods), "fiche")}</span>'
+            f'</h3>'
             f'<div class="entries">{cards}</div></section>')
     timeline = "\n".join(sections) or "<p>Aucune entrée pour le moment.</p>"
 
@@ -1181,7 +1374,22 @@ def build_index(modules, tag_counts):
         f'<b>{MOIS_COURT[int(ym[5:7]) - 1]}</b> {ym[2:4]}</a>'
         for ym in sorted(by_month, reverse=True))
 
-    # --- nuage de tags, tries par frequence puis alphabetiquement
+    # --- filtres par theme
+    per_theme = {k: 0 for k in THEMES}
+    for m in modules:
+        per_theme[m["theme"]] += 1
+    theme_btns = [f'<button type="button" class="theme-btn" data-theme="" data-label="Tous" '
+                  f'aria-pressed="true">Tous <span class="n">{len(modules)}</span></button>']
+    for k, lab in THEMES.items():
+        if per_theme[k]:
+            theme_btns.append(
+                f'<button type="button" class="theme-btn" data-theme="{k}" '
+                f'data-label="{html.escape(lab, quote=True)}" aria-pressed="false">'
+                f'{html.escape(lab)} <span class="n">{per_theme[k]}</span></button>')
+    themes_block = ('<div class="themes" role="group" aria-label="Filtrer par thème">'
+                    + "".join(theme_btns) + '</div>')
+
+    # --- nuage de tags (replie), tries par frequence puis alphabetiquement
     _all = sorted(tag_counts.items(), key=lambda kv: (-kv[1], kv[0]))
     _singles = [kv for kv in _all if kv[1] < TAGS_MIN]
     ordered = [kv for kv in _all if kv[1] >= TAGS_MIN]
@@ -1193,30 +1401,35 @@ def build_index(modules, tag_counts):
                 + singles_label(_singles)
                 + '</summary><ul class="tags__list">'
                 + "".join(tag_chip(t, n) for t, n in rest) + "</ul></details>")
-    tags_block = (f'<section class="tags" aria-label="Mots-clés">'
-                  f'<ul class="tags__list">{head}</ul>{more}</section>') if ordered else ""
+    tags_block = (f'<details class="tagbox"><summary>Filtrer par mot-clé</summary>'
+                  f'<section class="tags" aria-label="Mots-clés">'
+                  f'<ul class="tags__list">{head}</ul>{more}</section></details>'
+                  ) if ordered else ""
 
-    # --- index de recherche embarque : id -> {haystack replie, tags}
+    # --- index de recherche embarque : id -> {haystack replie, tags, theme}
     data = {module_id(m): {
-        "h": fold(" ".join([m["title"], " ".join(m["tags"]).replace("-", " "),
+        "h": fold(" ".join([m["short"], m["title"], " ".join(m["lines"].values()),
+                            " ".join(m["tags"]).replace("-", " "),
                             " ".join(m["tags"]), m["category_full"],
-                            m["excerpt"], m["date"]])),
+                            THEMES[m["theme"]], m["excerpt"], m["date"]])),
         "g": m["tags"],
+        "t": m["theme"],
     } for m in modules}
 
     n_days = len({m["date"] for m in modules})
     body = (
-        '<main class="page">'
+        '<main class="page" id="main">'
         '<h1>Droit Vivant</h1>'
-        '<p class="lede">Veille quotidienne sur le droit qui se construit — numérique, '
-        'libertés, IA, cybersécurité, jurisprudence française, européenne et CEDH. '
-        'Chaque entrée : une infographie, un brief court et une source longue pour podcast.</p>'
+        '<p class="lede">Veille sur le droit qui se construit : IA, cybersécurité, données '
+        'personnelles, plateformes, jurisprudence. Chaque module tient dans une fiche : '
+        'trois lignes pour comprendre ce qui change, l’analyse complète à déplier, les '
+        f'sources en fin de page. <a href="{ABOUT_PAGE}">Comment c’est fait</a>.</p>'
 
         '<div class="toolbar">'
         '<form class="search" role="search" action="index.html" method="get">'
         '<span class="search__field">'
         '<input type="search" id="q" name="q" autocomplete="off" spellcheck="false" '
-        'aria-label="Rechercher un module par mot-clé ou #tag" '
+        'aria-label="Rechercher une fiche par mot-clé ou #tag" '
         'placeholder="Rechercher : rgpd, cjue, #donnees-personnelles…">'
         '<button type="button" class="search__clear" id="q-clear" hidden '
         'aria-label="Effacer la recherche">&times;</button>'
@@ -1227,7 +1440,8 @@ def build_index(modules, tag_counts):
         'titres, mots-clés et résumés · <code>/</code> pour cibler le champ</span>'
         '</p>'
         '<p class="hint" id="ft-note" hidden></p>'
-        '<noscript><p class="nojs">La recherche et le filtrage par mots-clés nécessitent '
+        f'{themes_block}'
+        '<noscript><p class="nojs">La recherche et les filtres nécessitent '
         'JavaScript. La chronologie complète reste consultable ci-dessous.</p></noscript>'
         '</div>'
 
@@ -1236,18 +1450,17 @@ def build_index(modules, tag_counts):
 
         '<div class="status">'
         f'<span class="status__n" id="count" aria-live="polite">'
-        f'{plural(len(modules), "module")} sur {plural(n_days, "jour")}</span>'
+        f'{plural(len(modules), "fiche")} sur {plural(n_days, "jour")}</span>'
         '<a class="status__reset" id="reset" href="index.html" hidden>Réinitialiser</a>'
         '</div>'
-        '<p class="empty" id="empty" hidden>Aucun module ne correspond à '
-        '<b id="empty-q"></b>.<br>Essayez un mot-clé plus court, retirez un '
-        '<code>#tag</code>, ou activez la recherche dans le texte intégral.</p>'
+        '<p class="empty" id="empty" hidden>Aucune fiche ne correspond à '
+        '<b id="empty-q"></b>.<br>Essayez un mot-clé plus court, changez de thème, '
+        'retirez un <code>#tag</code>, ou activez la recherche dans le texte intégral.</p>'
 
+        '<h2 class="section-title">Derniers modules</h2>'
         f'<div id="dv" class="timeline">{timeline}</div>'
-        f'<footer>{plural(len(modules), "module")} sur {plural(n_days, "jour")} · '
-        f'<a href="feed.xml">Flux Atom</a> · '
-        f'mise à jour {date.today().isoformat()} · {DISCLAIMER}</footer>'
         '</main>'
+        f'{site_footer("", feed=True)}'
         '<script type="application/json" id="dv-data">'
         + json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
         + '</script>'
@@ -1256,12 +1469,13 @@ def build_index(modules, tag_counts):
     return ('<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
             '<title>Droit Vivant — veille juridique</title>'
-            '<meta name="description" content="Veille quotidienne sur le droit du numérique, '
-            'les libertés, l\'IA et la cybersécurité : infographie, brief et source longue.">'
+            '<meta name="description" content="Veille sur le droit du numérique, '
+            'les libertés, l\'IA et la cybersécurité : une fiche par sujet, avec résumé '
+            'en trois lignes, analyse complète et sources.">'
             '<link rel="alternate" type="application/atom+xml" '
             'title="Droit Vivant — flux Atom" href="feed.xml">'
             '<link rel="stylesheet" href="assets/style.css"></head><body>'
-            + topbar("", nav_label="Accueil", nav_href="index.html") + body + "</body></html>")
+            + topbar("", current="index") + body + "</body></html>")
 
 # --------------------------------------------------------------------------- #
 #  Build                                                                      #
@@ -1275,10 +1489,20 @@ def main():
 
     (SITE / "assets").mkdir(parents=True, exist_ok=True)
     (SITE / "assets" / "style.css").write_text(STYLE, encoding="utf-8")
+    (SITE / FICHES_DIR).mkdir(parents=True, exist_ok=True)
 
     modules = collect()
+    resumes = load_resumes()
+    sans_resume = attach_resumes(modules, resumes)
+    inconnus = sorted(set(resumes) - {module_id(x) for x in modules})
+    if sans_resume:
+        print(f"Sans resume complet ({len(sans_resume)}) : {', '.join(sans_resume)}")
+    if inconnus:
+        print(f"AVERTISSEMENT : resumes sans module correspondant : {', '.join(inconnus)}",
+              file=sys.stderr)
+
     light, full, tag_counts = [], {}, {}
-    for x in modules:
+    for i, x in enumerate(modules):
         if x["infographie"]:
             p = SITE / x["infographie"]
             p.write_text(reskin_infographie(read(p)), encoding="utf-8")
@@ -1295,6 +1519,7 @@ def main():
                                raw_md_name=p.name,
                                raw_label="Version .md brute (pour NotebookLM)"),
                 encoding="utf-8")
+        (SITE / fiche_href(x)).write_text(render_fiche(x, i, modules), encoding="utf-8")
 
         for t in x["tags"]:
             tag_counts[t] = tag_counts.get(t, 0) + 1
@@ -1305,10 +1530,14 @@ def main():
             "date": x["date"],
             "slug": x["slug"],
             "title": x["title"],
+            "short_title": x["short"],
             "url": module_url(x),
+            "fiche": fiche_href(x),
             "category": x["category"],
+            "theme": x["theme"],
             "tags": x["tags"],
             "excerpt": x["excerpt"],
+            "summary": x["lines"],
         })
         full[mid] = fold(md_plain(read(x["_brief_path"]) + "\n" + read(x["_source_path"])))
 
@@ -1319,11 +1548,12 @@ def main():
         json.dumps(full, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     (SITE / "index.html").write_text(build_index(modules, tag_counts), encoding="utf-8")
+    (SITE / ABOUT_PAGE).write_text(build_about(), encoding="utf-8")
     (SITE / "feed.xml").write_text(build_feed(modules), encoding="utf-8")
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
     n_days = len({m["date"] for m in modules})
     print(f"{len(modules)} module(s) sur {n_days} jour(s) construits, "
-          f"{len(tag_counts)} mot(s)-cle(s).")
+          f"{len(tag_counts)} mot(s)-cle(s), {len(modules) - len(sans_resume)} resume(s).")
 
 if __name__ == "__main__":
     main()
