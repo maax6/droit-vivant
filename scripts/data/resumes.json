@@ -98,11 +98,16 @@
     "theme": "RGPD"
   },
   "2026-07-11": {
-    "titre_court": "314 eurodéputés ont voté contre, 276 pour : surveillance des messages",
-    "quoi": "Le 9 juillet 2026, un vote de rejet total au Parlement européen sur la prolongation de la dérogation ePrivacy a recueilli 314 voix pour et 276 contre, sous les 360 requises.",
+    "titre_court": "Chat Control 1.0 : 314 voix pour le rejet, sous le seuil de la majorité absolue",
+    "quoi": "Le 9 juillet 2026, le rejet de la prolongation de la dérogation ePrivacy a recueilli 314 voix pour et 276 contre : une majorité des votants, mais pas la majorité absolue des membres (360 selon ce brief) exigée en seconde lecture.",
     "qui": "Les utilisateurs de messageries dans l'UE, dont les messages relèvent de la dérogation temporaire à la directive ePrivacy dite « Chat Control 1.0 ».",
     "change": "Les amendements du Parlement, dont l'exclusion du chiffrement de bout en bout, ont été adoptés et transmis au Conseil, qui dispose de trois mois pour se prononcer, la prolongation proposée courant jusqu'en 2028.",
-    "theme": "autres"
+    "theme": "RGPD",
+    "note": "Les briefs du 11 et du 23 juillet ne décrivent pas de la même façon l'issue du vote du 9 juillet : le premier indique un seuil de 360 voix et la transmission au Conseil des amendements du Parlement ; le second, un seuil de 361 voix et une prorogation réputée adoptée telle quelle. Le communiqué du Conseil du 23 juillet 2026, cité dans le module du 27 octobre, confirme le rétablissement du régime jusqu'au 3 avril 2028. Le procès-verbal du Parlement (PV-10-2026-07-09-RCV) fait foi.",
+    "voir": [
+      "2026-07-23",
+      "2026-10-27"
+    ]
   },
   "2026-07-12": {
     "titre_court": "Vidéosurveillance intelligente : le Conseil d'État dit non à Estrosi",
@@ -147,18 +152,27 @@
     "theme": "cyber"
   },
   "2026-07-23": {
-    "titre_court": "Chat Control : 314 eurodéputés contre, la surveillance tient jusqu'en 2028",
+    "titre_court": "Chat Control 1.0 : la dérogation ePrivacy prolongée jusqu'en 2028",
     "quoi": "Le 9 juillet 2026, une proposition de rejeter la prorogation, jusqu'au 3 avril 2028, de la dérogation autorisant la détection volontaire de contenus pédocriminels a recueilli 314 voix pour et 276 contre.",
     "qui": "Les utilisateurs de services de communication privée et les plateformes autorisées à y détecter volontairement des contenus pédocriminels grâce à la dérogation à la directive ePrivacy.",
     "change": "Faute des 361 voix exigées pour bloquer la position du Conseil, la prorogation jusqu'au 3 avril 2028 est réputée adoptée, tandis que le règlement permanent CSAR reste bloqué sur le mécanisme de détection.",
-    "theme": "autres"
+    "theme": "RGPD",
+    "note": "Les briefs du 11 et du 23 juillet ne décrivent pas de la même façon l'issue du vote du 9 juillet : le premier indique un seuil de 360 voix et la transmission au Conseil des amendements du Parlement ; le second, un seuil de 361 voix et une prorogation réputée adoptée telle quelle. Le communiqué du Conseil du 23 juillet 2026, cité dans le module du 27 octobre, confirme le rétablissement du régime jusqu'au 3 avril 2028. Le procès-verbal du Parlement (PV-10-2026-07-09-RCV) fait foi.",
+    "voir": [
+      "2026-07-11",
+      "2026-10-27"
+    ]
   },
   "2026-07-26": {
     "titre_court": "Laure Miller : TikTok interdit aux moins de 15 ans, inapplicable à la rentrée",
     "quoi": "Le Parlement a définitivement adopté le 21 juillet 2026 la loi de Laure Miller interdisant les réseaux sociaux aux moins de quinze ans, et plus de soixante députés ont ensuite saisi le Conseil constitutionnel.",
     "qui": "Les moins de quinze ans, les réseaux sociaux comme TikTok, Instagram, Snapchat et Facebook, et l'Arcom chargée du contrôle dans le cadre du DSA.",
     "change": "La promulgation reste suspendue à la décision du Conseil constitutionnel attendue sous un mois, et le texte de compromis se limite à une affirmation de principe sans dispositif opérationnel de vérification d'âge.",
-    "theme": "DSA"
+    "theme": "DSA",
+    "voir": [
+      "2026-08-16",
+      "2026-08-29"
+    ]
   },
   "2026-07-28": {
     "titre_court": "890 millions d'euros : Teresa Ribera inflige à Google une sanction DMA",
@@ -189,7 +203,7 @@
     "theme": "RGPD"
   },
   "2026-08-02": {
-    "titre_court": "Applis qui « déshabillent » interdites, IA Act haut risque repoussé",
+    "titre_court": "AI Act : obligations haut risque reportées à 2027-2028, applis qui « déshabillent » interdites",
     "quoi": "Le règlement de simplification de l'AI Act, publié le 24 juillet 2026 et en vigueur depuis le 27 juillet, reporte les obligations des systèmes à haut risque et ajoute une interdiction nouvelle.",
     "qui": "Les fournisseurs et déployeurs de systèmes d'IA à haut risque, ainsi que ceux d'applis générant des images, vidéos ou sons intimes d'une personne identifiable sans son consentement.",
     "change": "Les obligations haut risque passent au 2 décembre 2027 (systèmes autonomes) ou au 2 août 2028 (produits déjà réglementés), et la mise en conformité à la nouvelle interdiction est fixée au 2 décembre 2026.",
@@ -252,7 +266,7 @@
     "theme": "RGPD"
   },
   "2026-08-13": {
-    "titre_court": "Après Coyote, YouTube perd le bouclier de l'hébergeur",
+    "titre_court": "CJUE : examiner une chaîne pour la monétiser peut faire perdre le statut d'hébergeur",
     "quoi": "Le 16 juillet 2026, la Cour de justice de l'UE a jugé qu'un exploitant qui examine une chaîne de vidéos en vue d'un partenariat commercial ne peut plus se prévaloir du statut d'hébergeur.",
     "qui": "Google Ireland, sanctionné par l'autorité italienne AGCOM pour des vidéos YouTube promouvant des jeux d'argent, et plus largement les exploitants dont l'algorithme détermine comment l'information est rediffusée.",
     "change": "Contrôler l'information par algorithme ou en avoir une connaissance concrète suffit désormais à écarter la protection de l'hébergeur, la responsabilité restant régie par le droit national.",
@@ -284,7 +298,11 @@
     "quoi": "Le 14 août 2026, le Conseil constitutionnel a déclaré contraire à la Constitution l'article de la loi interdisant l'accès des moins de quinze ans aux réseaux sociaux.",
     "qui": "Les mineurs de moins de quinze ans, leurs parents, les adultes qui auraient dû prouver leur âge, et les réseaux sociaux soumis au référentiel de l'Arcom.",
     "change": "La loi est censurée pour son interdiction de portée générale et l'absence de garanties sur la preuve d'âge exigée des adultes, et l'Élysée annonce une nouvelle rédaction d'ici au printemps 2027.",
-    "theme": "jurisprudence"
+    "theme": "DSA",
+    "voir": [
+      "2026-07-26",
+      "2026-08-29"
+    ]
   },
   "2026-08-18": {
     "titre_court": "678 000 dossiers extraits de la DGFiP : la CNIL ne peut pas amender l'État",
@@ -344,7 +362,8 @@
   },
   "2026-08-26": {
     "titre_court": "Uber : 824 990 000 € d'amende, un compte coupé sans aucun humain dans la boucle",
-    "theme": "RGPD"
+    "theme": "RGPD",
+    "doublon_de": "2026-08-31"
   },
   "2026-08-27": {
     "titre_court": "CNIL, rentrée : outils numériques scolaires, consentement des parents écarté",
@@ -365,14 +384,18 @@
     "quoi": "La Cour de justice a jugé le 18 juin 2026 qu'un juge national peut utiliser une preuve contenant des données personnelles obtenues en violation de la vie privée, ici via le compte eBay d'un ex-salarié.",
     "qui": "Les juridictions nationales, qui deviennent responsables de traitement des données extraites des pièces, ainsi que les salariés, employeurs et tiers dont les données figurent dans les preuves produites.",
     "change": "L'illicéité de la collecte et l'irrecevabilité de la preuve sont deux questions distinctes, et la protection se joue désormais à la divulgation, où le juge limite les données au nécessaire.",
-    "theme": "RGPD"
+    "theme": "jurisprudence"
   },
   "2026-08-29": {
     "titre_court": "Loi Laure Miller promulguée sans son article 1er : téléphone interdit au lycée",
     "quoi": "La loi Laure Miller a été promulguée le 24 août 2026 sans son article 1er, censuré par le Conseil constitutionnel, qui interdisait les réseaux sociaux aux mineurs de quinze ans.",
     "qui": "Les lycéens, soumis à l'interdiction du téléphone mobile, ainsi que les hébergeurs et plateformes, qui doivent signaler aux autorités la propagande en faveur de moyens de se donner la mort.",
     "change": "L'interdiction du téléphone mobile s'étend aux lycées à la rentrée du 1er septembre 2026, et l'interdiction des réseaux sociaux aux mineurs de quinze ans ne s'applique pas.",
-    "theme": "autres"
+    "theme": "DSA",
+    "voir": [
+      "2026-07-26",
+      "2026-08-16"
+    ]
   },
   "2026-08-30": {
     "titre_court": "Les IA qui « déshabillent » deviennent une pratique interdite de l'AI Act",
@@ -400,14 +423,14 @@
     "quoi": "Le 1er septembre 2026, la facturation électronique entre entreprises a démarré en France, avec « aucune sanction pour aucune entreprise en 2026 » et des tests d'intrusion exigés des plateformes agréées dès l'automne.",
     "qui": "Toutes les entreprises assujetties, tenues de recevoir des factures électroniques, les grandes entreprises et ETI déjà tenues d'en émettre, et les plateformes agréées qui doivent prouver leur niveau de cybersécurité.",
     "change": "Les amendes restent en réserve pour 2026 par tolérance annoncée, tandis que les plateformes agréées doivent remettre un point de suivi cyber avant fin septembre et risquent la suspension de leurs opérations.",
-    "theme": "autres"
+    "theme": "cyber"
   },
   "2026-09-03": {
     "titre_court": "Hadopi : le Conseil d'État exige l'accord d'un juge dès la 3e identification",
     "quoi": "Le 30 avril 2026, le Conseil d'État a jugé illégal, sur deux points, le décret de 2010 sur le fichier de la réponse graduée et a enjoint au Premier ministre de l'abroger.",
     "qui": "Les abonnés à internet susceptibles de recevoir des avertissements pour piratage, l'Arcom, qui met en œuvre la réponse graduée, et les fournisseurs d'accès auxquels elle demande d'identifier un abonné.",
     "change": "En attendant un nouveau décret, l'Arcom ne peut identifier un abonné par son adresse IP que si les données ont été conservées de façon cloisonnée, et seulement pour envoyer les deux premières recommandations.",
-    "theme": "RGPD"
+    "theme": "jurisprudence"
   },
   "2026-09-04": {
     "titre_court": "500 000 € d'amende pour un hôpital privé sans VPN ni double authentification",
@@ -422,5 +445,15 @@
     "qui": "Plus de trente fournisseurs de modèles d'IA, dont ceux des modèles les plus avancés, interrogés sur la défense contre les attaques, l'évaluation indépendante, la surveillance après mise sur le marché et les données d'entraînement.",
     "change": "Les fournisseurs doivent répondre dans le délai fixé, une réponse inexacte, incomplète ou trompeuse exposant à une amende jusqu'à 3 % du chiffre d'affaires mondial ou 15 millions d'euros.",
     "theme": "IA"
+  },
+  "2026-10-27": {
+    "titre_court": "Chat Control : 6e trilogue sans accord sur le scan des messages privés",
+    "theme": "RGPD",
+    "voir": [
+      "2026-07-23"
+    ],
+    "quoi": "Le 29 septembre 2026, le sixième trilogue sur le règlement permanent CSAR s'est achevé sans accord final selon la presse et des acteurs militants ; aucun communiqué officiel n'a été retrouvé.",
+    "qui": "Les utilisateurs de messageries et les fournisseurs de services de communication dans l'UE, visés par d'éventuelles obligations de détection de contenus pédocriminels.",
+    "change": "Rien d'acquis : le Conseil défend des « search plans » sur des parties de services, le Parlement limite le scan aux personnes liées à des abus ; seul un accord provisoire sur les contenus publics est rapporté."
   }
 }
