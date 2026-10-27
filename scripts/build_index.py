@@ -407,7 +407,8 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .backlink a:hover{color:var(--text)}
 .fiche__meta{margin:0 0 var(--space-4);font-size:var(--fs-sm)}
 .fiche__meta .date{font-size:var(--fs-sm)}
-.fiche__full{color:var(--muted);font-family:var(--serif);font-style:italic;font-size:var(--fs-lg);line-height:1.5;margin:0 0 var(--space-2)}
+.fiche__full{color:var(--muted);font-family:var(--serif);font-style:italic;font-size:var(--fs-base);line-height:1.5;margin:0 0 var(--space-2)}
+.fiche__full .lbl{display:block;font-family:var(--mono);font-style:normal;font-size:var(--fs-xs);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
 .resume{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
   padding:var(--space-5) var(--space-6);margin:var(--space-6) 0}
 .resume .trois dd{font-size:var(--fs-md)}
@@ -430,7 +431,11 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .sources{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-2)}
 .sources li{margin:0;padding:var(--space-3) var(--space-4);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
   font-size:var(--fs-base);line-height:1.5}
-.sources .src-host{display:block;font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted);margin-bottom:2px}
+.sources a{display:block;margin:calc(-1*var(--space-3)) calc(-1*var(--space-4));padding:var(--space-3) var(--space-4);
+  color:var(--text);text-decoration:none;border-radius:var(--radius-sm)}
+.sources a:hover{background:var(--surface-2);color:var(--text)}
+.sources a:hover .src-host{color:var(--accent)}
+.sources .src-host{display:block;font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted);margin-bottom:2px;transition:color var(--dur)}
 .linkrow{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0}
 .btn{display:inline-flex;align-items:center;gap:var(--space-2);min-height:40px;font-size:var(--fs-sm);font-weight:500;
   padding:var(--space-2) var(--space-4);border-radius:var(--radius-sm);text-decoration:none;
@@ -1130,7 +1135,7 @@ def render_fiche(x, i, listed, by_id):
              f'<div class="fiche__meta">{"".join(meta)}</div>',
              f'<h1>{html.escape(x["short"])}</h1>']
     if x["short"] != x["title"]:
-        parts.append(f'<p class="fiche__full"><span class="sr-only">Titre du brief : </span>'
+        parts.append(f'<p class="fiche__full"><span class="lbl">Titre d’origine du brief</span>'
                      f'{html.escape(x["title"])}</p>')
 
     ref = by_id.get(x["doublon_de"]) if x["doublon_de"] else None
@@ -1489,7 +1494,10 @@ SITE_JS = r"""
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+        /* visible, ou deja depassee (saut d'ancre, retour arriere) : on affiche */
+        if (en.isIntersecting || en.boundingClientRect.bottom < 0) {
+          en.target.classList.add('is-in'); io.unobserve(en.target);
+        }
       });
     }, { rootMargin: '0px 0px -5% 0px' });
     Array.prototype.forEach.call(cards, function (c) { io.observe(c); });
