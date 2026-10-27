@@ -32,7 +32,10 @@
     "quoi": "Dans l'arrêt Podchasov c. Russie du 13 février 2024, la CEDH juge qu'obliger Telegram à conserver les communications et à fournir les clés de déchiffrement porte une atteinte disproportionnée à la vie privée.",
     "qui": "Les services de messagerie et leurs utilisateurs, ainsi que les porteurs de projets imposant un accès généralisé aux contenus chiffrés.",
     "change": "La Cour retient qu'il est techniquement impossible d'affaiblir le chiffrement de bout en bout pour une seule cible sans dégrader la sécurité de tous les utilisateurs, ce qui fragilise les projets d'accès généralisé.",
-    "theme": "cyber"
+    "theme": "cyber",
+    "voir": [
+      "2026-10-27"
+    ]
   },
   "2026-06-30": {
     "titre_court": "L'obligation de sécurité des données (article 32 RGPD)",
@@ -149,7 +152,10 @@
     "quoi": "Le 8 juillet 2026, la Commission européenne a décidé de saisir la Cour de justice de l'UE contre la France, l'Irlande, l'Espagne et les Pays-Bas faute de notification de la transposition de NIS2.",
     "qui": "La France, dont le projet de loi transposant NIS2 reste bloqué à l'Assemblée nationale, et des milliers d'entités françaises concernées par NIS2 sans cadre national stabilisé.",
     "change": "La Commission demande à la Cour une sanction financière immédiate contre les quatre États, tandis que la ministre Anne Le Hénanff espère un examen du texte français à la rentrée de septembre 2026.",
-    "theme": "cyber"
+    "theme": "cyber",
+    "voir": [
+      "2026-08-06"
+    ]
   },
   "2026-07-23": {
     "titre_court": "Chat Control 1.0 : la dérogation ePrivacy prolongée jusqu'en 2028",
@@ -207,7 +213,10 @@
     "quoi": "Le règlement de simplification de l'AI Act, publié le 24 juillet 2026 et en vigueur depuis le 27 juillet, reporte les obligations des systèmes à haut risque et ajoute une interdiction nouvelle.",
     "qui": "Les fournisseurs et déployeurs de systèmes d'IA à haut risque, ainsi que ceux d'applis générant des images, vidéos ou sons intimes d'une personne identifiable sans son consentement.",
     "change": "Les obligations haut risque passent au 2 décembre 2027 (systèmes autonomes) ou au 2 août 2028 (produits déjà réglementés), et la mise en conformité à la nouvelle interdiction est fixée au 2 décembre 2026.",
-    "theme": "IA"
+    "theme": "IA",
+    "voir": [
+      "2026-08-30"
+    ]
   },
   "2026-08-04": {
     "titre_court": "ADN des tests récréatifs : le Conseil constitutionnel censure la loi Darmanin",
@@ -228,7 +237,10 @@
     "quoi": "Le 8 juillet 2026, la Commission européenne a décidé de saisir la Cour de justice de l'UE contre l'Irlande, l'Espagne, la France et les Pays-Bas pour non-transposition de la directive NIS2.",
     "qui": "Les quelque 15 000 entités françaises visées par les 18 secteurs de la directive NIS2, ainsi que l'État français, responsable du manquement et appelé à en supporter les sanctions.",
     "change": "Tant que la loi n'est pas votée, ces entités n'ont aucune obligation NIS2 en droit interne, et le texte reste bloqué avant un examen en séance publique attendu en septembre 2026.",
-    "theme": "cyber"
+    "theme": "cyber",
+    "voir": [
+      "2026-07-19"
+    ]
   },
   "2026-08-07": {
     "titre_court": "Les algorithmes du renseignement pourront lire l'adresse des pages consultées",
@@ -256,7 +268,10 @@
     "quoi": "Depuis le 2 août 2026, l'AI Act impose aux fournisseurs d'IA de marquer leurs sorties, et Anthropic a annoncé un filigrane dans ses textes, appliqué dans le monde entier.",
     "qui": "Les fournisseurs de systèmes d'IA générant du texte, de l'image, du son ou de la vidéo, et les utilisateurs des services d'Anthropic, concernés partout dans le monde.",
     "change": "Les textes des modèles d'Anthropic lancés depuis le 2 août 2026 portent un filigrane qui suit le copier-coller, et l'absence de marque ne prouve rien.",
-    "theme": "IA"
+    "theme": "IA",
+    "voir": [
+      "2026-08-28"
+    ]
   },
   "2026-08-12-sous-traitance": {
     "titre_court": "Valve, votre adresse et la leçon RGPD du logisticien marseillais de CMA CGM",
@@ -309,7 +324,10 @@
     "quoi": "Les 12 et 13 août 2026, un acteur malveillant a revendiqué des accès au système d'information de la DGFiP, qui ont permis d'extraire des données de 678 000 particuliers et professionnels.",
     "qui": "678 000 particuliers et professionnels dont les données (revenu fiscal de référence, quotient familial, données cadastrales) ont été extraites.",
     "change": "La CNIL annonce des vérifications, la loi française lui interdisant d'infliger une amende administrative à l'État responsable du traitement.",
-    "theme": "RGPD"
+    "theme": "RGPD",
+    "voir": [
+      "2026-08-22"
+    ]
   },
   "2026-08-19": {
     "titre_court": "Mark Zuckerberg attendu à la barre : à Oakland on juge le « scroll infini »",
@@ -337,7 +355,10 @@
     "quoi": "Un troisième accès illégitime au système d'information de la DGFiP a été identifié et coupé le 17 août, sur un portail public des successions vacantes sans authentification préalable.",
     "qui": "Les particuliers dont les données fiscales ont été exposées, informés individuellement par la DGFiP depuis le 17 août et confrontés à un risque d'hameçonnage et d'appels frauduleux.",
     "change": "Faute d'amende possible contre l'État, la réparation individuelle ou en action de groupe reste ouverte, et la Cour de justice admet que la crainte fondée d'un usage abusif peut suffire comme préjudice.",
-    "theme": "RGPD"
+    "theme": "RGPD",
+    "voir": [
+      "2026-08-18"
+    ]
   },
   "2026-08-23": {
     "titre_court": "Compte de prof volé : agents prévenus, parents à informer si confirmé",
@@ -377,7 +398,10 @@
     "quoi": "Google DeepMind a présenté dans Nature en octobre 2024 un filigrane pour textes d'IA, et l'AI Act impose le marquage lisible par machine des contenus de synthèse depuis le 2 août 2026.",
     "qui": "Les fournisseurs de systèmes d'IA générant audio, image, vidéo ou texte, tenus de marquer leurs sorties, ainsi que les déployeurs, tenus de signaler les hypertrucages et certains textes publiés.",
     "change": "Le marquage lisible par machine devient obligatoire pour les fournisseurs, avec un délai de grâce au 2 décembre 2026 pour les systèmes existants et une amende jusqu'à 15 M€ ou 3 % du chiffre d'affaires mondial.",
-    "theme": "IA"
+    "theme": "IA",
+    "voir": [
+      "2026-08-12"
+    ]
   },
   "2026-08-28-preuve-illicite": {
     "titre_court": "Compte eBay privé consulté par l'employeur : le juge peut utiliser ces preuves",
@@ -402,7 +426,10 @@
     "quoi": "Le règlement du 8 juillet 2026, en vigueur depuis le 27 juillet, ajoute à l'AI Act une interdiction des systèmes générant des contenus réalistes montrant les parties intimes d'une personne identifiable sans son consentement.",
     "qui": "Les fournisseurs de systèmes d'IA, responsables lorsque la conception du produit rend ce résultat raisonnablement prévisible sans mesures de sécurité adéquates, et les déployeurs qui utilisent le système à cette fin.",
     "change": "L'interdiction s'applique à partir du 2 décembre 2026, avec une amende pouvant atteindre 35 millions d'euros ou 7 % du chiffre d'affaires annuel mondial, et la responsabilité se joue sur l'architecture du produit.",
-    "theme": "IA"
+    "theme": "IA",
+    "voir": [
+      "2026-08-02"
+    ]
   },
   "2026-08-31": {
     "titre_court": "Uber : 824 990 000 € d'amende, comptes de chauffeurs coupés sans humain",
@@ -450,7 +477,8 @@
     "titre_court": "Chat Control : 6e trilogue sans accord sur le scan des messages privés",
     "theme": "RGPD",
     "voir": [
-      "2026-07-23"
+      "2026-07-23",
+      "2026-06-29"
     ],
     "quoi": "Le 29 septembre 2026, le sixième trilogue sur le règlement permanent CSAR s'est achevé sans accord final selon la presse et des acteurs militants ; aucun communiqué officiel n'a été retrouvé.",
     "qui": "Les utilisateurs de messageries et les fournisseurs de services de communication dans l'UE, visés par d'éventuelles obligations de détection de contenus pédocriminels.",

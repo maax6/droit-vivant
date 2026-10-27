@@ -768,8 +768,8 @@ def head(title, prefix, desc="", path="", canonical=None, og_type="website", ext
     return "".join(out) + "</head>"
 
 def shell(title, body, prefix, current=None, desc="", footer=True, feed=False,
-          path="", canonical=None, og_type="website"):
-    return (head(title, prefix, desc, path, canonical, og_type) + '<body>'
+          path="", canonical=None, og_type="website", extra=""):
+    return (head(title, prefix, desc, path, canonical, og_type, extra) + '<body>'
             f'{topbar(prefix, current)}{body}'
             f'{site_footer(prefix, feed) if footer else ""}</body></html>')
 
@@ -1565,16 +1565,18 @@ def build_feed(modules):
            f"<updated>{stamp}</updated>",
            "<author><name>Droit Vivant</name></author>"]
     for x in latest:
+        # id historique (infographie) conserve ; le lien mene desormais a la fiche
         url = SITE_URL + module_url(x)
         out.append("<entry>")
-        out.append("<title>" + esc(x["title"]) + "</title>")
-        out.append(f'<link rel="alternate" type="text/html" href="{esc(url)}"/>')
+        out.append("<title>" + esc(x["short"]) + "</title>")
+        out.append(f'<link rel="alternate" type="text/html" href="{esc(SITE_URL + fiche_href(x))}"/>')
         out.append("<id>" + esc(url) + "</id>")
         out.append("<updated>" + x["date"] + "T12:00:00Z</updated>")
         for t in x["tags"]:
             out.append(f'<category term="{esc(t)}"/>')
-        if x["excerpt"]:
-            out.append("<summary>" + esc(x["excerpt"]) + "</summary>")
+        summary = " ".join(x["lines"][k] for k in ("quoi", "change") if k in x["lines"]) or x["excerpt"]
+        if summary:
+            out.append("<summary>" + esc(summary) + "</summary>")
         out.append("</entry>")
     out.append("</feed>")
     return "\n".join(out)
@@ -1618,6 +1620,11 @@ def build_about():
         'du module, avec l’aide d’un LLM. L’analyse complète, repliée par défaut, reprend le '
         'brief tel qu’il a été publié. Les sources sont listées en bas de page. Le thème '
         '(IA, cyber, RGPD, DSA, jurisprudence, autres) sert de filtre sur la page d’accueil.</p>'
+        '<p>Quand deux briefs se contredisent sur un fait, la fiche l’indique dans une <strong>note '
+        'de cohérence</strong> et renvoie vers les sources officielles. Quand un titre d’origine '
+        'contredit son brief, la fiche affiche un titre neutre ; le titre du brief reste visible, '
+        'étiqueté comme tel. Un module publié deux fois est signalé comme doublon et renvoie vers '
+        'la fiche de référence. Les fichiers d’archive ne sont jamais réécrits.</p>'
         '<h2>Limites</h2>'
         '<ul>'
         '<li>Un LLM peut se tromper sur une date, un montant ou une interprétation. Les liens '
@@ -1782,7 +1789,8 @@ def build_404():
             f'<p><a class="btn" href="/index.html">{icon("arrow-left")}Revenir aux fiches</a></p>'
             '</main>')
     # Chemins absolus : GitHub Pages sert 404.html a n'importe quelle profondeur.
-    return shell("Page introuvable — Droit Vivant", body, "/", path="404.html")
+    return shell("Page introuvable — Droit Vivant", body, "/", path="404.html",
+                 extra='<meta name="robots" content="noindex">')
 
 # --------------------------------------------------------------------------- #
 #  Build                                                                      #
