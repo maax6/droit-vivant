@@ -377,11 +377,6 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
   flex-wrap:wrap;border-top:1px solid var(--border);padding-top:var(--space-3);margin:var(--space-6) 0 0;
   font-size:var(--fs-sm);color:var(--muted)}
 .status__n{font-size:var(--fs-xs);letter-spacing:.02em}
-.monthnav{display:flex;gap:var(--space-1);flex-wrap:wrap}
-.monthnav a{font-size:var(--fs-xs);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);
-  color:var(--muted);text-decoration:none;white-space:nowrap}
-.monthnav a:hover{color:var(--text);background:var(--surface-2)}
-.monthnav a.is-empty{opacity:.45}
 .status__reset{font-size:var(--fs-sm)}
 .empty{background:var(--surface);border:1px dashed var(--border-strong);border-radius:var(--radius);
   padding:var(--space-6);margin:var(--space-5) 0;text-align:center;color:var(--muted)}
@@ -1712,9 +1707,6 @@ def build_index(modules, tag_counts):
             f'<div class="entries">{"".join(cards)}</div></section>')
     timeline = "\n".join(sections) or "<p>Aucune entrée pour le moment.</p>"
 
-    nav = "".join(
-        f'<a href="#m-{ym}" data-month="{ym}">{MOIS_COURT[int(ym[5:7]) - 1]} {ym[2:4]}</a>'
-        for ym in sorted(by_month, reverse=True))
 
     # --- filtres par theme
     per_theme = {k: 0 for k in THEMES}
@@ -1791,7 +1783,6 @@ def build_index(modules, tag_counts):
         f'<span class="status__n" id="count" aria-live="polite">'
         f'{plural(len(modules), "fiche")} sur {plural(n_days, "jour")}</span>'
         '<a class="status__reset" id="reset" href="index.html" hidden>Réinitialiser les filtres</a>'
-        f'<nav class="monthnav" aria-label="Aller à un mois">{nav}</nav>'
         '</div>'
         '<p class="empty" id="empty" hidden>Aucune fiche ne correspond à '
         '<b id="empty-q"></b>.<br>Essayez un terme plus court, un autre thème, '
