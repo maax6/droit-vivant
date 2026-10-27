@@ -163,18 +163,20 @@ STYLE = """
 
   /* Sombre par defaut : encre bleu nuit, accent laiton. */
   color-scheme:dark;
-  --bg:#0f1217; --surface:#161b22; --surface-2:#1e252e; --border:#2b333e; --border-strong:#3b4552;
-  --text:#e8ebef; --muted:#a4aeba; --accent:#e5bc6e; --accent-hover:#f0cf8f; --on-accent:#1a1406;
-  --link:#e5bc6e; --mark:rgba(229,188,110,.18); --shadow:0 1px 0 rgba(255,255,255,.03),0 8px 24px rgba(0,0,0,.35);
-  --note-bg:#1f1b12; --note-border:#5a4a26; --note-ink:#ecd29b;
-  --t-ia:#b49cff; --t-cyber:#f39a7b; --t-rgpd:#62c9a5; --t-dsa:#e8c862; --t-jurisprudence:#86b4ff; --t-autres:#a4aeba;
+  --bg:#141a2e; --surface:#1b2239; --surface-2:#232b46; --border:#2f3856; --border-strong:#46507a;
+  --text:#ece6d9; --muted:#a9aec3; --accent:#e8c26f; --accent-hover:#f3d792; --on-accent:#1d1708;
+  --link:#e8c26f; --mark:rgba(232,194,111,.2); --shadow:0 1px 0 rgba(255,255,255,.03),0 10px 30px rgba(5,8,20,.45);
+  --note-bg:#262337; --note-border:#5b5170; --note-ink:#ecd29b;
+  --ins:#e8c26f; --del:#e58e9c;
+  --t-ia:#b49cff; --t-cyber:#f39a7b; --t-rgpd:#62c9a5; --t-dsa:#e8c862; --t-jurisprudence:#86b4ff; --t-autres:#a9aec3;
 }
 :root[data-theme=light]{
   color-scheme:light;
-  --bg:#f8f7f3; --surface:#ffffff; --surface-2:#efede6; --border:#dfdbd0; --border-strong:#c5bfb0;
-  --text:#191d23; --muted:#535b66; --accent:#7a4f00; --accent-hover:#5c3b00; --on-accent:#ffffff;
-  --link:#7a4f00; --mark:rgba(122,79,0,.12); --shadow:0 1px 2px rgba(25,29,35,.06),0 8px 24px rgba(25,29,35,.06);
-  --note-bg:#fbf3df; --note-border:#d9b96b; --note-ink:#5e4100;
+  --bg:#f7f8fb; --surface:#ffffff; --surface-2:#eceff6; --border:#d9deea; --border-strong:#b4bcd2;
+  --text:#18203a; --muted:#4f5876; --accent:#7a5300; --accent-hover:#5a3d00; --on-accent:#ffffff;
+  --link:#7a5300; --mark:rgba(122,83,0,.12); --shadow:0 1px 2px rgba(24,32,58,.06),0 10px 28px rgba(24,32,58,.07);
+  --note-bg:#fbf4e2; --note-border:#d9b96b; --note-ink:#5e4100;
+  --ins:#7a5300; --del:#a3374a;
   --t-ia:#6a48c4; --t-cyber:#b3401f; --t-rgpd:#1b7656; --t-dsa:#876500; --t-jurisprudence:#2a5cbf; --t-autres:#5f6873;
 }
 *{box-sizing:border-box}
@@ -242,7 +244,7 @@ hr{border:0;border-top:1px solid var(--border);margin:var(--space-8) 0}
 blockquote{margin:var(--space-4) 0;padding:var(--space-1) 0 var(--space-1) var(--space-4);border-left:3px solid var(--border-strong);color:var(--muted)}
 
 /* ---- classes des infographies (contrat inchange) ---- */
-.kicker,.wrap .tag{display:inline-block;font-family:var(--mono);font-size:var(--fs-xs);letter-spacing:.06em;text-transform:uppercase;
+.kicker,.wrap .tag{display:inline-block;font-size:var(--fs-xs);
   color:var(--accent);font-weight:600;background:var(--surface-2);border:1px solid var(--border);
   padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);margin-bottom:var(--space-5)}
 .principle{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--space-5) var(--space-6);
@@ -251,7 +253,7 @@ blockquote{margin:var(--space-4) 0;padding:var(--space-1) 0 var(--space-1) var(-
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin:var(--space-6) 0}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:var(--space-5) var(--space-6)}
-.card h2{font-family:var(--mono);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.08em;
+.card h2{font-size:var(--fs-xs);
   color:var(--muted);margin:0 0 var(--space-3);font-weight:600}
 .card.full{grid-column:1/-1}
 .ref,.refs{font-size:var(--fs-base)}
@@ -260,8 +262,8 @@ blockquote{margin:var(--space-4) 0;padding:var(--space-1) 0 var(--space-1) var(-
 .ref a,.refs a,.doc a{overflow-wrap:anywhere}
 .case b,.case strong{color:var(--text);background:linear-gradient(transparent 62%,var(--mark) 0);padding:0 1px}
 .why{background:var(--note-bg);border:1px solid var(--note-border);border-radius:var(--radius);padding:var(--space-5) var(--space-6);margin:var(--space-6) 0}
-.why h2{font-family:var(--mono);color:var(--note-ink);font-size:var(--fs-xs);text-transform:uppercase;
-  letter-spacing:.08em;margin:0 0 var(--space-2);font-weight:600}
+.why h2{color:var(--note-ink);font-size:var(--fs-xs);
+  margin:0 0 var(--space-2);font-weight:600}
 .glossary dt,.wrap dl dt{font-weight:700;color:var(--accent);margin-top:var(--space-3)}
 .glossary dd,.wrap dl dd{margin:2px 0 0;color:var(--muted)}
 .wrap dl{margin:0}
@@ -277,14 +279,47 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .verdict{display:inline-block;margin-top:var(--space-3);font-size:var(--fs-sm);color:var(--muted);
   border:1px solid var(--border);border-radius:var(--radius-full);padding:2px var(--space-3);background:var(--bg)}
 .wrap .sub{color:var(--muted);font-size:var(--fs-lg);margin:-2px 0 var(--space-1)}
-.wrap .date{color:var(--muted);font-family:var(--mono);font-size:var(--fs-sm);margin:-2px 0 var(--space-2)}
+.wrap .date{color:var(--muted);font-size:var(--fs-sm);margin:-2px 0 var(--space-2)}
 
 /* ---- accueil : en-tete ---- */
-.hero{margin:var(--space-4) 0 var(--space-8)}
-.hero__eyebrow{font-family:var(--mono);font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--space-3)}
-.hero__eyebrow b{color:var(--accent);font-weight:600}
-.hero h1{font-size:clamp(var(--fs-4xl),8vw,var(--fs-5xl))}
-.lede{color:var(--muted);font-size:var(--fs-lg);margin:0;max-width:60ch}
+/* Le hero est un article de loi qui s'amende sous les yeux du lecteur :
+   suppression barree, puis insertion soulignee. Seul moment anime de la page. */
+.hero{margin:var(--space-6) 0 var(--space-10)}
+.hero__art{font-family:var(--serif);font-style:italic;font-size:var(--fs-lg);color:var(--muted);margin:0 0 var(--space-3)}
+.hero__title{font-family:var(--serif);font-weight:600;font-size:clamp(2.5rem,7.4vw,4.6rem);line-height:1.04;
+  letter-spacing:-.025em;margin:0 0 var(--space-6);text-wrap:balance;max-width:14ch}
+.hero__title del{text-decoration:none;color:var(--del);font-weight:400;font-style:italic;
+  background:linear-gradient(currentColor,currentColor) 0 58%/100% .07em no-repeat;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hero__title ins{text-decoration:none;color:var(--text);
+  background:linear-gradient(var(--ins),var(--ins)) 0 96%/100% .09em no-repeat;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hero .lede{max-width:56ch}
+.amend{margin:var(--space-8) 0 0;padding:var(--space-1) 0 var(--space-1) var(--space-5);
+  border-left:2px solid var(--ins);font-size:var(--fs-sm);color:var(--muted);line-height:1.7}
+.amend p{margin:0}
+.amend strong{color:var(--text);font-weight:600}
+.amend a{font-family:var(--serif);font-size:var(--fs-base);font-weight:600}
+.frise{margin:var(--space-8) 0 0}
+.frise svg{display:block;width:100%;height:46px;overflow:visible}
+.frise line{stroke-width:3;stroke-linecap:round}
+.frise .axis{stroke:var(--border-strong);stroke-width:1}
+.frise__months{position:relative;height:1.6em;margin:var(--space-2) 0 0;font-size:var(--fs-xs);color:var(--muted)}
+.frise__months a{position:absolute;top:0;white-space:nowrap;padding-left:5px;border-left:1px solid var(--border-strong)}
+.frise__months a{color:var(--muted);text-decoration:none}
+.frise__months a:hover{color:var(--text);text-decoration:underline}
+.frise__legend{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-4);margin:var(--space-3) 0 0;padding:0;list-style:none;font-size:var(--fs-xs);color:var(--muted)}
+.frise__legend li{display:inline-flex;align-items:center;gap:6px}
+.frise__legend li::before{content:"";width:10px;height:3px;border-radius:2px;background:var(--tc)}
+@media (prefers-reduced-motion:no-preference){
+  .hero__title del{animation:strike .7s .35s var(--ease) backwards}
+  .hero__title ins{animation:insert .8s 1.05s var(--ease) backwards}
+  .frise line.t{animation:tick .5s var(--ease) backwards;animation-delay:calc(1.6s + var(--i) * 12ms)}
+  @keyframes strike{from{background-size:0 .07em}}
+  @keyframes insert{from{opacity:0;background-size:0 .09em}to{opacity:1}}
+  @keyframes tick{from{opacity:0;transform:translateY(6px)}}
+}
+.lede{color:var(--muted);font-size:var(--fs-lg);margin:0;max-width:60ch;line-height:1.6}
 @media (max-width:600px){.hero{margin:0 0 var(--space-6)}.lede{font-size:var(--fs-base)}
   .page,.wrap{padding-top:var(--space-6)}}
 
@@ -320,7 +355,7 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .theme-btn:hover{border-color:var(--border-strong);background:var(--surface-2)}
 .theme-btn:active{transform:scale(.97)}
 .theme-btn .dot{width:8px;height:8px;border-radius:50%;background:var(--tc,var(--muted))}
-.theme-btn .n{font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted)}
+.theme-btn .n{font-size:var(--fs-xs);color:var(--muted)}
 .theme-btn[aria-pressed=true]{background:var(--text);border-color:var(--text);color:var(--bg);font-weight:600}
 .theme-btn[aria-pressed=true] .n{color:inherit;opacity:.8}
 .tagbox{margin:var(--space-3) 0 0}
@@ -328,7 +363,7 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .tagbox>summary:hover{color:var(--text)}
 .tags{margin:var(--space-2) 0 0}
 .tags__list{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0;padding:0;list-style:none}
-.tags .tag{display:inline-flex;align-items:baseline;gap:5px;font-family:var(--mono);font-size:var(--fs-xs);line-height:1;
+.tags .tag{display:inline-flex;align-items:baseline;gap:5px;font-size:var(--fs-xs);line-height:1;
   padding:var(--space-2) var(--space-3);border-radius:var(--radius-full);border:1px solid var(--border);
   background:var(--surface);color:var(--muted);white-space:nowrap;text-decoration:none}
 .tags .tag:hover{border-color:var(--border-strong);color:var(--text)}
@@ -341,9 +376,9 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .status{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
   flex-wrap:wrap;border-top:1px solid var(--border);padding-top:var(--space-3);margin:var(--space-6) 0 0;
   font-size:var(--fs-sm);color:var(--muted)}
-.status__n{font-family:var(--mono);font-size:var(--fs-xs);letter-spacing:.02em}
+.status__n{font-size:var(--fs-xs);letter-spacing:.02em}
 .monthnav{display:flex;gap:var(--space-1);flex-wrap:wrap}
-.monthnav a{font-family:var(--mono);font-size:var(--fs-xs);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);
+.monthnav a{font-size:var(--fs-xs);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);
   color:var(--muted);text-decoration:none;white-space:nowrap}
 .monthnav a:hover{color:var(--text);background:var(--surface-2)}
 .monthnav a.is-empty{opacity:.45}
@@ -356,8 +391,9 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .month{margin:0 0 var(--space-6)}
 .month__head{position:sticky;top:var(--topbar-h,65px);z-index:3;background:var(--bg);margin:0;
   padding:var(--space-4) 0 var(--space-2);display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-3);
-  font-family:var(--mono);font-size:var(--fs-xs);font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.month__count{font-weight:400}
+  font-family:var(--serif);font-size:var(--fs-xl);font-weight:600;color:var(--text)}
+.month__name::first-letter{text-transform:uppercase}
+.month__count{font-family:var(--sans);font-size:var(--fs-sm);font-weight:400;color:var(--muted)}
 .entries{display:grid;gap:var(--space-3);margin:0}
 
 /* ---- carte ---- */
@@ -370,13 +406,13 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .entry:focus-within{border-color:var(--accent)}
 .entry__meta,.fiche__meta{display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2) var(--space-3);
   font-size:var(--fs-xs);color:var(--muted);margin:0 0 var(--space-2)}
-.date{font-family:var(--mono);font-size:var(--fs-xs);font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text)}
-.ago{font-family:var(--mono);font-size:var(--fs-xs);color:var(--accent)}
+.date{font-size:var(--fs-sm);font-weight:600;color:var(--text);font-variant-numeric:tabular-nums}
+.ago{font-size:var(--fs-xs);color:var(--accent)}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-xs);font-weight:600;color:var(--text)}
 .badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--tc,var(--muted))}
 .t-ia{--tc:var(--t-ia)}.t-cyber{--tc:var(--t-cyber)}.t-rgpd{--tc:var(--t-rgpd)}
 .t-dsa{--tc:var(--t-dsa)}.t-jurisprudence{--tc:var(--t-jurisprudence)}.t-autres{--tc:var(--t-autres)}
-.entry__slug{font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted)}
+.entry__slug{font-size:var(--fs-xs);color:var(--muted)}
 .entry__title{font-family:var(--serif);font-size:var(--fs-xl);font-weight:600;line-height:1.3;
   letter-spacing:-.01em;margin:0;text-wrap:pretty}
 .entry__title a{color:var(--text);text-decoration:none}
@@ -391,7 +427,7 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
   background:linear-gradient(180deg,var(--surface-2),var(--surface) 70%)}
 .entry--featured .entry__title{font-size:clamp(var(--fs-2xl),4vw,var(--fs-3xl));line-height:1.2}
 .entry--featured .date{font-size:var(--fs-sm)}
-.entry__flag{font-family:var(--mono);font-size:var(--fs-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+.entry__flag{font-size:var(--fs-xs);font-weight:600;
   color:var(--on-accent);background:var(--accent);border-radius:var(--radius-full);padding:2px var(--space-2)}
 .entry--featured .trois{margin-top:var(--space-4)}
 .entry__more{display:inline-flex;align-items:center;gap:var(--space-1);margin-top:var(--space-4);font-size:var(--fs-sm);font-weight:600;color:var(--accent)}
@@ -400,7 +436,7 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 /* ---- trois lignes ---- */
 .trois{margin:0;display:grid;gap:var(--space-3)}
 .trois>div{display:grid;grid-template-columns:10em 1fr;gap:2px var(--space-4);align-items:baseline}
-.trois dt{font-family:var(--mono);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.06em;font-weight:600;color:var(--muted)}
+.trois dt{font-size:var(--fs-sm);font-weight:600;color:var(--muted)}
 .trois dd{margin:0;line-height:1.6}
 @media (max-width:600px){.trois>div{grid-template-columns:1fr}}
 
@@ -411,14 +447,14 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 .fiche__meta{margin:0 0 var(--space-4);font-size:var(--fs-sm)}
 .fiche__meta .date{font-size:var(--fs-sm)}
 .fiche__full{color:var(--muted);font-family:var(--serif);font-style:italic;font-size:var(--fs-base);line-height:1.5;margin:0 0 var(--space-2)}
-.fiche__full .lbl{display:block;font-family:var(--mono);font-style:normal;font-size:var(--fs-xs);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.fiche__full .lbl{display:block;font-style:normal;font-size:var(--fs-xs);margin-bottom:2px}
 .resume{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
   padding:var(--space-5) var(--space-6);margin:var(--space-6) 0}
 .resume .trois dd{font-size:var(--fs-md)}
 .note{background:var(--note-bg);border:1px solid var(--note-border);border-radius:var(--radius);
   padding:var(--space-4) var(--space-5);margin:var(--space-6) 0;color:var(--text);font-size:var(--fs-base)}
-.note h2{display:flex;align-items:center;gap:var(--space-2);font-family:var(--mono);font-size:var(--fs-xs);font-weight:600;
-  letter-spacing:.06em;text-transform:uppercase;color:var(--note-ink);margin:0 0 var(--space-2)}
+.note h2{display:flex;align-items:center;gap:var(--space-2);font-size:var(--fs-xs);font-weight:600;
+  color:var(--note-ink);margin:0 0 var(--space-2)}
 .note p:last-child{margin:0}
 .analyse{margin:var(--space-6) 0;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
 .analyse>summary{cursor:pointer;padding:var(--space-4) var(--space-5);font-weight:600;list-style:none;min-height:48px;
@@ -438,7 +474,7 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
   color:var(--text);text-decoration:none;border-radius:var(--radius-sm)}
 .sources a:hover{background:var(--surface-2);color:var(--text)}
 .sources a:hover .src-host{color:var(--accent)}
-.sources .src-host{display:block;font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted);margin-bottom:2px;transition:color var(--dur)}
+.sources .src-host{display:block;font-size:var(--fs-xs);color:var(--muted);margin-bottom:2px;transition:color var(--dur)}
 .linkrow{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0}
 .btn{display:inline-flex;align-items:center;gap:var(--space-2);min-height:40px;font-size:var(--fs-sm);font-weight:500;
   padding:var(--space-2) var(--space-4);border-radius:var(--radius-sm);text-decoration:none;
@@ -454,12 +490,12 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 .pager a{display:block;padding:var(--space-4);border:1px solid var(--border);border-radius:var(--radius);
   background:var(--surface);color:var(--text);text-decoration:none;font-family:var(--serif);font-weight:600;line-height:1.35}
 .pager a:hover{border-color:var(--border-strong);background:var(--surface-2)}
-.pager small{display:block;font-family:var(--mono);color:var(--muted);font-size:var(--fs-xs);font-weight:500;
-  text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-1)}
+.pager small{display:block;color:var(--muted);font-size:var(--fs-xs);font-weight:500;
+  margin-bottom:var(--space-1)}
 .pager__next{text-align:right;grid-column:2}
 @media (max-width:600px){.pager{grid-template-columns:1fr}.pager__next{grid-column:auto;text-align:left}}
 .fiche-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none;margin:var(--space-8) 0 0;padding:0}
-.fiche-tags a{display:inline-block;font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted);border:1px solid var(--border);
+.fiche-tags a{display:inline-block;font-size:var(--fs-xs);color:var(--muted);border:1px solid var(--border);
   border-radius:var(--radius-full);padding:var(--space-1) var(--space-3);background:var(--surface);text-decoration:none}
 .fiche-tags a:hover{color:var(--text);border-color:var(--border-strong)}
 
@@ -471,12 +507,12 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 .about ol.steps li{counter-increment:s;position:relative;padding:var(--space-4) var(--space-5) var(--space-4) var(--space-16);margin:0;
   background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);max-width:none}
 .about ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:var(--space-5);top:var(--space-4);
-  font-family:var(--mono);color:var(--accent);font-weight:600;font-size:var(--fs-sm)}
+  color:var(--accent);font-weight:600;font-size:var(--fs-sm)}
 .about ol.steps strong{display:block}
 
 /* ---- 404 ---- */
 .notfound{text-align:left;padding-top:var(--space-12)}
-.notfound .code{font-family:var(--mono);color:var(--accent);font-size:var(--fs-sm);letter-spacing:.08em}
+.notfound .code{color:var(--accent);font-size:var(--fs-sm);}
 
 /* ---- mouvement ---- */
 @media (prefers-reduced-motion:no-preference){
@@ -1104,8 +1140,6 @@ def sources_html(src_md):
 def entry_card(x, featured=False):
     mid = module_id(x)
     meta = []
-    if featured:
-        meta.append('<span class="entry__flag">Dernière fiche</span>')
     meta += [date_tag(x["date"]), theme_badge(x["theme"])]
     if x["multi"]:
         meta.append(f'<span class="entry__slug">{html.escape(slug_label(x))}</span>')
@@ -1114,7 +1148,7 @@ def entry_card(x, featured=False):
     else:
         ch = x["lines"].get("change") or x["lines"].get("quoi") or x["excerpt"]
         body = f'<p class="entry__change">{html.escape(ch)}</p>' if ch else ""
-    more = (f'<span class="entry__more" aria-hidden="true">Lire la fiche {icon("arrow-right")}</span>'
+    more = ('<span class="entry__more" aria-hidden="true">Lire la fiche</span>'
             if featured else "")
     cls = "entry reveal" + (" entry--featured" if featured else "")
     hn = "h2" if featured else "h3"
@@ -1725,18 +1759,10 @@ def build_index(modules, tag_counts):
 
     n_days = len({m["date"] for m in modules})
     last = modules[0]["date"] if modules else ""
-    eyebrow = (f'<p class="hero__eyebrow">Veille juridique · {plural(len(modules), "fiche")} · '
-               f'mise à jour le <b><time datetime="{last}">{fr_short(last)}</time></b></p>'
-               if last else "")
+    hero = build_hero(modules)
     body = (
         '<main class="page" id="main">'
-        '<header class="hero">'
-        f'{eyebrow}'
-        '<h1>Droit Vivant</h1>'
-        '<p class="lede">Le droit du numérique tel qu’il bouge : IA, cybersécurité, données '
-        'personnelles, plateformes, jurisprudence. Une fiche par sujet : ce qui s’est passé, '
-        'qui est concerné, ce qui change, puis l’analyse et les sources officielles.</p>'
-        '</header>'
+        f'{hero}'
 
         '<div class="toolbar">'
         '<form class="search needs-js" role="search" action="index.html" method="get">'
@@ -1783,6 +1809,59 @@ def build_index(modules, tag_counts):
             "Une fiche par sujet, résumé en trois lignes, analyse et sources officielles.")
     return (head("Droit Vivant — veille juridique du numérique", "", desc, path="")
             + '<body>' + topbar("", current="index") + body + "</body></html>")
+
+def frise_svg(modules):
+    """Une marque par fiche, placee a sa date et coloree par theme : la cadence
+    reelle de la veille, de la premiere a la derniere fiche."""
+    days = sorted({m["date"] for m in modules})
+    d0, d1 = date.fromisoformat(days[0]), date.fromisoformat(days[-1])
+    span = max((d1 - d0).days, 1)
+    per_day, marks = {}, []
+    for i, m in enumerate(sorted(modules, key=lambda m: m["date"])):
+        k = per_day.get(m["date"], 0)
+        per_day[m["date"]] = k + 1
+        x = 6 + 988 * (date.fromisoformat(m["date"]) - d0).days / span
+        y2 = 40 - k * 12
+        marks.append(f'<line class="t t-{m["theme"]}" style="stroke:var(--tc);--i:{i}" '
+                     f'x1="{x:.1f}" x2="{x:.1f}" y1="{y2 - 10}" y2="{y2}"/>')
+    return ('<svg viewBox="0 0 1000 46" preserveAspectRatio="none" aria-hidden="true" focusable="false">'
+            '<line class="axis" x1="0" x2="1000" y1="45" y2="45"/>' + "".join(marks) + '</svg>')
+
+def build_hero(modules):
+    if not modules:
+        return '<header class="hero"><h1 class="hero__title">Droit Vivant</h1></header>'
+    last, first = modules[0], modules[-1]
+    months = sorted({m["date"][:7] for m in modules})
+    present = [k for k in THEMES if any(m["theme"] == k for m in modules)]
+    legend = "".join(f'<li class="t-{k}">{html.escape(THEMES[k])}</li>' for k in present)
+    d0 = date.fromisoformat(first["date"])
+    span = max((date.fromisoformat(last["date"]) - d0).days, 1)
+    def left(ym):
+        # premier jour du mois, ramene dans l'intervalle de la frise
+        pos = max(0, (date.fromisoformat(ym + "-01") - d0).days) / span
+        return min(pos, 1) * 100
+    month_links = "".join(f'<a href="#m-{ym}" style="left:{left(ym):.1f}%">{MOIS[int(ym[5:7]) - 1]}</a>'
+                          for ym in months)
+    return (
+        '<header class="hero">'
+        '<p class="hero__art">Article premier</p>'
+        '<h1 class="hero__title">Le droit du numérique '
+        '<del aria-hidden="true">est figé</del> <ins>bouge</ins>.</h1>'
+        '<p class="lede">Droit Vivant suit l’IA, la cybersécurité, les données personnelles, '
+        'les plateformes et la jurisprudence. Chaque fiche dit ce qui s’est passé, qui est '
+        'concerné et ce qui change, sources officielles à l’appui.</p>'
+        '<div class="amend">'
+        f'<p>Version en vigueur au <strong><time datetime="{last["date"]}">{fr_day(last["date"])} '
+        f'{last["date"][:4]}</time></strong>, modifiée par {plural(len(modules), "fiche")} '
+        f'depuis le {fr_day(first["date"])} {first["date"][:4]}.</p>'
+        f'<p>Dernière modification : <a href="{fiche_href(last)}">{html.escape(last["short"])}</a></p>'
+        '</div>'
+        '<figure class="frise" aria-label="Chronologie des fiches">'
+        f'{frise_svg(modules)}'
+        f'<nav class="frise__months" aria-label="Aller à un mois">{month_links}</nav>'
+        f'<ul class="frise__legend">{legend}</ul>'
+        '</figure>'
+        '</header>')
 
 def build_404():
     body = ('<main class="page notfound" id="main">'
