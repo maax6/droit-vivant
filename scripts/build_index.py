@@ -1106,7 +1106,8 @@ SEARCH_JS = r"""
 # --------------------------------------------------------------------------- #
 #  Flux Atom : une veille quotidienne se lit dans un agregateur                #
 # --------------------------------------------------------------------------- #
-SITE_URL = "https://maax6.github.io/droit-vivant/"
+SITE_URL = "https://droit-vivant.maxzer.fr/"
+CUSTOM_DOMAIN = "droit-vivant.maxzer.fr"
 FEED_MAX = 40
 
 
@@ -1321,6 +1322,7 @@ def main():
     (SITE / "index.html").write_text(build_index(modules, tag_counts), encoding="utf-8")
     (SITE / "feed.xml").write_text(build_feed(modules), encoding="utf-8")
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
+    (SITE / "CNAME").write_text(CUSTOM_DOMAIN + "\n", encoding="utf-8")
     n_days = len({m["date"] for m in modules})
     print(f"{len(modules)} module(s) sur {n_days} jour(s) construits, "
           f"{len(tag_counts)} mot(s)-cle(s).")
