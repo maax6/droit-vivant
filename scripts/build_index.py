@@ -83,7 +83,6 @@ FICHES_DIR = "fiches"
 ABOUT_PAGE = "comment-cest-fait.html"
 
 TAGS_VISIBLES = 12      # taille du nuage avant repli dans <details>
-TAGS_PAR_CARTE = 3
 EXCERPT_MAX = 220
 TAGS_MIN = 2            # occurrences minimales pour figurer dans le nuage
 
@@ -108,6 +107,8 @@ TAG_ALIAS = {
     "digital-markets-act": "dma",
     "vie-privee-numerique": "vie-privee",
     "liberte-d-expression": "libertes",
+    # trop general pour filtrer (la moitie du corpus) : retire
+    "droit-du-numerique": "",
 }
 
 
@@ -120,20 +121,6 @@ def canon_tags(seq):
             out.append(c)
     return out
 
-
-def singles_label(singles):
-    """Les tags a occurrence unique sont masques du nuage, pas de la recherche."""
-    if not singles:
-        return ""
-    return (f" · {len(singles)} à occurrence unique, masqués mais"
-            " toujours interrogeables au clavier")
-
-
-def card_tags(x):
-    """Sur la carte, on masque le tag qui ne fait que repeter la categorie."""
-    cat = slugify(x.get("category", ""))
-    out = [t for t in x["tags"] if t != cat]
-    return (out or x["tags"])[:TAGS_PAR_CARTE]
 
 # --------------------------------------------------------------------------- #
 #  Charte graphique partagee : sombre par defaut, clair au choix (bouton).    #
@@ -364,7 +351,9 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .entry{position:relative;background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius);padding:var(--space-4) var(--space-5);
   transition:border-color var(--dur),transform var(--dur) var(--ease),box-shadow var(--dur)}
-.entry:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow)}
+@media (hover:hover){.entry:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow)}
+  .entry:hover .entry__title a{color:var(--accent-hover)}
+  .entry:hover .entry__more svg{transform:translateX(3px)}}
 .entry:focus-within{border-color:var(--accent)}
 .entry__meta,.fiche__meta{display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2) var(--space-3);
   font-size:var(--fs-xs);color:var(--muted);margin:0 0 var(--space-2)}
@@ -381,7 +370,6 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .entry__title a::after{content:"";position:absolute;inset:0;border-radius:var(--radius)}
 .entry__title a:focus-visible{outline:none}
 .entry:has(.entry__title a:focus-visible){outline:2px solid var(--accent);outline-offset:3px}
-.entry:hover .entry__title a{color:var(--accent-hover)}
 .entry__change{margin:var(--space-2) 0 0;color:var(--muted);font-size:var(--fs-base);line-height:1.55;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .entry__change b{color:var(--text);font-weight:600}
@@ -395,7 +383,6 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 .entry--featured .trois{margin-top:var(--space-4)}
 .entry__more{display:inline-flex;align-items:center;gap:var(--space-1);margin-top:var(--space-4);font-size:var(--fs-sm);font-weight:600;color:var(--accent)}
 .entry__more svg{transition:transform var(--dur) var(--ease)}
-.entry:hover .entry__more svg{transform:translateX(3px)}
 
 /* ---- trois lignes ---- */
 .trois{margin:0;display:grid;gap:var(--space-3)}
@@ -457,7 +444,7 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 .pager small{display:block;font-family:var(--mono);color:var(--muted);font-size:var(--fs-xs);font-weight:500;
   text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-1)}
 .pager__next{text-align:right;grid-column:2}
-@media (max-width:600px){.pager{grid-template-columns:1fr}.pager__next{grid-column:auto}}
+@media (max-width:600px){.pager{grid-template-columns:1fr}.pager__next{grid-column:auto;text-align:left}}
 .fiche-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none;margin:var(--space-8) 0 0;padding:0}
 .fiche-tags a{display:inline-block;font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted);border:1px solid var(--border);
   border-radius:var(--radius-full);padding:var(--space-1) var(--space-3);background:var(--surface);text-decoration:none}
@@ -1695,7 +1682,6 @@ def build_index(modules, tag_counts):
 
     # --- nuage de tags (replie), tries par frequence puis alphabetiquement
     _all = sorted(tag_counts.items(), key=lambda kv: (-kv[1], kv[0]))
-    _singles = [kv for kv in _all if kv[1] < TAGS_MIN]
     ordered = [kv for kv in _all if kv[1] >= TAGS_MIN]
     head_tags = "".join(tag_chip(t, n) for t, n in ordered[:TAGS_VISIBLES])
     rest = ordered[TAGS_VISIBLES:]
