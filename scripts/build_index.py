@@ -285,6 +285,8 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .hero__eyebrow b{color:var(--accent);font-weight:600}
 .hero h1{font-size:clamp(var(--fs-4xl),8vw,var(--fs-5xl))}
 .lede{color:var(--muted);font-size:var(--fs-lg);margin:0;max-width:60ch}
+@media (max-width:600px){.hero{margin:0 0 var(--space-6)}.lede{font-size:var(--fs-base)}
+  .page,.wrap{padding-top:var(--space-6)}}
 
 /* ---- accueil : recherche et filtres ---- */
 .toolbar{margin:0 0 var(--space-4)}
@@ -374,7 +376,7 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .t-dsa{--tc:var(--t-dsa)}.t-jurisprudence{--tc:var(--t-jurisprudence)}.t-autres{--tc:var(--t-autres)}
 .entry__slug{font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted)}
 .entry__title{font-family:var(--serif);font-size:var(--fs-xl);font-weight:600;line-height:1.3;
-  letter-spacing:-.01em;margin:0;text-wrap:balance}
+  letter-spacing:-.01em;margin:0;text-wrap:pretty}
 .entry__title a{color:var(--text);text-decoration:none}
 .entry__title a::after{content:"";position:absolute;inset:0;border-radius:var(--radius)}
 .entry__title a:focus-visible{outline:none}
@@ -383,6 +385,7 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .entry__change{margin:var(--space-2) 0 0;color:var(--muted);font-size:var(--fs-base);line-height:1.55;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .entry__change b{color:var(--text);font-weight:600}
+mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 var(--accent)}
 .entry--featured{padding:var(--space-6);border-color:var(--border-strong);
   background:linear-gradient(180deg,var(--surface-2),var(--surface) 70%)}
 .entry--featured .entry__title{font-size:clamp(var(--fs-2xl),4vw,var(--fs-3xl));line-height:1.2}
@@ -477,8 +480,8 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 
 /* ---- mouvement ---- */
 @media (prefers-reduced-motion:no-preference){
-  .js .reveal{opacity:0;transform:translateY(8px)}
-  .js .reveal.is-in{opacity:1;transform:none;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+  .js .reveal{animation:rise .5s var(--ease) backwards}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .analyse[open] .analyse__body{animation:open .25s var(--ease)}
   @keyframes open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 }
@@ -770,18 +773,22 @@ def shell(title, body, prefix, current=None, desc="", footer=True, feed=False,
             f'{topbar(prefix, current)}{body}'
             f'{site_footer(prefix, feed) if footer else ""}</body></html>')
 
-def render_md_page(md_text, kicker, prefix, raw_md_name=None, raw_label=None, path=""):
+def back_to_fiche(href):
+    return (f'<p class="backlink"><a href="{href}">{icon("arrow-left")} Revenir à la fiche</a></p>'
+            if href else "")
+
+def render_md_page(md_text, kicker, prefix, raw_md_name=None, raw_label=None, path="", fiche=""):
     title = md_title(md_text) or kicker
     meta = ""
     if raw_md_name:
         meta = (f'<p class="meta"><a href="{raw_md_name}">{icon("download")} '
                 f'{html.escape(raw_label or "Version .md brute")}</a></p>')
-    body = (f'<main class="page" id="main"><span class="kicker">{html.escape(kicker)}</span>'
+    body = (f'<main class="page" id="main">{back_to_fiche(fiche)}<span class="kicker">{html.escape(kicker)}</span>'
             f'<article class="doc">{meta}{md_to_html(md_text)}</article></main>')
     return shell(f"{title} — Droit Vivant", body, prefix, path=path,
                  desc=excerpt_of(md_text), og_type="article")
 
-def reskin_infographie(t):
+def reskin_infographie(t, fiche=""):
     """Retire le CSS inline et applique la charte partagee + barre de navigation."""
     t = re.sub(r"<style[^>]*>.*?</style>", "", t, flags=re.S | re.I)
     p = "../../"
@@ -796,7 +803,11 @@ def reskin_infographie(t):
     if re.search(r"<body[^>]*>", t, re.I):
         t = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + "\n" + topbar(p),
                    t, count=1, flags=re.I)
-    return promote_main(ensure_wrap(t))
+    t = promote_main(ensure_wrap(t))
+    if fiche:
+        t = re.sub(r'(<main class="wrap" id="main"[^>]*>)', lambda m: m.group(1) + back_to_fiche(fiche),
+                   t, count=1)
+    return t
 
 def ensure_wrap(t):
     """Les toutes premieres infographies n'ont pas de conteneur .wrap : sans lui,
@@ -1387,7 +1398,39 @@ SEARCH_JS = r"""
         .filter(Boolean).join(' ');
     }
     clearBtn.hidden = !raw;
+    var kbd = document.getElementById('q-kbd');
+    if (kbd) kbd.hidden = !!raw;
+    highlight(query ? query.split(/\s+/).filter(function (w) { return w.length > 1; }) : []);
     writeURL(!!push);
+  }
+
+  /* ---- surlignage des termes dans les titres et resumes visibles ---- */
+  var hlNodes = cards.map(function (c) {
+    return Array.prototype.slice.call(c.querySelectorAll('.entry__title a, .entry__change, .trois dd'))
+      .map(function (el) { return { el: el, text: el.textContent }; });
+  });
+  function highlight(words) {
+    cards.forEach(function (card, k) {
+      hlNodes[k].forEach(function (n) {
+        if (!words.length || card.hidden) { if (n.el.firstElementChild) n.el.textContent = n.text; return; }
+        var f = fold(n.text), marks = [];
+        words.forEach(function (w) {
+          var i = -1;
+          while (w && (i = f.indexOf(w, i + 1)) !== -1) marks.push([i, i + w.length]);
+        });
+        if (!marks.length) { n.el.textContent = n.text; return; }
+        marks.sort(function (a, b) { return a[0] - b[0]; });
+        n.el.textContent = '';
+        var pos = 0;
+        marks.forEach(function (m) {
+          if (m[0] < pos) return;
+          n.el.appendChild(document.createTextNode(n.text.slice(pos, m[0])));
+          var mk = document.createElement('mark'); mk.textContent = n.text.slice(m[0], m[1]);
+          n.el.appendChild(mk); pos = m[1];
+        });
+        n.el.appendChild(document.createTextNode(n.text.slice(pos)));
+      });
+    });
   }
 
   function clearAll() { input.value = ''; active = []; theme = ''; }
@@ -1486,22 +1529,10 @@ SITE_JS = r"""
     el.hidden = !txt;
   });
 
-  /* ---- apparition douce des cartes (desactivee si mouvement reduit) ---- */
-  var cards = document.querySelectorAll('.reveal');
-  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (still || !('IntersectionObserver' in window)) {
-    Array.prototype.forEach.call(cards, function (c) { c.classList.add('is-in'); });
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        /* visible, ou deja depassee (saut d'ancre, retour arriere) : on affiche */
-        if (en.isIntersecting || en.boundingClientRect.bottom < 0) {
-          en.target.classList.add('is-in'); io.unobserve(en.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -5% 0px' });
-    Array.prototype.forEach.call(cards, function (c) { io.observe(c); });
-  }
+  /* ---- apparition des premieres cartes : animation CSS jouee une fois, aucun
+     etat masque persistant (une carte filtree puis reaffichee reste visible) ---- */
+  Array.prototype.slice.call(document.querySelectorAll('.reveal'), 0, 10)
+    .forEach(function (c, i) { c.style.animationDelay = (i * 45) + 'ms'; });
 })();
 """
 
@@ -1789,17 +1820,19 @@ def main():
     for x in modules:
         if x["infographie"]:
             p = SITE / x["infographie"]
-            p.write_text(reskin_infographie(read(p)), encoding="utf-8")
+            p.write_text(reskin_infographie(read(p), "../../" + fiche_href(x)), encoding="utf-8")
         if x["brief"]:
             p = SITE / x["brief"]
             (p.parent / (p.stem + ".html")).write_text(
-                render_md_page(read(p), "Brief", "../../", path=x["brief"][:-3] + ".html",
+                render_md_page(read(p), f"Brief · {fr_short(x['date'])}", "../../",
+                               path=x["brief"][:-3] + ".html", fiche="../../" + fiche_href(x),
                                raw_md_name=p.name,
                                raw_label="Version .md brute"), encoding="utf-8")
         if x["source"]:
             p = SITE / x["source"]
             (p.parent / (p.stem + ".html")).write_text(
-                render_md_page(read(p), "Source NotebookLM", "../../", path=x["source"][:-3] + ".html",
+                render_md_page(read(p), f"Source NotebookLM · {fr_short(x['date'])}", "../../",
+                               path=x["source"][:-3] + ".html", fiche="../../" + fiche_href(x),
                                raw_md_name=p.name,
                                raw_label="Version .md brute (pour NotebookLM)"),
                 encoding="utf-8")
