@@ -747,6 +747,7 @@ def head(title, prefix, desc="", path="", canonical=None, og_type="website", ext
             f'<link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml">',
             f'<link rel="alternate" type="application/atom+xml" title="Droit Vivant — flux Atom" href="{prefix}feed.xml">',
             f'<link rel="preload" href="{prefix}assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>',
+            f'<link rel="preload" href="{prefix}assets/fonts/source-serif-4-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>',
             f'<link rel="stylesheet" href="{prefix}assets/style.css">',
             f'<script src="{prefix}assets/site.js" defer></script>']
     if desc:
@@ -1487,7 +1488,7 @@ SITE_JS = r"""
     if (!btn) return;
     var light = doc.getAttribute('data-theme') === 'light';
     btn.setAttribute('aria-label', light ? 'Activer le thème sombre' : 'Activer le thème clair');
-    btn.setAttribute('aria-pressed', light ? 'true' : 'false');
+    btn.title = btn.getAttribute('aria-label');
     var meta = document.querySelector('meta[name=theme-color]');
     if (meta) meta.setAttribute('content', light ? '#f8f7f3' : '#0f1217');
   }
