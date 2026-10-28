@@ -220,6 +220,8 @@ em,i,cite{font-style:italic}
 .topbar .inner{display:grid;grid-template-columns:1fr auto 1fr}
 .topbar nav{justify-self:center}
 .topbar__end{justify-self:end;display:flex;align-items:center;gap:var(--space-2)}
+.home .topbar{background:rgb(1 8 24/.72);border-bottom-color:rgb(236 230 217/.08)}
+:root[data-theme=light] .home .topbar{background:color-mix(in srgb,var(--bg) 88%,transparent);border-bottom-color:var(--border)}
 .topbar--wide .inner{max-width:72rem;padding-left:var(--space-6);padding-right:var(--space-6)}
 .feed-pill{display:inline-flex;align-items:center;gap:var(--space-2);min-height:40px;padding:0 var(--space-4);
   border-radius:var(--radius-full);background:var(--accent);color:var(--on-accent);font-size:var(--fs-sm);font-weight:600;text-decoration:none}
