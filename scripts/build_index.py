@@ -94,6 +94,9 @@ CHAMPS_RESUME = ("titre_court", "quoi", "qui", "change", "theme", "note", "doubl
 # voir = liste d'ids de fiches liees (« Sur le même sujet »).
 FICHES_DIR = "fiches"
 ABOUT_PAGE = "comment-cest-fait.html"
+LEGAL_PAGE = "mentions-legales.html"
+AUTHOR_NAME = "Maxime Soze"
+AUTHOR_URL = "https://maxzer.fr"
 
 TAGS_VISIBLES = 12      # taille du nuage avant repli dans <details>
 EXCERPT_MAX = 220
@@ -843,9 +846,11 @@ DISCLAIMER = ("Contenu pédagogique, rédigé avec l’aide d’un LLM à partir
 
 def site_footer(prefix, feed=False):
     links = [f'<a href="{prefix}{ABOUT_PAGE}">Comment c’est fait</a>',
-             f'<a href="{prefix}feed.xml">Flux Atom</a>']
+             f'<a href="{prefix}feed.xml">Flux Atom</a>',
+             f'<a href="{prefix}{LEGAL_PAGE}">Mentions légales</a>']
     return (f'<footer class="sitefoot"><div class="inner">'
-            f'<p>{DISCLAIMER}</p><ul class="sitefoot__links">{"".join(f"<li>{l}</li>" for l in links)}</ul></div></footer>')
+            f'<p>{DISCLAIMER}</p>'
+            f'<p>Site de <a href="{AUTHOR_URL}">{AUTHOR_NAME}</a></p><ul class="sitefoot__links">{"".join(f"<li>{l}</li>" for l in links)}</ul></div></footer>')
 
 def head(title, prefix, desc="", path="", canonical=None, og_type="website", extra=""):
     """<head> commun : meta, Open Graph, favicon, flux, feuille de style."""
@@ -1752,6 +1757,23 @@ def build_about():
                       "génération statique, publication sur GitHub Pages.", feed=True)
 
 # --------------------------------------------------------------------------- #
+#  Page « Mentions légales »                                                   #
+# --------------------------------------------------------------------------- #
+def build_legal():
+    body = (
+        '<main class="page about" id="main"><article class="doc">'
+        '<h1>Mentions légales</h1>'
+        '<h2>Éditeur</h2>'
+        f'<p>Ce site est édité par {AUTHOR_NAME} (<a href="{AUTHOR_URL}">{AUTHOR_URL}</a>).</p>'
+        '<h2>Hébergeur</h2>'
+        '<p>GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, '
+        'San Francisco, CA 94107, États-Unis — téléphone : +1 877 448 4820.</p>'
+        '<p><a href="https://support.github.com/contact">Contacter GitHub</a></p>'
+        '</article></main>')
+    return shell("Mentions légales — Droit Vivant", body, "", path=LEGAL_PAGE,
+                 desc="Mentions légales de Droit Vivant : éditeur et hébergeur du site.", feed=True)
+
+# --------------------------------------------------------------------------- #
 #  Index                                                                      #
 # --------------------------------------------------------------------------- #
 def build_index(modules, tag_counts):
@@ -2079,6 +2101,7 @@ def main():
 
     (SITE / "index.html").write_text(build_index(listed, tag_counts), encoding="utf-8")
     (SITE / ABOUT_PAGE).write_text(build_about(), encoding="utf-8")
+    (SITE / LEGAL_PAGE).write_text(build_legal(), encoding="utf-8")
     (SITE / "feed.xml").write_text(build_feed(listed), encoding="utf-8")
     (SITE / "404.html").write_text(build_404(), encoding="utf-8")
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
