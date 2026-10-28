@@ -1646,6 +1646,7 @@ SITE_JS = r"""
 # --------------------------------------------------------------------------- #
 SITE_URL = "https://droit-vivant.maxzer.fr/"
 CUSTOM_DOMAIN = "droit-vivant.maxzer.fr"
+REPO_URL = "https://github.com/maax6/droit-vivant"
 FEED_MAX = 40
 
 
@@ -1743,8 +1744,8 @@ def build_about():
         '<p>Droit Vivant est un contenu pédagogique. Il ne constitue pas un conseil juridique '
         'et ne remplace pas l’avis d’un avocat ou d’un juriste pour une situation particulière.</p>'
         '<h2>Code et archive</h2>'
-        '<p>Le script de génération, l’archive et les résumés sont versionnés dans un dépôt '
-        'Git. Les nouveautés sont aussi disponibles par <a href="feed.xml">flux Atom</a>.</p>'
+        f'<p>Le script de génération, l’archive et les résumés sont versionnés dans un <a href="{REPO_URL}">dépôt '
+        'Git</a>. Les nouveautés sont aussi disponibles par <a href="feed.xml">flux Atom</a>.</p>'
         '</article></main>')
     return shell("Comment c’est fait — Droit Vivant", body, "", current="about",
                  desc="Comment Droit Vivant est produit : tâches récurrentes avec LLM, "
