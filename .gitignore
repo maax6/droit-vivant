@@ -19,3 +19,6 @@ venv/
 *~
 
 # Note : .DS_Store et autres fichiers OS sont à mettre dans ton ~/.gitignore global
+
+# Claude Code : empreinte du dernier audit des marqueurs IA (locale)
+.claude/.ai-audit-stamp
