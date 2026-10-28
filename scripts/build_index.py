@@ -70,7 +70,8 @@ ARCHIVE = ROOT / "archive"
 SITE = ROOT / "site"
 RESUMES = ROOT / "scripts" / "data" / "resumes.json"
 FONTS = ROOT / "scripts" / "assets" / "fonts"
-OG_IMAGE = ROOT / "scripts" / "assets" / "og.png"    # image de partage, statique
+OG_IMAGE = ROOT / "scripts" / "assets" / "og.png"
+HERO = ROOT / "assets" / "hero"     # visuels du heros, deja convertis (AVIF, WebP, JPEG)    # image de partage, statique
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 MOIS = ("janvier", "février", "mars", "avril", "mai", "juin", "juillet",
@@ -168,16 +169,18 @@ STYLE = """
   --link:#e8c26f; --mark:rgba(232,194,111,.2); --shadow:0 1px 0 rgba(255,255,255,.03),0 10px 30px rgba(5,8,20,.45);
   --note-bg:#262337; --note-border:#5b5170; --note-ink:#ecd29b;
   --ins:#e8c26f; --del:#e58e9c;
+  --hero-bg:#010818; --hero-ink:#efe8da; --hero-muted:#b9bccb;
   --t-ia:#b49cff; --t-cyber:#f39a7b; --t-rgpd:#62c9a5; --t-dsa:#e8c862; --t-jurisprudence:#86b4ff; --t-autres:#a9aec3;
 }
 :root[data-theme=light]{
   color-scheme:light;
-  --bg:#f7f8fb; --surface:#ffffff; --surface-2:#eceff6; --border:#d9deea; --border-strong:#b4bcd2;
-  --text:#18203a; --muted:#4f5876; --accent:#7a5300; --accent-hover:#5a3d00; --on-accent:#ffffff;
-  --link:#7a5300; --mark:rgba(122,83,0,.12); --shadow:0 1px 2px rgba(24,32,58,.06),0 10px 28px rgba(24,32,58,.07);
+  --bg:#f4eee2; --surface:#fbf7ee; --surface-2:#ece4d3; --border:#dccfb8; --border-strong:#bfae90;
+  --text:#2a2117; --muted:#5c4f3f; --accent:#8a4a14; --accent-hover:#6b370b; --on-accent:#ffffff;
+  --link:#8a4a14; --mark:rgba(138,74,20,.12); --shadow:0 1px 2px rgba(42,33,23,.06),0 14px 34px rgba(42,33,23,.12);
   --note-bg:#fbf4e2; --note-border:#d9b96b; --note-ink:#5e4100;
-  --ins:#7a5300; --del:#a3374a;
-  --t-ia:#6a48c4; --t-cyber:#b3401f; --t-rgpd:#1b7656; --t-dsa:#876500; --t-jurisprudence:#2a5cbf; --t-autres:#5f6873;
+  --ins:#8a4a14; --del:#9e3445;
+  --hero-ink:#2a2117; --hero-muted:#5c4f3f;
+  --t-ia:#6a48c4; --t-cyber:#b3401f; --t-rgpd:#1b7656; --t-dsa:#876500; --t-jurisprudence:#2a5cbf; --t-autres:#6a5f52;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-padding-top:var(--space-16)}
@@ -213,7 +216,16 @@ em,i,cite{font-style:italic}
 .topbar nav a:hover{color:var(--text);background:var(--surface-2)}
 .topbar nav a[aria-current=page]{color:var(--text);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent);border-radius:0}
 .theme-toggle{background:none;border:1px solid var(--border);cursor:pointer;font:inherit;font-size:var(--fs-sm);
-  min-width:40px;justify-content:center;padding:0 var(--space-2);margin-left:var(--space-1)}
+  min-width:40px;justify-content:center;padding:0 var(--space-2)}
+.topbar .inner{display:grid;grid-template-columns:1fr auto 1fr}
+.topbar nav{justify-self:center}
+.topbar__end{justify-self:end;display:flex;align-items:center;gap:var(--space-2)}
+.topbar--wide .inner{max-width:72rem;padding-left:var(--space-6);padding-right:var(--space-6)}
+.feed-pill{display:inline-flex;align-items:center;gap:var(--space-2);min-height:40px;padding:0 var(--space-4);
+  border-radius:var(--radius-full);background:var(--accent);color:var(--on-accent);font-size:var(--fs-sm);font-weight:600;text-decoration:none}
+.feed-pill:hover{background:var(--accent-hover);color:var(--on-accent)}
+.feed-pill svg{width:16px;height:16px}
+@media (max-width:560px){.feed-pill{padding:0 var(--space-3)}.topbar .inner{grid-template-columns:auto 1fr auto}}
 .theme-toggle:hover{color:var(--text);border-color:var(--border-strong)}
 .theme-toggle svg{width:18px;height:18px;transition:transform .4s var(--ease)}
 .theme-toggle:hover svg{transform:rotate(20deg)}
@@ -221,7 +233,7 @@ em,i,cite{font-style:italic}
 :root[data-theme=light] .theme-toggle .i-sun{display:block}
 :root[data-theme=light] .theme-toggle .i-moon{display:none}
 @media (max-width:560px){.nav-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-  .topbar nav a{padding:0 var(--space-2)}}
+  .topbar nav a{padding:0 var(--space-2)}.topbar--wide .inner{padding-left:var(--space-4);padding-right:var(--space-4)}}
 
 .sitefoot{border-top:1px solid var(--border);color:var(--muted);font-size:var(--fs-sm);margin-top:var(--space-12)}
 .sitefoot .inner{max-width:var(--measure);margin:0 auto;padding:var(--space-6) var(--space-4) var(--space-12)}
@@ -282,43 +294,116 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .wrap .date{color:var(--muted);font-size:var(--fs-sm);margin:-2px 0 var(--space-2)}
 
 /* ---- accueil : en-tete ---- */
-/* Le hero est un article de loi qui s'amende sous les yeux du lecteur :
-   suppression barree, puis insertion soulignee. Seul moment anime de la page. */
-.hero{margin:var(--space-6) 0 var(--space-10)}
-.hero__art{font-family:var(--serif);font-style:italic;font-size:var(--fs-lg);color:var(--muted);margin:0 0 var(--space-3)}
-.hero__title{font-family:var(--serif);font-weight:600;font-size:clamp(2.5rem,7.4vw,4.6rem);line-height:1.04;
-  letter-spacing:-.025em;margin:0 0 var(--space-6);text-wrap:balance;max-width:14ch}
-.hero__title del{text-decoration:none;color:var(--del);font-weight:400;font-style:italic;
-  background:linear-gradient(currentColor,currentColor) 0 58%/100% .07em no-repeat;
+/* ---- accueil et 404 : heros cinematographique ----
+   L'image (hemicycle de nuit) est le point focal. Le cadre .hero__frame a
+   exactement le ratio de l'image et la recouvre comme object-fit:cover : les
+   calques animes (faisceau, ecrans) y sont places en % de l'image elle-meme. */
+.hero{position:relative;isolation:isolate;overflow:hidden;background:var(--hero-bg);color:var(--hero-ink);
+  min-height:min(92vh,880px);display:flex;flex-direction:column;justify-content:flex-end}
+.hero__media{position:absolute;inset:0;z-index:-2;container-type:size;overflow:hidden;
+  background:var(--hero-bg) var(--lqip) right center/cover no-repeat}
+.hero__frame{position:absolute;top:50%;right:0;transform:translateY(-50%);
+  width:max(100cqw,177.87cqh);aspect-ratio:1672/940}
+.hero__frame img{display:block;width:100%;height:100%}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(90deg,var(--hero-bg) 0%,rgb(1 8 24/.92) 30%,rgb(1 8 24/.45) 55%,transparent 75%),
+             linear-gradient(0deg,var(--bg) 0%,rgb(1 8 24/.6) 24%,transparent 45%)}
+.grain::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.09;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.beam{position:absolute;left:70%;width:16%;top:-4%;height:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(60% 100% at 50% 0%,rgb(255 190 90/.38),rgb(255 170 60/.12) 55%,transparent 75%);
+  filter:blur(6px);opacity:.6}
+.dust{position:absolute;left:72%;width:12%;top:0;height:40%;pointer-events:none;mix-blend-mode:screen;opacity:.55;
+  background-image:radial-gradient(1px 1px at 20% 30%,#ffd9a0,transparent),radial-gradient(1px 1px at 70% 60%,#ffd9a0,transparent),
+    radial-gradient(1.5px 1.5px at 45% 80%,#ffe3b5,transparent),radial-gradient(1px 1px at 85% 15%,#ffd9a0,transparent);
+  background-size:60px 90px;-webkit-mask:linear-gradient(transparent,#000 20%,#000 70%,transparent);mask:linear-gradient(transparent,#000 20%,#000 70%,transparent)}
+.screen{position:absolute;width:1.4%;aspect-ratio:1.6;translate:-50% -50%;border-radius:2px;pointer-events:none;
+  background:#9cc4ff;mix-blend-mode:screen;filter:blur(3px);opacity:0}
+.hero__body{position:relative;width:100%;max-width:72rem;margin:0 auto;padding:var(--space-16) var(--space-6) var(--space-8)}
+.hero__text{max-width:34rem}
+.pill{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--fs-sm);font-weight:500;
+  padding:var(--space-1) var(--space-3);border:1px solid rgb(232 194 111/.45);border-radius:var(--radius-full);
+  color:var(--hero-ink);background:rgb(232 194 111/.08);margin:0 0 var(--space-5)}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgb(232 194 111/.18)}
+.hero__title{font-family:var(--serif);font-weight:500;font-size:clamp(2.75rem,6.6vw,5.4rem);line-height:1.02;
+  letter-spacing:-.03em;margin:0 0 var(--space-5);text-wrap:balance;color:var(--hero-ink)}
+.hero__title del{text-decoration:none;color:var(--del);font-style:italic;font-weight:400;
+  background:linear-gradient(currentColor,currentColor) 0 58%/100% .06em no-repeat;
   -webkit-box-decoration-break:clone;box-decoration-break:clone}
-.hero__title ins{text-decoration:none;color:var(--text);
-  background:linear-gradient(var(--ins),var(--ins)) 0 96%/100% .09em no-repeat;
-  -webkit-box-decoration-break:clone;box-decoration-break:clone}
-.hero .lede{max-width:56ch}
-.amend{margin:var(--space-8) 0 0;padding:var(--space-1) 0 var(--space-1) var(--space-5);
-  border-left:2px solid var(--ins);font-size:var(--fs-sm);color:var(--muted);line-height:1.7}
-.amend p{margin:0}
-.amend strong{color:var(--text);font-weight:600}
-.amend a{font-family:var(--serif);font-size:var(--fs-base);font-weight:600}
-.frise{margin:var(--space-8) 0 0}
+.hero__title ins{text-decoration:none;font-style:italic;color:var(--hero-ink);
+  background:linear-gradient(var(--accent),var(--accent)) 0 94%/100% .07em no-repeat}
+.hero .lede{color:var(--hero-muted);font-size:var(--fs-lg);max-width:32rem;margin:0 0 var(--space-6)}
+.hero__cta{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.btn-pill{display:inline-flex;align-items:center;gap:var(--space-2);min-height:44px;padding:0 var(--space-5);
+  border-radius:var(--radius-full);font-size:var(--fs-base);font-weight:600;text-decoration:none;
+  transition:background var(--dur),border-color var(--dur),color var(--dur)}
+.btn-pill--main{background:var(--accent);color:var(--on-accent)}
+.btn-pill--main:hover{background:var(--accent-hover);color:var(--on-accent)}
+.btn-pill--ghost{border:1px solid rgb(236 230 217/.35);color:var(--hero-ink)}
+.btn-pill--ghost:hover{border-color:var(--hero-ink);color:var(--hero-ink);background:rgb(236 230 217/.06)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-6);margin:var(--space-12) 0 0;padding:var(--space-5) 0 0;
+  border-top:1px solid rgb(236 230 217/.16);list-style:none}
+.stats li{display:flex;flex-direction:column;gap:var(--space-1)}
+.stats b{font-family:var(--serif);font-weight:500;font-size:clamp(var(--fs-xl),2.4vw,var(--fs-2xl));line-height:1.1;color:var(--hero-ink);
+  font-variant-numeric:tabular-nums lining-nums}
+.stats span{font-size:var(--fs-sm);color:var(--hero-muted)}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5) var(--space-4)}}
+/* Jusqu'a 1023 px : l'image passe au-dessus du texte, en bandeau 16:9 */
+@media (max-width:1023px){
+  .hero{min-height:0;display:block}
+  .hero__media{position:relative;inset:auto;aspect-ratio:1672/940;container-type:normal}
+  .hero__frame{position:absolute;inset:0;transform:none;width:100%;aspect-ratio:auto}
+  .hero::before{background:linear-gradient(0deg,var(--hero-bg) 0%,transparent 40%);height:calc(100vw*940/1672);bottom:auto}
+  .hero{background:linear-gradient(var(--hero-bg) 60%,var(--bg))}
+  .hero__body{padding:var(--space-2) var(--space-4) var(--space-8)}
+}
+/* Mode clair : fond creme, l'image devient une grande carte arrondie a droite */
+:root[data-theme=light] .hero{background:var(--bg);color:var(--text);min-height:0;display:block}
+:root[data-theme=light] .hero::before{display:none}
+@media (min-width:1024px){
+  :root[data-theme=light] .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);
+    grid-template-areas:"text media" "stats stats";column-gap:var(--space-10);align-items:center;
+    max-width:72rem;margin:0 auto;padding:var(--space-12) var(--space-6) var(--space-8)}
+  :root[data-theme=light] .hero__body{display:contents}
+  :root[data-theme=light] .hero__text{grid-area:text}
+  :root[data-theme=light] .stats{grid-area:stats}
+  :root[data-theme=light] .hero__media{grid-area:media;position:relative;inset:auto;aspect-ratio:1672/940;
+    border-radius:20px;container-type:normal;box-shadow:var(--shadow)}
+  :root[data-theme=light] .hero__frame{inset:0;transform:none;width:100%;aspect-ratio:auto}
+}
+@media (max-width:1023px){:root[data-theme=light] .hero__media{border-radius:0}}
+:root[data-theme=light] .hero__text{max-width:none}
+:root[data-theme=light] .hero__title{font-size:clamp(2.5rem,5vw,4.2rem)}
+:root[data-theme=light] .pill{border-color:var(--border-strong);background:var(--surface);color:var(--text)}
+:root[data-theme=light] .btn-pill--ghost{border-color:var(--border-strong)}
+:root[data-theme=light] .btn-pill--ghost:hover{background:var(--surface-2)}
+:root[data-theme=light] .stats{border-top-color:var(--border)}
+@media (prefers-reduced-motion:no-preference){
+  .hero__title del{animation:strike .7s .5s var(--ease) backwards}
+  .hero__title ins{animation:insert .8s 1.2s var(--ease) backwards}
+  .beam{animation:beam 7s ease-in-out infinite alternate}
+  .dust{animation:dust 18s linear infinite}
+  .screen{animation:twinkle var(--t,5s) ease-in-out var(--d,0s) infinite}
+  @keyframes strike{from{background-size:0 .06em}}
+  @keyframes insert{from{opacity:0;background-size:0 .07em}to{opacity:1}}
+  @keyframes beam{from{opacity:.45}to{opacity:.85}}
+  @keyframes dust{to{background-position:0 -180px,12px -270px,-8px -180px,6px -360px}}
+  @keyframes twinkle{0%,100%{opacity:0}45%,55%{opacity:.75}}
+}
+@media (prefers-reduced-motion:reduce){.beam,.dust,.screen{display:none}}
+
+/* ---- frise des fiches (sous le heros) ---- */
+.frise{margin:0 0 var(--space-8)}
 .frise svg{display:block;width:100%;height:46px;overflow:visible}
 .frise line{stroke-width:3;stroke-linecap:round}
 .frise .axis{stroke:var(--border-strong);stroke-width:1}
 .frise__months{position:relative;height:1.6em;margin:var(--space-2) 0 0;font-size:var(--fs-xs);color:var(--muted)}
-.frise__months a{position:absolute;top:0;white-space:nowrap;padding-left:5px;border-left:1px solid var(--border-strong)}
-.frise__months a{color:var(--muted);text-decoration:none}
+.frise__months a{position:absolute;top:0;white-space:nowrap;padding-left:5px;border-left:1px solid var(--border-strong);color:var(--muted);text-decoration:none}
 .frise__months a:hover{color:var(--text);text-decoration:underline}
 .frise__legend{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-4);margin:var(--space-3) 0 0;padding:0;list-style:none;font-size:var(--fs-xs);color:var(--muted)}
 .frise__legend li{display:inline-flex;align-items:center;gap:6px}
 .frise__legend li::before{content:"";width:10px;height:3px;border-radius:2px;background:var(--tc)}
-@media (prefers-reduced-motion:no-preference){
-  .hero__title del{animation:strike .7s .35s var(--ease) backwards}
-  .hero__title ins{animation:insert .8s 1.05s var(--ease) backwards}
-  .frise line.t{animation:tick .5s var(--ease) backwards;animation-delay:calc(1.6s + var(--i) * 12ms)}
-  @keyframes strike{from{background-size:0 .07em}}
-  @keyframes insert{from{opacity:0;background-size:0 .09em}to{opacity:1}}
-  @keyframes tick{from{opacity:0;transform:translateY(6px)}}
-}
+.section-title{font-family:var(--serif);font-weight:600;font-size:var(--fs-2xl);margin:0 0 var(--space-4)}
 .lede{color:var(--muted);font-size:var(--fs-lg);margin:0;max-width:60ch;line-height:1.6}
 @media (max-width:600px){.hero{margin:0 0 var(--space-6)}.lede{font-size:var(--fs-base)}
   .page,.wrap{padding-top:var(--space-6)}}
@@ -737,7 +822,7 @@ def icon(name, cls="icon"):
             f'aria-hidden="true" focusable="false">{ICONS[name]}</svg>')
 
 FAVICON = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">'
-           '<rect width="32" height="32" rx="7" fill="#0f1217"/>'
+           '<rect width="32" height="32" rx="7" fill="#141a2e"/>'
            '<g fill="none" stroke="#e5bc6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
            '<path d="M16 6v20M9 10h14M11 10l-3 7a3 3 0 0 0 6 0l-3-7Zm10 0-3 7a3 3 0 0 0 6 0l-3-7ZM12 26h8"/>'
            '</g></svg>')
@@ -747,20 +832,21 @@ THEME_INIT = ("<script>document.documentElement.classList.add('js');"
               "try{var t=localStorage.getItem('dv-theme');"
               "if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>")
 
-def topbar(prefix, current=None):
+def topbar(prefix, current=None, wide=False):
     links = "".join(
         f'<a href="{prefix}{href}"' + (' aria-current="page"' if key == current else "")
         + f'>{icon(ico)}<span class="nav-label">{html.escape(label)}</span></a>'
         for key, href, label, ico in NAV)
-    links += (f'<a href="{prefix}feed.xml" type="application/atom+xml">{icon("rss")}'
-              f'<span class="nav-label">Flux</span></a>')
     toggle = ('<button type="button" class="theme-toggle" id="theme-toggle" '
               'aria-label="Activer le thème clair" hidden>'
               + icon("moon", "i-moon") + icon("sun", "i-sun") + '</button>')
+    feed = (f'<a class="feed-pill" href="{prefix}feed.xml" type="application/atom+xml">{icon("rss")}'
+            f'<span class="nav-label">Suivre le flux</span></a>')
     return (f'<a class="skip" href="#main">Aller au contenu</a>'
-            f'<header class="topbar"><div class="inner">'
+            f'<header class="topbar{" topbar--wide" if wide else ""}"><div class="inner">'
             f'<a class="brand" href="{prefix}index.html">{icon("logo")}Droit Vivant</a>'
-            f'<nav aria-label="Navigation principale">{links}{toggle}</nav>'
+            f'<nav aria-label="Navigation principale">{links}</nav>'
+            f'<div class="topbar__end">{toggle}{feed}</div>'
             f'</div></header>')
 
 DISCLAIMER = ("Contenu pédagogique, rédigé avec l’aide d’un LLM à partir de sources publiques : "
@@ -791,7 +877,7 @@ def head(title, prefix, desc="", path="", canonical=None, og_type="website", ext
             '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">',
             '<meta property="og:image:alt" content="Droit Vivant, veille juridique du droit du numérique">',
             '<meta name="twitter:card" content="summary_large_image">',
-            '<meta name="theme-color" content="#0f1217">',
+            '<meta name="theme-color" content="#141a2e">',
             f'<link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml">',
             f'<link rel="alternate" type="application/atom+xml" title="Droit Vivant — flux Atom" href="{prefix}feed.xml">',
             f'<link rel="preload" href="{prefix}assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>',
@@ -1536,7 +1622,7 @@ SITE_JS = r"""
     btn.setAttribute('aria-label', light ? 'Activer le thème sombre' : 'Activer le thème clair');
     btn.title = btn.getAttribute('aria-label');
     var meta = document.querySelector('meta[name=theme-color]');
-    if (meta) meta.setAttribute('content', light ? '#f8f7f3' : '#0f1217');
+    if (meta) meta.setAttribute('content', light ? '#f4eee2' : '#141a2e');
   }
   if (btn) {
     btn.hidden = false;
@@ -1752,9 +1838,13 @@ def build_index(modules, tag_counts):
     n_days = len({m["date"] for m in modules})
     last = modules[0]["date"] if modules else ""
     hero = build_hero(modules)
+    frise = build_frise(modules) if modules else ""
     body = (
-        '<main class="page" id="main">'
+        '<main id="main">'
         f'{hero}'
+        '<div class="page home__content" id="fiches">'
+        '<h2 class="section-title">Les fiches</h2>'
+        f'{frise}'
 
         '<div class="toolbar">'
         '<form class="search needs-js" role="search" action="index.html" method="get">'
@@ -1789,7 +1879,7 @@ def build_index(modules, tag_counts):
         'ou cochez la recherche dans le texte intégral.</p>'
 
         f'<div id="dv" class="timeline">{timeline}</div>'
-        '</main>'
+        '</div></main>'
         f'{site_footer("", feed=True)}'
         '<script type="application/json" id="dv-data">'
         + json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
@@ -1799,7 +1889,7 @@ def build_index(modules, tag_counts):
     desc = ("Veille sur le droit du numérique : IA, cybersécurité, RGPD, DSA, jurisprudence. "
             "Une fiche par sujet, résumé en trois lignes, analyse et sources officielles.")
     return (head("Droit Vivant — veille juridique du numérique", "", desc, path="")
-            + '<body>' + topbar("", current="index") + body + "</body></html>")
+            + '<body class="home">' + topbar("", current="index", wide=True) + body + "</body></html>")
 
 def frise_svg(modules):
     """Une marque par fiche, placee a sa date et coloree par theme : la cadence
@@ -1818,9 +1908,70 @@ def frise_svg(modules):
     return ('<svg viewBox="0 0 1000 46" preserveAspectRatio="none" aria-hidden="true" focusable="false">'
             '<line class="axis" x1="0" x2="1000" y1="45" y2="45"/>' + "".join(marks) + '</svg>')
 
+HERO_SCREENS = [(91.4, 66.4), (90.0, 76.6), (88.0, 71.1), (80.1, 88.9), (74.6, 82.1), (64.4, 69.4), (45.7, 77.4), (87.8, 95.3), (54.5, 72.3), (83.7, 63.4), (74.9, 71.1), (97.6, 76.2), (65.6, 74.9), (67.5, 85.1)]  # ecrans de l'image, en % (releves sur hero.png)
+
+def hero_media(prefix):
+    """Image du heros (AVIF, WebP, JPEG) et calques d'ambiance. L'apercu flou
+    (lqip.txt, ~150 octets) est inline : rien n'est demande a un tiers."""
+    if not HERO.exists() or not (HERO / "hero-1672.jpg").exists():
+        return ""
+    lqip = read(HERO / "lqip.txt").strip() if (HERO / "lqip.txt").exists() else ""
+    h = f"{prefix}assets/hero/hero"
+    screens = "".join(f'<i class="screen" style="left:{x}%;top:{y}%;--d:{(i * .73) % 5:.2f}s;--t:{4 + i % 4}s"></i>'
+                      for i, (x, y) in enumerate(HERO_SCREENS))
+    style = f' style="--lqip:url({lqip})"' if lqip else ""
+    return (f'<div class="hero__media"{style}><div class="hero__frame">'
+            '<picture>'
+            f'<source type="image/avif" srcset="{h}-960.avif 960w, {h}-1672.avif 1672w" sizes="100vw">'
+            f'<source type="image/webp" srcset="{h}-960.webp 960w, {h}-1672.webp 1672w" sizes="100vw">'
+            f'<img src="{h}-1672.jpg" srcset="{h}-960.jpg 960w, {h}-1672.jpg 1672w" sizes="100vw" '
+            'width="1672" height="940" alt="" fetchpriority="high" decoding="async">'
+            '</picture>'
+            f'<span class="beam" aria-hidden="true"></span><span class="dust" aria-hidden="true"></span>{screens}'
+            '</div></div>')
+
+def count_sources(modules):
+    """Nombre d'adresses distinctes citees dans les sections Sources des briefs."""
+    urls = set()
+    for m in modules:
+        _, src = split_brief(read(m["_brief_path"]))
+        urls.update(u.rstrip(".,;") for u in re.findall(r"https?://(?:[^\s()\]]|\([^\s()]*\))+", src))
+    return len(urls)
+
+def period_label(first, last):
+    a, b = first["date"], last["date"]
+    if a[:4] == b[:4]:
+        return f"{fr_short(a).rsplit(' ', 1)[0]} – {fr_short(b)}"
+    return f"{fr_short(a)} – {fr_short(b)}"
+
 def build_hero(modules):
     if not modules:
-        return '<header class="hero"><h1 class="hero__title">Droit Vivant</h1></header>'
+        return '<section class="hero"><div class="hero__body"><h1 class="hero__title">Droit Vivant</h1></div></section>'
+    last, first = modules[0], modules[-1]
+    themes = [THEMES[k] for k in THEMES if k != THEME_DEFAUT and any(m["theme"] == k for m in modules)]
+    theme_list = ", ".join(t if t.isupper() else t.lower() for t in themes)
+    stats = (
+        f'<li><b>{len(modules)}</b><span>fiches publiées</span></li>'
+        f'<li><b>{period_label(first, last)}</b><span>période couverte</span></li>'
+        f'<li><b>{len(themes)}</b><span>thèmes suivis : {html.escape(theme_list)}</span></li>'
+        f'<li><b>{count_sources(modules)}</b><span>sources citées</span></li>')
+    return (
+        '<section class="hero grain" aria-labelledby="hero-title">'
+        f'{hero_media("")}'
+        '<div class="hero__body"><div class="hero__text">'
+        f'<p class="pill"><span>Mis à jour le <time datetime="{last["date"]}">{fr_day(last["date"])} {last["date"][:4]}</time></span></p>'
+        '<h1 class="hero__title" id="hero-title">Le droit du numérique '
+        '<del aria-hidden="true">est figé</del> <ins>bouge</ins>.</h1>'
+        '<p class="lede">Une veille sur l’IA, la cybersécurité, les données personnelles, les '
+        'plateformes et la jurisprudence. Chaque fiche dit ce qui s’est passé, qui est concerné '
+        'et ce qui change, sources officielles à l’appui.</p>'
+        '<p class="hero__cta"><a class="btn-pill btn-pill--main" href="#fiches">Lire les fiches</a>'
+        f'<a class="btn-pill btn-pill--ghost" href="{ABOUT_PAGE}">Comment c’est fait</a></p>'
+        '</div>'
+        f'<ul class="stats" aria-label="La veille en chiffres">{stats}</ul>'
+        '</div></section>')
+
+def build_frise(modules):
     last, first = modules[0], modules[-1]
     months = sorted({m["date"][:7] for m in modules})
     present = [k for k in THEMES if any(m["theme"] == k for m in modules)]
@@ -1833,38 +1984,25 @@ def build_hero(modules):
         return min(pos, 1) * 100
     month_links = "".join(f'<a href="#m-{ym}" style="left:{left(ym):.1f}%">{MOIS[int(ym[5:7]) - 1]}</a>'
                           for ym in months)
-    return (
-        '<header class="hero">'
-        '<p class="hero__art">Article premier</p>'
-        '<h1 class="hero__title">Le droit du numérique '
-        '<del aria-hidden="true">est figé</del> <ins>bouge</ins>.</h1>'
-        '<p class="lede">Droit Vivant suit l’IA, la cybersécurité, les données personnelles, '
-        'les plateformes et la jurisprudence. Chaque fiche dit ce qui s’est passé, qui est '
-        'concerné et ce qui change, sources officielles à l’appui.</p>'
-        '<div class="amend">'
-        f'<p>Version en vigueur au <strong><time datetime="{last["date"]}">{fr_day(last["date"])} '
-        f'{last["date"][:4]}</time></strong>, modifiée par {plural(len(modules), "fiche")} '
-        f'depuis le {fr_day(first["date"])} {first["date"][:4]}.</p>'
-        f'<p>Dernière modification : <a href="{fiche_href(last)}">{html.escape(last["short"])}</a></p>'
-        '</div>'
-        '<figure class="frise" aria-label="Chronologie des fiches">'
-        f'{frise_svg(modules)}'
-        f'<nav class="frise__months" aria-label="Aller à un mois">{month_links}</nav>'
-        f'<ul class="frise__legend">{legend}</ul>'
-        '</figure>'
-        '</header>')
+    return ('<figure class="frise" aria-label="Chronologie des fiches">'
+            f'{frise_svg(modules)}'
+            f'<nav class="frise__months" aria-label="Aller à un mois">{month_links}</nav>'
+            f'<ul class="frise__legend">{legend}</ul></figure>')
 
 def build_404():
-    body = ('<main class="page notfound" id="main">'
-            '<p class="code">Erreur 404</p>'
-            '<h1>Cette page n’existe pas</h1>'
+    body = ('<main id="main"><section class="hero hero--404 grain" aria-labelledby="hero-title">'
+            f'{hero_media("/")}'
+            '<div class="hero__body"><div class="hero__text">'
+            '<p class="pill"><span>Erreur 404</span></p>'
+            '<h1 class="hero__title" id="hero-title">Cette page n’existe pas.</h1>'
             '<p class="lede">L’adresse a peut-être changé, ou elle contient une faute de frappe. '
             'Toutes les fiches restent accessibles depuis l’accueil.</p>'
-            f'<p><a class="btn" href="/index.html">{icon("arrow-left")}Revenir aux fiches</a></p>'
-            '</main>')
+            '<p class="hero__cta"><a class="btn-pill btn-pill--main" href="/index.html">Revenir aux fiches</a></p>'
+            '</div></div></section></main>')
     # Chemins absolus : GitHub Pages sert 404.html a n'importe quelle profondeur.
-    return shell("Page introuvable — Droit Vivant", body, "/", path="404.html",
+    return (head("Page introuvable — Droit Vivant", "/", "", path="404.html",
                  extra='<meta name="robots" content="noindex">')
+            + '<body class="home">' + topbar("/", wide=True) + body + site_footer("/") + "</body></html>")
 
 # --------------------------------------------------------------------------- #
 #  Build                                                                      #
@@ -1884,6 +2022,11 @@ def main():
         shutil.copytree(FONTS, SITE / "assets" / "fonts")
     if OG_IMAGE.exists():
         shutil.copy(OG_IMAGE, SITE / "assets" / "og.png")
+    if HERO.exists():
+        (SITE / "assets" / "hero").mkdir(parents=True, exist_ok=True)
+        for f in HERO.iterdir():
+            if f.suffix in (".avif", ".webp", ".jpg"):   # l'original .png n'est pas publie
+                shutil.copy(f, SITE / "assets" / "hero" / f.name)
     (SITE / FICHES_DIR).mkdir(parents=True, exist_ok=True)
 
     modules = collect()

@@ -6,6 +6,7 @@ on:
     paths:
       - "archive/**"
       - "scripts/**"
+      - "assets/**"
       - ".github/workflows/**"
   workflow_dispatch:
 
