@@ -29,7 +29,7 @@ L'archive n'est jamais reecrite : toute correction passe par ce fichier.
 ASSETS
 ------
 scripts/assets/fonts/ (woff2 sous licence OFL, auto-heberges) et
-scripts/assets/og.png sont copies tels quels dans site/assets/. Aucune
+scripts/assets/og.jpg sont copies tels quels dans site/assets/. Aucune
 ressource n'est chargee depuis un tiers.
 
 PLUSIEURS MODULES PAR JOUR
@@ -70,7 +70,7 @@ ARCHIVE = ROOT / "archive"
 SITE = ROOT / "site"
 RESUMES = ROOT / "scripts" / "data" / "resumes.json"
 FONTS = ROOT / "scripts" / "assets" / "fonts"
-OG_IMAGE = ROOT / "scripts" / "assets" / "og.png"
+OG_IMAGE = ROOT / "scripts" / "assets" / "og.jpg"
 HERO = ROOT / "assets" / "hero"     # visuels du heros, deja convertis (AVIF, WebP, JPEG)    # image de partage, statique
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
@@ -141,7 +141,7 @@ def canon_tags(seq):
 #  hebergees (woff2, OFL) copiees depuis scripts/assets/fonts/.               #
 # --------------------------------------------------------------------------- #
 STYLE = """
-@font-face{font-family:"Inter";src:url("fonts/inter-latin-wght-normal.woff2") format("woff2");
+@font-face{font-family:"Public Sans";src:url("fonts/public-sans-latin-wght-normal.woff2") format("woff2");
   font-weight:100 900;font-style:normal;font-display:swap}
 @font-face{font-family:"Source Serif 4";src:url("fonts/source-serif-4-latin-wght-normal.woff2") format("woff2");
   font-weight:200 900;font-style:normal;font-display:swap}
@@ -159,7 +159,7 @@ STYLE = """
   --radius:10px; --radius-sm:6px; --radius-full:999px;
   --measure:46rem; --ease:cubic-bezier(.2,.7,.2,1); --dur:.18s;
   --serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
-  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --sans:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 
   /* Sombre par defaut : encre bleu nuit, accent laiton. */
@@ -186,7 +186,7 @@ STYLE = """
 html{-webkit-text-size-adjust:100%;scroll-padding-top:var(--space-16)}
 body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);
   font-size:var(--fs-md);line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  font-feature-settings:"cv11","ss01"}
+  font-kerning:normal}
 a{color:var(--link);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em;
   text-decoration-color:color-mix(in srgb,currentColor 40%,transparent);transition:color var(--dur),text-decoration-color var(--dur)}
 a:hover{color:var(--accent-hover);text-decoration-color:currentColor}
@@ -240,6 +240,7 @@ em,i,cite{font-style:italic}
 .sitefoot{border-top:1px solid var(--border);color:var(--muted);font-size:var(--fs-sm);margin-top:var(--space-12)}
 .sitefoot .inner{max-width:var(--measure);margin:0 auto;padding:var(--space-6) var(--space-4) var(--space-12)}
 .sitefoot p{margin:0 0 var(--space-2)}
+.sitefoot__links{display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5);list-style:none;margin:0;padding:0}
 .sitefoot a{color:var(--muted)}
 .sitefoot a:hover{color:var(--text)}
 
@@ -322,18 +323,12 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .screen{position:absolute;width:1.4%;aspect-ratio:1.6;translate:-50% -50%;border-radius:2px;pointer-events:none;
   background:#9cc4ff;mix-blend-mode:screen;filter:blur(3px);opacity:0}
 .hero__body{position:relative;width:100%;max-width:72rem;margin:0 auto;padding:var(--space-16) var(--space-6) var(--space-8)}
-.hero__text{max-width:34rem}
+.hero__text{max-width:40rem}
 .pill{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--fs-sm);font-weight:500;
   padding:var(--space-1) var(--space-3);border:1px solid rgb(232 194 111/.45);border-radius:var(--radius-full);
   color:var(--hero-ink);background:rgb(232 194 111/.08);margin:0 0 var(--space-5)}
-.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgb(232 194 111/.18)}
-.hero__title{font-family:var(--serif);font-weight:500;font-size:clamp(2.75rem,6.6vw,5.4rem);line-height:1.02;
+.hero__title{font-family:var(--serif);font-weight:500;font-size:clamp(2.5rem,5.4vw,4.5rem);line-height:1.02;
   letter-spacing:-.03em;margin:0 0 var(--space-5);text-wrap:balance;color:var(--hero-ink)}
-.hero__title del{text-decoration:none;color:var(--del);font-style:italic;font-weight:400;
-  background:linear-gradient(currentColor,currentColor) 0 58%/100% .06em no-repeat;
-  -webkit-box-decoration-break:clone;box-decoration-break:clone}
-.hero__title ins{text-decoration:none;font-style:italic;color:var(--hero-ink);
-  background:linear-gradient(var(--accent),var(--accent)) 0 94%/100% .07em no-repeat}
 .hero .lede{color:var(--hero-muted);font-size:var(--fs-lg);max-width:32rem;margin:0 0 var(--space-6)}
 .hero__cta{display:flex;flex-wrap:wrap;gap:var(--space-3)}
 .btn-pill{display:inline-flex;align-items:center;gap:var(--space-2);min-height:44px;padding:0 var(--space-5);
@@ -381,13 +376,9 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 :root[data-theme=light] .btn-pill--ghost:hover{background:var(--surface-2)}
 :root[data-theme=light] .stats{border-top-color:var(--border)}
 @media (prefers-reduced-motion:no-preference){
-  .hero__title del{animation:strike .7s .5s var(--ease) backwards}
-  .hero__title ins{animation:insert .8s 1.2s var(--ease) backwards}
   .beam{animation:beam 7s ease-in-out infinite alternate}
   .dust{animation:dust 18s linear infinite}
   .screen{animation:twinkle var(--t,5s) ease-in-out var(--d,0s) infinite}
-  @keyframes strike{from{background-size:0 .06em}}
-  @keyframes insert{from{opacity:0;background-size:0 .07em}to{opacity:1}}
   @keyframes beam{from{opacity:.45}to{opacity:.85}}
   @keyframes dust{to{background-position:0 -180px,12px -270px,-8px -180px,6px -360px}}
   @keyframes twinkle{0%,100%{opacity:0}45%,55%{opacity:.75}}
@@ -482,9 +473,8 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .entry{position:relative;background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius);padding:var(--space-4) var(--space-5);
   transition:border-color var(--dur),transform var(--dur) var(--ease),box-shadow var(--dur)}
-@media (hover:hover){.entry:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow)}
-  .entry:hover .entry__title a{color:var(--accent-hover)}
-  .entry:hover .entry__more svg{transform:translateX(3px)}}
+@media (hover:hover){.entry:hover{border-color:var(--border-strong)}
+  .entry:hover .entry__title a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.15em}}
 .entry:focus-within{border-color:var(--accent)}
 .entry__meta,.fiche__meta{display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2) var(--space-3);
   font-size:var(--fs-xs);color:var(--muted);margin:0 0 var(--space-2)}
@@ -505,8 +495,7 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .entry__change b{color:var(--text);font-weight:600}
 mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 var(--accent)}
-.entry--featured{padding:var(--space-6);border-color:var(--border-strong);
-  background:linear-gradient(180deg,var(--surface-2),var(--surface) 70%)}
+.entry--featured{padding:var(--space-6);border-color:var(--border-strong)}
 .entry--featured .entry__title{font-size:clamp(var(--fs-2xl),4vw,var(--fs-3xl));line-height:1.2}
 .entry--featured .date{font-size:var(--fs-sm)}
 .entry__flag{font-size:var(--fs-xs);font-weight:600;
@@ -598,8 +587,6 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 
 /* ---- mouvement ---- */
 @media (prefers-reduced-motion:no-preference){
-  .js .reveal{animation:rise .5s var(--ease) backwards}
-  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .analyse[open] .analyse__body{animation:open .25s var(--ease)}
   @keyframes open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 }
@@ -858,7 +845,7 @@ def site_footer(prefix, feed=False):
     links = [f'<a href="{prefix}{ABOUT_PAGE}">Comment c’est fait</a>',
              f'<a href="{prefix}feed.xml">Flux Atom</a>']
     return (f'<footer class="sitefoot"><div class="inner">'
-            f'<p>{DISCLAIMER}</p><p>{" · ".join(links)}</p></div></footer>')
+            f'<p>{DISCLAIMER}</p><ul class="sitefoot__links">{"".join(f"<li>{l}</li>" for l in links)}</ul></div></footer>')
 
 def head(title, prefix, desc="", path="", canonical=None, og_type="website", extra=""):
     """<head> commun : meta, Open Graph, favicon, flux, feuille de style."""
@@ -875,14 +862,14 @@ def head(title, prefix, desc="", path="", canonical=None, og_type="website", ext
             f'<meta property="og:type" content="{og_type}">',
             f'<meta property="og:title" content="{t}">',
             f'<meta property="og:url" content="{html.escape(url, quote=True)}">',
-            f'<meta property="og:image" content="{SITE_URL}assets/og.png">',
+            f'<meta property="og:image" content="{SITE_URL}assets/og.jpg">',
             '<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">',
             '<meta property="og:image:alt" content="Droit Vivant, veille juridique du droit du numérique">',
             '<meta name="twitter:card" content="summary_large_image">',
             '<meta name="theme-color" content="#141a2e">',
             f'<link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml">',
             f'<link rel="alternate" type="application/atom+xml" title="Droit Vivant — flux Atom" href="{prefix}feed.xml">',
-            f'<link rel="preload" href="{prefix}assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>',
+            f'<link rel="preload" href="{prefix}assets/fonts/public-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>',
             f'<link rel="preload" href="{prefix}assets/fonts/source-serif-4-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>',
             f'<link rel="stylesheet" href="{prefix}assets/style.css">',
             f'<script src="{prefix}assets/site.js" defer></script>']
@@ -1233,7 +1220,7 @@ def entry_card(x, featured=False):
         body = f'<p class="entry__change">{html.escape(ch)}</p>' if ch else ""
     more = ('<span class="entry__more" aria-hidden="true">Lire la fiche</span>'
             if featured else "")
-    cls = "entry reveal" + (" entry--featured" if featured else "")
+    cls = "entry" + (" entry--featured" if featured else "")
     hn = "h2" if featured else "h3"
     return (f'<article class="{cls}" id="e-{mid}" data-id="{mid}" data-day="{x["date"]}" '
             f'data-theme="{x["theme"]}">'
@@ -1651,10 +1638,6 @@ SITE_JS = r"""
     el.hidden = !txt;
   });
 
-  /* ---- apparition des premieres cartes : animation CSS jouee une fois, aucun
-     etat masque persistant (une carte filtree puis reaffichee reste visible) ---- */
-  Array.prototype.slice.call(document.querySelectorAll('.reveal'), 0, 10)
-    .forEach(function (c, i) { c.style.animationDelay = (i * 45) + 'ms'; });
 })();
 """
 
@@ -1861,8 +1844,8 @@ def build_index(modules, tag_counts):
         '</span></form>'
         '<p class="search__opts needs-js">'
         '<label><input type="checkbox" id="ft"> Chercher aussi dans le texte intégral</label>'
-        '<span class="hint" id="q-hint"><code>#mot-clé</code> pour filtrer · '
-        '<code>/</code> pour revenir au champ</span>'
+        '<span class="hint" id="q-hint">Tapez <code>#mot-clé</code> pour filtrer, '
+        '<code>/</code> pour revenir au champ.</span>'
         '</p>'
         '<p class="hint" id="ft-note" role="status" hidden></p>'
         f'{themes_block}'
@@ -1962,8 +1945,7 @@ def build_hero(modules):
         f'{hero_media("")}'
         '<div class="hero__body"><div class="hero__text">'
         f'<p class="pill"><span>Mis à jour le <time datetime="{last["date"]}">{fr_day(last["date"])} {last["date"][:4]}</time></span></p>'
-        '<h1 class="hero__title" id="hero-title">Le droit du numérique '
-        '<del aria-hidden="true">est figé</del> <ins>bouge</ins>.</h1>'
+        '<h1 class="hero__title" id="hero-title">Ce qui change dans le droit du numérique.</h1>'
         '<p class="lede">Une veille sur l’IA, la cybersécurité, les données personnelles, les '
         'plateformes et la jurisprudence. Chaque fiche dit ce qui s’est passé, qui est concerné '
         'et ce qui change, sources officielles à l’appui.</p>'
@@ -2023,7 +2005,7 @@ def main():
     if FONTS.exists():
         shutil.copytree(FONTS, SITE / "assets" / "fonts")
     if OG_IMAGE.exists():
-        shutil.copy(OG_IMAGE, SITE / "assets" / "og.png")
+        shutil.copy(OG_IMAGE, SITE / "assets" / "og.jpg")
     if HERO.exists():
         (SITE / "assets" / "hero").mkdir(parents=True, exist_ok=True)
         for f in HERO.iterdir():
@@ -2053,14 +2035,14 @@ def main():
         if x["brief"]:
             p = SITE / x["brief"]
             (p.parent / (p.stem + ".html")).write_text(
-                render_md_page(read(p), f"Brief · {fr_short(x['date'])}", "../../",
+                render_md_page(read(p), f"Brief du {fr_short(x['date'])}", "../../",
                                path=x["brief"][:-3] + ".html", fiche="../../" + fiche_href(x),
                                raw_md_name=p.name,
                                raw_label="Version .md brute"), encoding="utf-8")
         if x["source"]:
             p = SITE / x["source"]
             (p.parent / (p.stem + ".html")).write_text(
-                render_md_page(read(p), f"Source NotebookLM · {fr_short(x['date'])}", "../../",
+                render_md_page(read(p), f"Source NotebookLM du {fr_short(x['date'])}", "../../",
                                path=x["source"][:-3] + ".html", fiche="../../" + fiche_href(x),
                                raw_md_name=p.name,
                                raw_label="Version .md brute (pour NotebookLM)"),
