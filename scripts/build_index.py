@@ -331,6 +331,12 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
   letter-spacing:-.03em;margin:0 0 var(--space-5);text-wrap:balance;color:var(--hero-ink)}
 .hero .lede{color:var(--hero-muted);font-size:var(--fs-lg);max-width:32rem;margin:0 0 var(--space-6)}
 .hero__cta{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+.latest{margin:0 0 var(--space-5);padding:var(--space-3) 0 var(--space-3) var(--space-4);border-left:2px solid var(--accent)}
+.latest__meta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-1) var(--space-3);margin:0 0 var(--space-1);
+  font-size:var(--fs-sm);color:var(--hero-muted)}
+.latest__meta .date{color:var(--hero-ink)}
+.latest__meta .badge{color:var(--hero-ink)}
+.latest__title{font-family:var(--serif);font-weight:600;font-size:var(--fs-xl);line-height:1.3;margin:0;color:var(--hero-ink);text-wrap:pretty}
 .btn-pill{display:inline-flex;align-items:center;gap:var(--space-2);min-height:44px;padding:0 var(--space-5);
   border-radius:var(--radius-full);font-size:var(--fs-base);font-weight:600;text-decoration:none;
   transition:background var(--dur),border-color var(--dur),color var(--dur)}
@@ -338,13 +344,13 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .btn-pill--main:hover{background:var(--accent-hover);color:var(--on-accent)}
 .btn-pill--ghost{border:1px solid rgb(236 230 217/.35);color:var(--hero-ink)}
 .btn-pill--ghost:hover{border-color:var(--hero-ink);color:var(--hero-ink);background:rgb(236 230 217/.06)}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-6);margin:var(--space-12) 0 0;padding:var(--space-5) 0 0;
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-6);margin:var(--space-12) 0 0;padding:var(--space-5) 0 0;
   border-top:1px solid rgb(236 230 217/.16);list-style:none}
 .stats li{display:flex;flex-direction:column;gap:var(--space-1)}
 .stats b{font-family:var(--serif);font-weight:500;font-size:clamp(var(--fs-xl),2.4vw,var(--fs-2xl));line-height:1.1;color:var(--hero-ink);
   font-variant-numeric:tabular-nums lining-nums}
 .stats span{font-size:var(--fs-sm);color:var(--hero-muted)}
-@media (max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5) var(--space-4)}}
+@media (max-width:560px){.stats{grid-template-columns:1fr 1fr;gap:var(--space-5) var(--space-4)}.stats li:last-child{grid-column:1/-1}}
 /* Jusqu'a 1023 px : l'image passe au-dessus du texte, en bandeau 16:9 */
 @media (max-width:1023px){
   .hero{min-height:0;display:block}
@@ -1923,34 +1929,32 @@ def count_sources(modules):
         urls.update(u.rstrip(".,;") for u in re.findall(r"https?://(?:[^\s()\]]|\([^\s()]*\))+", src))
     return len(urls)
 
-def period_label(first, last):
-    a, b = first["date"], last["date"]
-    if a[:4] == b[:4]:
-        return f"{fr_short(a).rsplit(' ', 1)[0]} – {fr_short(b)}"
-    return f"{fr_short(a)} – {fr_short(b)}"
-
 def build_hero(modules):
     if not modules:
         return '<section class="hero"><div class="hero__body"><h1 class="hero__title">Droit Vivant</h1></div></section>'
-    last, first = modules[0], modules[-1]
+    last = modules[0]
     themes = [THEMES[k] for k in THEMES if k != THEME_DEFAUT and any(m["theme"] == k for m in modules)]
     theme_list = ", ".join(t if t.isupper() else t.lower() for t in themes)
     stats = (
         f'<li><b>{len(modules)}</b><span>fiches publiées</span></li>'
-        f'<li><b>{period_label(first, last)}</b><span>période couverte</span></li>'
         f'<li><b>{len(themes)}</b><span>thèmes suivis : {html.escape(theme_list)}</span></li>'
         f'<li><b>{count_sources(modules)}</b><span>sources citées</span></li>')
     return (
         '<section class="hero grain" aria-labelledby="hero-title">'
         f'{hero_media("")}'
         '<div class="hero__body"><div class="hero__text">'
-        f'<p class="pill"><span>Mis à jour le <time datetime="{last["date"]}">{fr_day(last["date"])} {last["date"][:4]}</time></span></p>'
         '<h1 class="hero__title" id="hero-title">Ce qui change dans le droit du numérique.</h1>'
         '<p class="lede">Une veille sur l’IA, la cybersécurité, les données personnelles, les '
         'plateformes et la jurisprudence. Chaque fiche dit ce qui s’est passé, qui est concerné '
         'et ce qui change, sources officielles à l’appui.</p>'
-        '<p class="hero__cta"><a class="btn-pill btn-pill--main" href="#fiches">Lire les fiches</a>'
-        f'<a class="btn-pill btn-pill--ghost" href="{ABOUT_PAGE}">Comment c’est fait</a></p>'
+        # La derniere fiche publiee, en evidence : c'est l'information du jour.
+        '<div class="latest">'
+        f'<p class="latest__meta"><span>Dernière fiche</span>{date_tag(last["date"])}{theme_badge(last["theme"])}</p>'
+        f'<p class="latest__title" id="latest-title">{html.escape(last["short"])}</p>'
+        '</div>'
+        f'<p class="hero__cta"><a class="btn-pill btn-pill--main" href="{fiche_href(last)}" '
+        'aria-describedby="latest-title">Lire la dernière fiche</a>'
+        '<a class="btn-pill btn-pill--ghost" href="#fiches">Toutes les fiches</a></p>'
         '</div>'
         f'<ul class="stats" aria-label="La veille en chiffres">{stats}</ul>'
         '</div></section>')
