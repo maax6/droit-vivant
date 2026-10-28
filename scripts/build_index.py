@@ -1821,7 +1821,6 @@ def build_index(modules, tag_counts):
         "t": m["theme"],
     } for m in modules}
 
-    n_days = len({m["date"] for m in modules})
     last = modules[0]["date"] if modules else ""
     hero = build_hero(modules)
     frise = build_frise(modules) if modules else ""
@@ -1857,7 +1856,7 @@ def build_index(modules, tag_counts):
 
         '<div class="status">'
         f'<span class="status__n" id="count" aria-live="polite">'
-        f'{plural(len(modules), "fiche")} sur {plural(n_days, "jour")}</span>'
+        f'{plural(len(modules), "fiche")}</span>'
         '<a class="status__reset" id="reset" href="index.html" hidden>Réinitialiser les filtres</a>'
         '</div>'
         '<p class="empty" id="empty" hidden>Aucune fiche ne correspond à '
