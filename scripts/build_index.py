@@ -70,6 +70,7 @@ ARCHIVE = ROOT / "archive"
 SITE = ROOT / "site"
 RESUMES = ROOT / "scripts" / "data" / "resumes.json"
 FONTS = ROOT / "scripts" / "assets" / "fonts"
+ANALYTICS = ROOT / "scripts" / "assets" / "analytics"   # bundle PostHog, voir scripts/analytics/
 OG_IMAGE = ROOT / "scripts" / "assets" / "og.jpg"
 HERO = ROOT / "assets" / "hero"     # visuels du heros, deja convertis (AVIF, WebP, JPEG)    # image de partage, statique
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -596,7 +597,33 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none !important;animation:none !important;scroll-behavior:auto !important}
 }
-@media print{.topbar,.sitefoot,.pager,.theme-toggle{display:none}.analyse__body{display:block}body{background:#fff;color:#000}}
+/* Consentement PostHog (assets/analytics/), aux couleurs du site */
+.site-analytics{font:400 var(--fs-sm)/1.6 var(--sans);color:var(--text)}
+.site-analytics [hidden]{display:none !important}
+.site-analytics .privacy-link{margin-top:var(--space-3);padding:0;border:0;background:none;color:var(--muted);font:inherit;text-decoration:underline;cursor:pointer}
+.site-analytics .consent-banner{position:fixed;z-index:1000;bottom:1rem;right:1rem;width:min(calc(100% - 2rem),26rem);padding:1rem 1.1rem;background:var(--surface);border:1px solid var(--border-strong);border-radius:var(--radius-sm);box-shadow:var(--shadow)}
+.site-analytics .consent-copy{padding-right:2rem}
+.site-analytics h2{margin:0 0 .4rem;font:600 var(--fs-base)/1.4 var(--sans);color:var(--text)}
+.site-analytics p{margin:0;color:var(--muted);font-size:var(--fs-xs)}
+.site-analytics .consent-hint{margin-top:.5rem}
+.site-analytics a{color:var(--link);font-size:var(--fs-xs)}
+.site-analytics .consent-dismiss{position:absolute;top:.3rem;right:.3rem;display:grid;place-items:center;width:2.75rem;height:2.75rem;border:0;background:none;color:var(--text);font-size:1.4rem;line-height:1;cursor:pointer}
+.site-analytics .consent-footer{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-top:.75rem}
+.site-analytics .consent-actions{display:flex;flex-wrap:wrap;gap:.4rem}
+.site-analytics .consent-actions button{min-height:2.75rem;padding:.4rem .75rem;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--surface-2);color:var(--text);font:inherit;font-size:var(--fs-xs);cursor:pointer}
+.site-analytics .consent-actions button[data-consent-all]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.site-analytics dialog{width:min(calc(100% - 2rem),36rem);max-height:calc(100% - 3rem);overflow:auto;padding:1.5rem;background:var(--surface);color:var(--text);border:1px solid var(--border-strong);border-radius:var(--radius)}
+.site-analytics dialog::backdrop{background:rgba(5,8,20,.6)}
+.site-analytics dialog header{display:flex;justify-content:space-between;align-items:start;gap:1rem}
+.site-analytics dialog header button{min-width:2.75rem;min-height:2.75rem;border:0;background:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+.site-analytics dialog label{display:flex;align-items:start;gap:1rem;padding:1rem 0;border-top:1px solid var(--border)}
+.site-analytics dialog input{width:1.1rem;height:1.1rem;margin-top:.2rem;flex:none;accent-color:var(--accent)}
+.site-analytics dialog strong,.site-analytics dialog small{display:block}
+.site-analytics dialog small{margin-top:.35rem;color:var(--muted);font-size:var(--fs-xs)}
+.site-analytics dialog>p{margin:.8rem 0 1.2rem}
+.site-analytics .consent-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@media (max-width:480px){.site-analytics .consent-banner{bottom:.75rem;right:.75rem;width:calc(100% - 1.5rem)}}
+@media print{.site-analytics,.topbar,.sitefoot,.pager,.theme-toggle{display:none}.analyse__body{display:block}body{background:#fff;color:#000}}
 """.strip()
 
 # --------------------------------------------------------------------------- #
@@ -877,7 +904,8 @@ def head(title, prefix, desc="", path="", canonical=None, og_type="website", ext
             f'<link rel="preload" href="{prefix}assets/fonts/public-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>',
             f'<link rel="preload" href="{prefix}assets/fonts/source-serif-4-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>',
             f'<link rel="stylesheet" href="{prefix}assets/style.css">',
-            f'<script src="{prefix}assets/site.js" defer></script>']
+            f'<script src="{prefix}assets/site.js" defer></script>',
+            f'<script type="module" src="{prefix}assets/analytics/analytics.js"></script>']
     if desc:
         out.append(f'<meta property="og:description" content="{d}">')
     out.append(extra)
@@ -910,7 +938,8 @@ def reskin_infographie(t, fiche=""):
     p = "../../"
     extra = (THEME_INIT + f'<link rel="icon" href="{p}assets/favicon.svg" type="image/svg+xml">'
              f'<link rel="stylesheet" href="{p}assets/style.css">'
-             f'<script src="{p}assets/site.js" defer></script>')
+             f'<script src="{p}assets/site.js" defer></script>'
+             f'<script type="module" src="{p}assets/analytics/analytics.js"></script>')
     if "assets/style.css" not in t:
         if re.search(r"</head>", t, re.I):
             t = re.sub(r"</head>", lambda m: extra + "\n</head>", t, count=1, flags=re.I)
@@ -1769,9 +1798,21 @@ def build_legal():
         '<p>GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, '
         'San Francisco, CA 94107, États-Unis — téléphone : +1 877 448 4820.</p>'
         '<p><a href="https://support.github.com/contact">Contacter GitHub</a></p>'
+        '<h2 id="mesure-audience">Mesure d’audience</h2>'
+        '<p>Avec votre accord seulement, le site utilise <a href="https://posthog.com/fr">PostHog</a> '
+        '(serveurs dans l’Union européenne) pour comprendre comment il est lu. Sans accord, rien n’est chargé '
+        'ni collecté. Fermer le bandeau vaut refus.</p>'
+        '<ul><li><strong>Statistiques de navigation</strong> : pages consultées, clics sur les liens et boutons, '
+        'défilement, performances et erreurs techniques. Les messages d’erreur sont masqués ; seuls le type '
+        'et la position dans le code sont conservés.</li>'
+        '<li><strong>Enregistrement des sessions</strong> : relecture de la navigation et des interactions, '
+        'avec les champs saisis masqués.</li></ul>'
+        '<p>Aucun profil nominatif n’est créé et les adresses sont conservées sans paramètres. '
+        'Votre choix est gardé six mois dans votre navigateur ; le lien « Confidentialité » en bas de page '
+        'permet de le modifier à tout moment.</p>'
         '</article></main>')
     return shell("Mentions légales — Droit Vivant", body, "", path=LEGAL_PAGE,
-                 desc="Mentions légales de Droit Vivant : éditeur et hébergeur du site.", feed=True)
+                 desc="Mentions légales de Droit Vivant : éditeur, hébergeur et mesure d’audience.", feed=True)
 
 # --------------------------------------------------------------------------- #
 #  Index                                                                      #
@@ -2026,6 +2067,8 @@ def main():
     (SITE / "assets" / "favicon.svg").write_text(FAVICON, encoding="utf-8")
     if FONTS.exists():
         shutil.copytree(FONTS, SITE / "assets" / "fonts")
+    if ANALYTICS.exists():
+        shutil.copytree(ANALYTICS, SITE / "assets" / "analytics")
     if OG_IMAGE.exists():
         shutil.copy(OG_IMAGE, SITE / "assets" / "og.jpg")
     if HERO.exists():
