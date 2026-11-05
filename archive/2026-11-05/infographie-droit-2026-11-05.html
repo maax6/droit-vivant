@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phishing : votre banque doit vous rembourser d'abord</title>
+<style>
+:root{--bg:#fafafa;--fg:#1c1c1e;--muted:#5a5a5f;--border:#d4d4d8;--card:#ffffff;--tint:#eef2f7;--tint2:#f3f0e8}
+@media (prefers-color-scheme:dark){:root{--bg:#161618;--fg:#ececee;--muted:#a0a0a8;--border:#3a3a40;--card:#1e1e22;--tint:#222a35;--tint2:#2a2820}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px}
+.kicker{color:var(--muted);font-size:.85rem;margin-bottom:8px}
+h1{font-size:1.7rem;line-height:1.25;margin:0 0 16px}
+h2{font-size:1.05rem;margin:0 0 8px}
+.principle,.why,.card{border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--card);margin-bottom:16px}
+.principle{background:var(--tint)}
+.why{background:var(--tint2)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid .card{margin-bottom:0}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.ref ul{margin:0;padding-left:18px}
+.card.full{margin-top:16px}
+dt{font-weight:600;margin-top:8px}
+dd{margin:2px 0 0;color:var(--muted)}
+footer{color:var(--muted);font-size:.85rem;margin-top:16px}
+a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="kicker">Droit Vivant · Numérique / Cyber · 5 novembre 2026</div>
+<h1>Phishing : votre banque doit vous rembourser d'abord — même si elle vous accuse de négligence grave</h1>
+
+<div class="principle"><strong>Principe-clé :</strong> en cas d'opération de paiement non autorisée, la banque doit rembourser immédiatement (au plus tard à la fin du jour ouvrable suivant) ; elle ne peut pas refuser en invoquant d'emblée la négligence grave du client, qu'elle devra prouver ensuite si elle veut récupérer la perte.</div>
+
+<div class="grid">
+<div class="card">
+<h2>Textes de référence</h2>
+<div class="ref"><ul>
+<li>Directive (UE) 2015/2366 (PSD2), <code>art. 73, § 1</code> : remboursement immédiat de l'opération non autorisée</li>
+<li><code>art. 74, § 1</code> : qui supporte finalement la perte (dont faute lourde du payeur)</li>
+<li>Code monétaire et financier, <code>L. 133-18</code> (remboursement) et <code>L. 133-19</code> (responsabilité du payeur), transposant la directive</li>
+<li>CJUE, affaire <code>C-70/25</code>, communiqué n° 147/26 du 15 octobre 2026</li>
+</ul></div>
+</div>
+<div class="card case">
+<h2>L'affaire</h2>
+<p>Une cliente d'une banque polonaise vend un objet en ligne. Elle reçoit un <b>faux lien</b> censé confirmer la vente, mène sur un <b>faux site de sa banque</b> et y saisit ses identifiants. Un tiers vire <b>environ 700 €</b>. Prévenue le lendemain, la banque refuse de rembourser : <b>négligence grave</b>. Saisie d'une question préjudicielle par une juridiction polonaise, la Cour répond que le <b>remboursement immédiat</b> s'impose, sauf soupçon raisonnable de fraude du client communiqué à l'autorité nationale ; la <b>preuve de la négligence incombe à la banque</b>.</p>
+</div>
+</div>
+
+<div class="why">
+<h2>Pourquoi c'est important</h2>
+<p>Les arnaques au faux site et au faux conseiller bancaire se jouent souvent sur la question « qui paie ? ». La Cour déplace le débat : d'abord le remboursement, ensuite la discussion sur la faute. Pour les banques, cela renforce l'enjeu de la détection de fraude ; pour les chercheurs en sécurité, la qualité des preuves techniques (journaux, authentification forte) devient centrale dans la répartition finale des pertes. Il s'agit d'une réponse à une question préjudicielle, le litige national restant à trancher.</p>
+</div>
+
+<div class="card full">
+<h2>Mini-glossaire</h2>
+<dl class="glossary">
+<dt>Opération non autorisée</dt><dd>Paiement que le titulaire du compte n'a pas consenti selon les règles prévues.</dd>
+<dt>Question préjudicielle</dt><dd>Question posée à la CJUE par un juge national sur l'interprétation du droit de l'Union.</dd>
+<dt>Négligence grave</dt><dd>Manquement caractérisé du client à ses obligations, par exemple ne pas protéger ses identifiants ; à prouver par la banque.</dd>
+<dt>PSD2</dt><dd>Directive européenne sur les services de paiement (2015/2366).</dd>
+</dl>
+</div>
+
+<footer>Source principale : <a href="https://curia.europa.eu/site/upload/docs/application/pdf/2026-10/cp260147en.pdf">CJUE, communiqué n° 147/26 (C-70/25)</a>. Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.</footer>
+</div>
+</body>
+</html>
