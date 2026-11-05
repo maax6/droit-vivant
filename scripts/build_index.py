@@ -100,6 +100,7 @@ AUTHOR_URL = "https://maxzer.fr"
 
 TAGS_VISIBLES = 12      # taille du nuage avant repli dans <details>
 EXCERPT_MAX = 220
+TAGS_FICHE = 6          # mots-cles affiches en bas de fiche
 TAGS_MIN = 2            # occurrences minimales pour figurer dans le nuage
 
 # Vocabulaire controle. Sans lui, la ligne « Theme » de chaque brief fabrique un
@@ -395,16 +396,14 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 @media (prefers-reduced-motion:reduce){.beam,.dust,.screen{display:none}}
 
 /* ---- frise des fiches (sous le heros) ---- */
-.frise{margin:0 0 var(--space-8)}
+.frise{margin:0 0 var(--space-6)}
 .frise svg{display:block;width:100%;height:46px;overflow:visible}
 .frise line{stroke-width:3;stroke-linecap:round}
 .frise .axis{stroke:var(--border-strong);stroke-width:1}
 .frise__months{position:relative;height:1.6em;margin:var(--space-2) 0 0;font-size:var(--fs-xs);color:var(--muted)}
 .frise__months a{position:absolute;top:0;white-space:nowrap;padding-left:5px;border-left:1px solid var(--border-strong);color:var(--muted);text-decoration:none}
 .frise__months a:hover{color:var(--text);text-decoration:underline}
-.frise__legend{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-4);margin:var(--space-3) 0 0;padding:0;list-style:none;font-size:var(--fs-xs);color:var(--muted)}
-.frise__legend li{display:inline-flex;align-items:center;gap:6px}
-.frise__legend li::before{content:"";width:10px;height:3px;border-radius:2px;background:var(--tc)}
+.frise__months a.end{translate:-100% 0;padding:0 5px 0 0;border-left:0;border-right:1px solid var(--border-strong)}
 .section-title{font-family:var(--serif);font-weight:600;font-size:var(--fs-2xl);margin:0 0 var(--space-4)}
 .lede{color:var(--muted);font-size:var(--fs-lg);margin:0;max-width:60ch;line-height:1.6}
 @media (max-width:600px){.hero{margin:0 0 var(--space-6)}.lede{font-size:var(--fs-base)}
@@ -427,15 +426,17 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .search__clear:hover{color:var(--text);background:var(--surface-2)}
 .kbd{position:absolute;right:var(--space-3);font-family:var(--mono);font-size:var(--fs-xs);color:var(--muted);
   border:1px solid var(--border);border-radius:4px;padding:0 6px;pointer-events:none}
-.search__opts{display:flex;align-items:center;gap:var(--space-2) var(--space-4);margin:var(--space-3) 0 0;
+.search__opts{display:flex;align-items:center;gap:var(--space-2) var(--space-4);margin:var(--space-2) 0 0;
   font-size:var(--fs-sm);color:var(--muted);flex-wrap:wrap}
 .search__opts input{accent-color:var(--accent);margin:0;width:16px;height:16px}
 .search__opts label{display:inline-flex;align-items:center;gap:var(--space-2);cursor:pointer;min-height:32px}
 .hint{color:var(--muted);font-size:var(--fs-sm)}
-@media (hover:none),(max-width:600px){.kbd,#q-hint{display:none}}
+@media (hover:none),(max-width:600px){.kbd{display:none}}
 .nojs{background:var(--note-bg);border:1px solid var(--note-border);color:var(--note-ink);
   border-radius:var(--radius);padding:var(--space-3) var(--space-4);font-size:var(--fs-sm);margin:var(--space-3) 0 0}
 .themes{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:var(--space-4) 0 0}
+@media (max-width:640px){.themes{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1*var(--space-4));
+  padding:2px var(--space-4) var(--space-1)}.themes::-webkit-scrollbar{display:none}.theme-btn{flex:0 0 auto}}
 .theme-btn{font:inherit;font-size:var(--fs-sm);line-height:1.2;padding:var(--space-2) var(--space-4);border-radius:var(--radius-full);
   min-height:40px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;
   display:inline-flex;align-items:center;gap:var(--space-2);transition:border-color var(--dur),background var(--dur),transform var(--dur)}
@@ -445,9 +446,6 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .theme-btn .n{font-size:var(--fs-xs);color:var(--muted)}
 .theme-btn[aria-pressed=true]{background:var(--text);border-color:var(--text);color:var(--bg);font-weight:600}
 .theme-btn[aria-pressed=true] .n{color:inherit;opacity:.8}
-.tagbox{margin:var(--space-3) 0 0}
-.tagbox>summary{font-size:var(--fs-sm);color:var(--muted);cursor:pointer;width:fit-content;padding:var(--space-2) 0}
-.tagbox>summary:hover{color:var(--text)}
 .tags{margin:var(--space-2) 0 0}
 .tags__list{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0;padding:0;list-style:none}
 .tags .tag{display:inline-flex;align-items:baseline;gap:5px;font-size:var(--fs-xs);line-height:1;
@@ -479,7 +477,8 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .entries{display:grid;gap:var(--space-3);margin:0}
 
 /* ---- carte ---- */
-.entry{position:relative;background:var(--surface);border:1px solid var(--border);
+.entry{position:relative;display:grid;grid-template-columns:3.75rem minmax(0,1fr);gap:var(--space-4);
+  background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius);padding:var(--space-4) var(--space-5);
   transition:border-color var(--dur),transform var(--dur) var(--ease),box-shadow var(--dur)}
 @media (hover:hover){.entry:hover{border-color:var(--border-strong)}
@@ -500,18 +499,18 @@ footer{margin-top:var(--space-10);padding-top:var(--space-4);border-top:1px soli
 .entry__title a::after{content:"";position:absolute;inset:0;border-radius:var(--radius)}
 .entry__title a:focus-visible{outline:none}
 .entry:has(.entry__title a:focus-visible){outline:2px solid var(--accent);outline-offset:3px}
+.entry__date{display:flex;flex-direction:column;align-items:flex-start;padding-top:2px;line-height:1;
+  font-variant-numeric:tabular-nums lining-nums}
+.entry__day{font-family:var(--serif);font-weight:600;font-size:var(--fs-3xl);color:var(--text);letter-spacing:-.02em}
+.entry__mon{margin-top:var(--space-1);font-size:var(--fs-sm);color:var(--muted)}
+.mins{font-size:var(--fs-xs);color:var(--muted)}
+.entry__change strong{color:var(--text);font-weight:600}
+@media (max-width:560px){.entry{grid-template-columns:2.75rem minmax(0,1fr);gap:var(--space-3);padding:var(--space-4)}
+  .entry__day{font-size:var(--fs-2xl)}.entry__title{font-size:var(--fs-lg)}}
 .entry__change{margin:var(--space-2) 0 0;color:var(--muted);font-size:var(--fs-base);line-height:1.55;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .entry__change b{color:var(--text);font-weight:600}
 mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 var(--accent)}
-.entry--featured{padding:var(--space-6);border-color:var(--border-strong)}
-.entry--featured .entry__title{font-size:clamp(var(--fs-2xl),4vw,var(--fs-3xl));line-height:1.2}
-.entry--featured .date{font-size:var(--fs-sm)}
-.entry__flag{font-size:var(--fs-xs);font-weight:600;
-  color:var(--on-accent);background:var(--accent);border-radius:var(--radius-full);padding:2px var(--space-2)}
-.entry--featured .trois{margin-top:var(--space-4)}
-.entry__more{display:inline-flex;align-items:center;gap:var(--space-1);margin-top:var(--space-4);font-size:var(--fs-sm);font-weight:600;color:var(--accent)}
-.entry__more svg{transition:transform var(--dur) var(--ease)}
 
 /* ---- trois lignes ---- */
 .trois{margin:0;display:grid;gap:var(--space-3)}
@@ -526,11 +525,23 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 .backlink a:hover{color:var(--text)}
 .fiche__meta{margin:0 0 var(--space-4);font-size:var(--fs-sm)}
 .fiche__meta .date{font-size:var(--fs-sm)}
+.analyse__body .fiche__full{margin:var(--space-4) 0 var(--space-6);padding-bottom:var(--space-4);border-bottom:1px solid var(--border)}
 .fiche__full{color:var(--muted);font-family:var(--serif);font-style:italic;font-size:var(--fs-base);line-height:1.5;margin:0 0 var(--space-2)}
 .fiche__full .lbl{display:block;font-style:normal;font-size:var(--fs-xs);margin-bottom:2px}
 .resume{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
   padding:var(--space-5) var(--space-6);margin:var(--space-6) 0}
 .resume .trois dd{font-size:var(--fs-md)}
+.fiche .resume>.resume__h{font-family:var(--sans);font-size:var(--fs-sm);font-weight:600;color:var(--accent);margin:0 0 var(--space-3)}
+.mins{white-space:nowrap}
+.annexes{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:var(--space-8);margin:var(--space-10) 0 0;
+  padding-top:var(--space-6);border-top:1px solid var(--border);font-size:var(--fs-sm);color:var(--muted)}
+@media (max-width:760px){.annexes{grid-template-columns:1fr;gap:var(--space-6)}}
+.annexes__h{font-family:var(--sans);font-size:var(--fs-sm);font-weight:600;color:var(--text);margin:0 0 var(--space-3)}
+.annexes__side .annexes__h:not(:first-child){margin-top:var(--space-6)}
+.docs{list-style:none;margin:0;padding:0;display:grid;gap:var(--space-1)}
+.docs a{display:inline-flex;align-items:center;gap:var(--space-2);min-height:32px;color:var(--muted);text-decoration:none}
+.docs a:hover{color:var(--text);text-decoration:underline}
+.docs svg{width:15px;height:15px}
 .note{background:var(--note-bg);border:1px solid var(--note-border);border-radius:var(--radius);
   padding:var(--space-4) var(--space-5);margin:var(--space-6) 0;color:var(--text);font-size:var(--fs-base)}
 .note h2{display:flex;align-items:center;gap:var(--space-2);font-size:var(--fs-xs);font-weight:600;
@@ -547,12 +558,11 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
 .analyse__body{padding:var(--space-2) var(--space-6) var(--space-2)}
 .analyse__body h2{font-size:var(--fs-xl);margin-top:var(--space-8)}
 .fiche>article>section>h2{font-size:var(--fs-xl);margin:var(--space-10) 0 var(--space-3)}
-.sources{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-2)}
-.sources li{margin:0;padding:var(--space-3) var(--space-4);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
-  font-size:var(--fs-base);line-height:1.5}
-.sources a{display:block;margin:calc(-1*var(--space-3)) calc(-1*var(--space-4));padding:var(--space-3) var(--space-4);
-  color:var(--text);text-decoration:none;border-radius:var(--radius-sm)}
-.sources a:hover{background:var(--surface-2);color:var(--text)}
+.sources{list-style:none;padding:0;margin:0;display:grid;gap:0}
+.sources li{margin:0;padding:var(--space-2) 0;border-bottom:1px solid var(--border);font-size:var(--fs-sm);line-height:1.45}
+.sources li:last-child{border-bottom:0}
+.sources a{display:block;padding:var(--space-1) 0;color:var(--text);text-decoration:none}
+.sources a:hover{color:var(--text);text-decoration:underline}
 .sources a:hover .src-host{color:var(--accent)}
 .sources .src-host{display:block;font-size:var(--fs-xs);color:var(--muted);margin-bottom:2px;transition:color var(--dur)}
 .linkrow{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0}
@@ -574,7 +584,7 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
   margin-bottom:var(--space-1)}
 .pager__next{text-align:right;grid-column:2}
 @media (max-width:600px){.pager{grid-template-columns:1fr}.pager__next{grid-column:auto;text-align:left}}
-.fiche-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none;margin:var(--space-8) 0 0;padding:0}
+.fiche-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);list-style:none;margin:0;padding:0}
 .fiche-tags a{display:inline-block;font-size:var(--fs-xs);color:var(--muted);border:1px solid var(--border);
   border-radius:var(--radius-full);padding:var(--space-1) var(--space-3);background:var(--surface);text-decoration:none}
 .fiche-tags a:hover{color:var(--text);border-color:var(--border-strong)}
@@ -1218,26 +1228,42 @@ def sources_html(src_md):
 # --------------------------------------------------------------------------- #
 #  Accueil : une carte par module                                              #
 # --------------------------------------------------------------------------- #
+READ_WPM = 220   # mots par minute, lecture d'un texte juridique dense
+
+def reading_minutes(x):
+    """Duree de lecture de l'analyse complete (brief sans titre ni sources)."""
+    if "_minutes" not in x:
+        body, _ = split_brief(read(x["_brief_path"]))
+        words = len(md_plain(body).split())
+        x["_minutes"] = max(1, -(-words // READ_WPM)) if words else 0
+    return x["_minutes"]
+
+def minutes_tag(x):
+    n = reading_minutes(x)
+    return f'<span class="mins">{n} min de lecture</span>' if n else ""
+
 def entry_card(x, featured=False):
+    """Carte de l'accueil : la date en colonne (repere de lecture d'une veille),
+    puis le theme, la duree de lecture, le titre et ce qui change."""
     mid = module_id(x)
-    meta = []
-    meta += [date_tag(x["date"]), theme_badge(x["theme"])]
+    y, m, d = (int(v) for v in x["date"].split("-"))
+    day = "1er" if d == 1 else str(d)
+    meta = [theme_badge(x["theme"]), minutes_tag(x), f'<span class="ago" data-ago="{x["date"]}"></span>']
     if x["multi"]:
         meta.append(f'<span class="entry__slug">{html.escape(slug_label(x))}</span>')
-    if featured:
-        body = lines_html(x)
+    ch = x["lines"].get("change")
+    if ch:
+        body = f'<p class="entry__change"><strong>Ce qui change :</strong> {html.escape(ch)}</p>'
     else:
-        ch = x["lines"].get("change") or x["lines"].get("quoi") or x["excerpt"]
-        body = f'<p class="entry__change">{html.escape(ch)}</p>' if ch else ""
-    more = ('<span class="entry__more" aria-hidden="true">Lire la fiche</span>'
-            if featured else "")
-    cls = "entry" + (" entry--featured" if featured else "")
-    hn = "h2" if featured else "h3"
-    return (f'<article class="{cls}" id="e-{mid}" data-id="{mid}" data-day="{x["date"]}" '
+        alt = x["lines"].get("quoi") or x["excerpt"]
+        body = f'<p class="entry__change">{html.escape(alt)}</p>' if alt else ""
+    return (f'<article class="entry" id="e-{mid}" data-id="{mid}" data-day="{x["date"]}" '
             f'data-theme="{x["theme"]}">'
-            f'<div class="entry__meta">{"".join(meta)}</div>'
-            f'<{hn} class="entry__title"><a href="{fiche_href(x)}">{html.escape(x["short"])}</a></{hn}>'
-            f'{body}{more}</article>')
+            f'<time class="entry__date" datetime="{x["date"]}"><span class="entry__day">{day}</span>'
+            f'<span class="entry__mon">{MOIS_COURT[m - 1]}</span></time>'
+            f'<div class="entry__body"><div class="entry__meta">{"".join(meta)}</div>'
+            f'<h3 class="entry__title"><a href="{fiche_href(x)}">{html.escape(x["short"])}</a></h3>'
+            f'{body}</div></article>')
 
 def tag_chip(tag, n, extra=""):
     return (f'<li><a class="tag{extra}" href="?tag={tag}" data-tag="{tag}">'
@@ -1258,16 +1284,16 @@ def related_html(ids, by_id, prefix=""):
 def render_fiche(x, i, listed, by_id):
     prefix = "../"
     body_md, src_md = split_brief(read(x["_brief_path"]))
-    meta = [date_tag(x["date"], long=True), theme_badge(x["theme"])]
+    meta = [date_tag(x["date"], long=True), theme_badge(x["theme"]), minutes_tag(x)]
     if x["multi"]:
         meta.append(f'<span class="entry__slug">{html.escape(slug_label(x))}</span>')
 
     parts = [f'<p class="backlink"><a href="{prefix}index.html">{icon("arrow-left")} Toutes les fiches</a></p>',
              f'<div class="fiche__meta">{"".join(meta)}</div>',
              f'<h1>{html.escape(x["short"])}</h1>']
-    if x["short"] != x["title"]:
-        parts.append(f'<p class="fiche__full"><span class="lbl">Titre d’origine du brief</span>'
-                     f'{html.escape(x["title"])}</p>')
+    # le titre d'origine du brief passe en tete de l'analyse : il n'encombre plus l'en-tete
+    full = (f'<p class="fiche__full"><span class="lbl">Titre d’origine du brief</span>'
+            f'{html.escape(x["title"])}</p>') if x["short"] != x["title"] else ""
 
     ref = by_id.get(x["doublon_de"]) if x["doublon_de"] else None
     if ref:
@@ -1281,45 +1307,49 @@ def render_fiche(x, i, listed, by_id):
                      f'<h2 id="note-h">{icon("alert")}Note de cohérence</h2>'
                      f'<p>{html.escape(x["note"])}</p></aside>')
     if x["lines"]:
-        parts.append('<section class="resume" aria-label="En trois lignes">'
+        parts.append('<section class="resume" aria-labelledby="bref">'
+                     '<h2 class="resume__h" id="bref">En bref</h2>'
                      f'{lines_html(x)}</section>')
 
     if body_md:
         # sans resume, l'analyse est la seule matiere de la page : on la deplie
         opened = "" if x["lines"] else " open"
         parts.append(f'<details class="analyse"{opened}><summary>Lire l’analyse complète {icon("chevron")}</summary>'
-                     f'<div class="analyse__body doc">{md_to_html(body_md)}</div></details>')
+                     f'<div class="analyse__body doc">{full}{md_to_html(body_md)}</div></details>')
     elif not ref:
         parts.append('<p>Ce module ne comporte pas de brief écrit.'
                      + (' L’infographie en donne la synthèse.' if x["infographie"] else "")
                      + '</p>')
 
-    if src_md:
-        parts.append('<section aria-labelledby="sources"><h2 id="sources">Sources</h2>'
-                     f'{sources_html(src_md)}</section>')
-
-    links = []
-    if x["infographie"]:
-        links.append(f'<a class="btn" href="{prefix}{x["infographie"]}">{icon("chart")}Infographie</a>')
-    if x["brief"]:
-        links.append(f'<a class="btn" href="{prefix}{x["brief"][:-3]}.html">{icon("file")}Brief (page)</a>')
-    if x["source"]:
-        links.append(f'<a class="btn" href="{prefix}{x["source"][:-3]}.html">{icon("file")}Source NotebookLM</a>')
-        links.append(f'<a class="btn" href="{prefix}{x["source"]}" download>{icon("download")}Source (.md)</a>')
-    if x["brief"]:
-        links.append(f'<a class="btn" href="{prefix}{x["brief"]}" download>{icon("download")}Brief (.md)</a>')
-    if links:
-        parts.append(f'<section aria-labelledby="plus"><h2 id="plus">Aller plus loin</h2>'
-                     f'<div class="linkrow">{"".join(links)}</div></section>')
-
     rel_html = related_html(x["voir"], by_id)
     if rel_html:
         parts.append(f'<section aria-labelledby="voir"><h2 id="voir">Sur le même sujet</h2>{rel_html}</section>')
 
+    # Annexes regroupees et en retrait : sources, documents, mots-cles
+    docs = []
+    if x["infographie"]:
+        docs.append(f'<a href="{prefix}{x["infographie"]}">{icon("chart")}Infographie</a>')
+    if x["brief"]:
+        docs.append(f'<a href="{prefix}{x["brief"][:-3]}.html">{icon("file")}Brief</a>')
+    if x["source"]:
+        docs.append(f'<a href="{prefix}{x["source"][:-3]}.html">{icon("file")}Source NotebookLM</a>')
+    if x["brief"]:
+        docs.append(f'<a href="{prefix}{x["brief"]}" download>{icon("download")}Brief en Markdown</a>')
+    if x["source"]:
+        docs.append(f'<a href="{prefix}{x["source"]}" download>{icon("download")}Source en Markdown</a>')
+    side = ""
+    if docs:
+        side += ('<h3 class="annexes__h">Documents</h3><ul class="docs">'
+                 + "".join(f"<li>{d}</li>" for d in docs) + '</ul>')
     if x["tags"]:
         chips = "".join(f'<li><a href="{prefix}index.html?tag={t}">#{html.escape(t)}</a></li>'
-                        for t in x["tags"])
-        parts.append(f'<nav aria-label="Mots-clés"><ul class="fiche-tags">{chips}</ul></nav>')
+                        for t in x["tags"][:TAGS_FICHE])
+        side += f'<h3 class="annexes__h">Mots-clés</h3><ul class="fiche-tags">{chips}</ul>'
+    main_col = (f'<h3 class="annexes__h">Sources</h3>{sources_html(src_md)}') if src_md else ""
+    if main_col or side:
+        parts.append('<section class="annexes" aria-labelledby="annexes-h">'
+                     '<h2 class="sr-only" id="annexes-h">Sources et documents</h2>'
+                     f'<div class="annexes__main">{main_col}</div><div class="annexes__side">{side}</div></section>')
 
     pager = ""
     if i is not None:
@@ -1509,7 +1539,8 @@ SEARCH_JS = r"""
     });
 
     count.textContent = n + (n > 1 ? ' fiches' : ' fiche')
-      + (filtering ? ' sur ' + cards.length : '');
+      + (filtering ? ' sur ' + cards.length : '')
+      + (all.length ? ' pour ' + all.map(function (t) { return '#' + t; }).join(' ') : '');
     reset.hidden = !filtering;
     empty.hidden = n !== 0;
     if (n === 0) {
@@ -1527,28 +1558,40 @@ SEARCH_JS = r"""
   /* ---- surlignage des termes dans les titres et resumes visibles ---- */
   var hlNodes = cards.map(function (c) {
     return Array.prototype.slice.call(c.querySelectorAll('.entry__title a, .entry__change, .trois dd'))
-      .map(function (el) { return { el: el, text: el.textContent }; });
+      .map(function (el) { return { el: el, html: el.innerHTML, marked: false }; });
   });
+  /* Surligne dans les seuls noeuds texte : le balisage (gras, liens) est conserve. */
+  function markText(node, words) {
+    var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+    var texts = [], t;
+    while ((t = walker.nextNode())) texts.push(t);
+    var hit = false;
+    texts.forEach(function (tn) {
+      var txt = tn.nodeValue, f = fold(txt), marks = [];
+      words.forEach(function (w) {
+        var i = -1;
+        while ((i = f.indexOf(w, i + 1)) !== -1) marks.push([i, i + w.length]);
+      });
+      if (!marks.length) return;
+      hit = true;
+      marks.sort(function (a, b) { return a[0] - b[0]; });
+      var frag = document.createDocumentFragment(), pos = 0;
+      marks.forEach(function (m) {
+        if (m[0] < pos) return;
+        frag.appendChild(document.createTextNode(txt.slice(pos, m[0])));
+        var mk = document.createElement('mark'); mk.textContent = txt.slice(m[0], m[1]);
+        frag.appendChild(mk); pos = m[1];
+      });
+      frag.appendChild(document.createTextNode(txt.slice(pos)));
+      tn.parentNode.replaceChild(frag, tn);
+    });
+    return hit;
+  }
   function highlight(words) {
     cards.forEach(function (card, k) {
       hlNodes[k].forEach(function (n) {
-        if (!words.length || card.hidden) { if (n.el.firstElementChild) n.el.textContent = n.text; return; }
-        var f = fold(n.text), marks = [];
-        words.forEach(function (w) {
-          var i = -1;
-          while (w && (i = f.indexOf(w, i + 1)) !== -1) marks.push([i, i + w.length]);
-        });
-        if (!marks.length) { n.el.textContent = n.text; return; }
-        marks.sort(function (a, b) { return a[0] - b[0]; });
-        n.el.textContent = '';
-        var pos = 0;
-        marks.forEach(function (m) {
-          if (m[0] < pos) return;
-          n.el.appendChild(document.createTextNode(n.text.slice(pos, m[0])));
-          var mk = document.createElement('mark'); mk.textContent = n.text.slice(m[0], m[1]);
-          n.el.appendChild(mk); pos = m[1];
-        });
-        n.el.appendChild(document.createTextNode(n.text.slice(pos)));
+        if (n.marked) { n.el.innerHTML = n.html; n.marked = false; }
+        if (words.length && !card.hidden) n.marked = markText(n.el, words);
       });
     });
   }
@@ -1790,13 +1833,11 @@ def build_index(modules, tag_counts):
     # --- chronologie : mois du plus recent au plus ancien ; la toute derniere
     #     fiche est mise en avant (date en evidence, trois lignes completes)
     sections = []
-    first = True
     for ym in sorted(by_month, reverse=True):
         mods = by_month[ym]
         cards = []
         for m in mods:
-            cards.append(entry_card(m, featured=first))
-            first = False
+            cards.append(entry_card(m))
         sections.append(
             f'<section class="month" id="m-{ym}" data-month="{ym}" '
             f'aria-labelledby="h-{ym}">'
@@ -1823,21 +1864,6 @@ def build_index(modules, tag_counts):
                 f'{html.escape(lab)} <span class="n">{per_theme[k]}</span></button>')
     themes_block = ('<div class="themes needs-js" role="group" aria-label="Filtrer par thème">'
                     + "".join(theme_btns) + '</div>')
-
-    # --- nuage de tags (replie), tries par frequence puis alphabetiquement
-    _all = sorted(tag_counts.items(), key=lambda kv: (-kv[1], kv[0]))
-    ordered = [kv for kv in _all if kv[1] >= TAGS_MIN]
-    head_tags = "".join(tag_chip(t, n) for t, n in ordered[:TAGS_VISIBLES])
-    rest = ordered[TAGS_VISIBLES:]
-    more = ""
-    if rest:
-        more = ('<details><summary>' + plural(len(rest), "autre mot-clé", "autres mots-clés")
-                + '</summary><ul class="tags__list">'
-                + "".join(tag_chip(t, n) for t, n in rest) + "</ul></details>")
-    tags_block = (f'<details class="tagbox needs-js"><summary>Filtrer par mot-clé</summary>'
-                  f'<section class="tags" aria-label="Mots-clés">'
-                  f'<ul class="tags__list">{head_tags}</ul>{more}</section></details>'
-                  ) if ordered else ""
 
     # --- index de recherche embarque : id -> {haystack replie, tags, theme}
     data = {module_id(m): {
@@ -1870,14 +1896,12 @@ def build_index(modules, tag_counts):
         '<button type="button" class="search__clear" id="q-clear" hidden '
         'aria-label="Effacer la recherche">&times;</button>'
         '</span></form>'
-        '<p class="search__opts needs-js">'
-        '<label><input type="checkbox" id="ft"> Chercher aussi dans le texte intégral</label>'
-        '<span class="hint" id="q-hint">Tapez <code>#mot-clé</code> pour filtrer, '
-        '<code>/</code> pour revenir au champ.</span>'
-        '</p>'
+        '<p class="sr-only" id="q-hint">Tapez un mot-clé précédé de # pour filtrer, '
+        'et la touche barre oblique pour revenir au champ.</p>'
         '<p class="hint" id="ft-note" role="status" hidden></p>'
         f'{themes_block}'
-        f'{tags_block}'
+        '<p class="search__opts needs-js">'
+        '<label><input type="checkbox" id="ft"> Chercher aussi dans le texte intégral</label></p>'
         '<noscript><p class="nojs">La recherche et les filtres par thème nécessitent JavaScript. '
         'Toutes les fiches restent consultables ci-dessous, du plus récent au plus ancien.</p></noscript>'
         '</div>'
@@ -1984,20 +2008,20 @@ def build_hero(modules):
 def build_frise(modules):
     last, first = modules[0], modules[-1]
     months = sorted({m["date"][:7] for m in modules})
-    present = [k for k in THEMES if any(m["theme"] == k for m in modules)]
-    legend = "".join(f'<li class="t-{k}">{html.escape(THEMES[k])}</li>' for k in present)
     d0 = date.fromisoformat(first["date"])
     span = max((date.fromisoformat(last["date"]) - d0).days, 1)
     def left(ym):
         # premier jour du mois, ramene dans l'intervalle de la frise
         pos = max(0, (date.fromisoformat(ym + "-01") - d0).days) / span
         return min(pos, 1) * 100
-    month_links = "".join(f'<a href="#m-{ym}" style="left:{left(ym):.1f}%">{MOIS[int(ym[5:7]) - 1]}</a>'
-                          for ym in months)
+    # pres du bord droit, l'etiquette s'aligne a droite de son repere (pas de debordement)
+    month_links = "".join(
+        f'<a href="#m-{ym}" style="left:{left(ym):.1f}%"' + (' class="end"' if left(ym) > 85 else "")
+        + f'>{MOIS[int(ym[5:7]) - 1]}</a>' for ym in months)
     return ('<figure class="frise" aria-label="Chronologie des fiches">'
             f'{frise_svg(modules)}'
             f'<nav class="frise__months" aria-label="Aller à un mois">{month_links}</nav>'
-            f'<ul class="frise__legend">{legend}</ul></figure>')
+            '</figure>')
 
 def build_404():
     body = ('<main id="main"><section class="hero hero--404 grain" aria-labelledby="hero-title">'

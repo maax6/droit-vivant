@@ -98,7 +98,10 @@
     "quoi": "Par deux délibérations du 8 janvier 2026 rendues publiques le 13 janvier, la CNIL a sanctionné Free Mobile (27 M€) et Free (15 M€), soit 42 M€ au total.",
     "qui": "Les abonnés visés par l'exposition de données de 24 millions de contrats en octobre 2024, dont des IBAN, ainsi que Free Mobile et Free, filiales du groupe Iliad.",
     "change": "Sont notamment retenus une authentification insuffisamment robuste sur le VPN de télétravail, une détection d'anomalies inefficace, une notification incomplète aux abonnés et, chez Free Mobile, une rétention excessive de données.",
-    "theme": "RGPD"
+    "theme": "RGPD",
+    "voir": [
+      "2026-10-29"
+    ]
   },
   "2026-07-11": {
     "titre_court": "Chat Control 1.0 : 314 voix pour le rejet, sous le seuil de la majorité absolue",
@@ -154,7 +157,8 @@
     "change": "La Commission demande à la Cour une sanction financière immédiate contre les quatre États, tandis que la ministre Anne Le Hénanff espère un examen du texte français à la rentrée de septembre 2026.",
     "theme": "cyber",
     "voir": [
-      "2026-08-06"
+      "2026-08-06",
+      "2026-11-04"
     ]
   },
   "2026-07-23": {
@@ -239,7 +243,8 @@
     "change": "Tant que la loi n'est pas votée, ces entités n'ont aucune obligation NIS2 en droit interne, et le texte reste bloqué avant un examen en séance publique attendu en septembre 2026.",
     "theme": "cyber",
     "voir": [
-      "2026-07-19"
+      "2026-07-19",
+      "2026-11-04"
     ]
   },
   "2026-08-07": {
@@ -326,7 +331,8 @@
     "change": "La CNIL annonce des vérifications, la loi française lui interdisant d'infliger une amende administrative à l'État responsable du traitement.",
     "theme": "RGPD",
     "voir": [
-      "2026-08-22"
+      "2026-08-22",
+      "2026-11-03"
     ]
   },
   "2026-08-19": {
@@ -357,7 +363,8 @@
     "change": "Faute d'amende possible contre l'État, la réparation individuelle ou en action de groupe reste ouverte, et la Cour de justice admet que la crainte fondée d'un usage abusif peut suffire comme préjudice.",
     "theme": "RGPD",
     "voir": [
-      "2026-08-18"
+      "2026-08-18",
+      "2026-11-03"
     ]
   },
   "2026-08-23": {
@@ -483,5 +490,71 @@
     "quoi": "Le 29 septembre 2026, le sixième trilogue sur le règlement permanent CSAR s'est achevé sans accord final selon la presse et des acteurs militants ; aucun communiqué officiel n'a été retrouvé.",
     "qui": "Les utilisateurs de messageries et les fournisseurs de services de communication dans l'UE, visés par d'éventuelles obligations de détection de contenus pédocriminels.",
     "change": "Rien d'acquis : le Conseil défend des « search plans » sur des parties de services, le Parlement limite le scan aux personnes liées à des abus ; seul un accord provisoire sur les contenus publics est rapporté."
+  },
+  "2026-10-29": {
+    "titre_court": "CTS à Strasbourg : 230 000 comptes clients exposés, les obligations RGPD après une fuite",
+    "theme": "RGPD",
+    "quoi": "Le 28 octobre 2026, la Compagnie des transports strasbourgeois a annoncé l'extraction de données d'environ 230 000 comptes clients (dates de naissance, adresses, identifiants), sans données bancaires ni mots de passe selon elle.",
+    "qui": "Les clients de la CTS, exposés notamment au hameçonnage, et l'opérateur, responsable du traitement.",
+    "change": "La violation doit être documentée, notifiée à la CNIL sous 72 heures en cas de risque et signalée aux personnes si le risque est élevé ; aucun manquement n'est établi à ce stade.",
+    "voir": [
+      "2026-07-10"
+    ]
+  },
+  "2026-10-30": {
+    "titre_court": "Fnac : 7 M€ d'amende de la CNIL pour des traceurs actifs malgré le refus",
+    "theme": "RGPD",
+    "quoi": "Par une délibération du 22 octobre 2026, publiée le 29, la CNIL a infligé 7 M€ d'amende à deux sociétés du groupe Fnac Darty pour l'application mobile Fnac.",
+    "qui": "Les utilisateurs de l'application, dont le terminal était lu et écrit sans consentement, y compris après « Continuer sans accepter ».",
+    "change": "Injonction de mise en conformité sous un mois, avec astreinte de 10 000 € par jour ; la décision peut faire l'objet d'un recours.",
+    "voir": [
+      "2026-11-02"
+    ]
+  },
+  "2026-11-01": {
+    "titre_court": "Digital Omnibus : la position du Conseil de l'UE sur le RGPD, les cookies et les incidents",
+    "theme": "RGPD",
+    "quoi": "Le 21 octobre 2026, les États membres ont arrêté leur mandat de négociation sur le volet « données » du Digital Omnibus, qui modifie le RGPD, la directive ePrivacy et NIS2.",
+    "qui": "Les responsables de traitement, les éditeurs de sites et les entités soumises à NIS2, ainsi que les personnes dont les données sont traitées.",
+    "change": "Le Conseil garde la définition de la donnée personnelle, élargit les cookies exemptés de consentement et prévoit des points nationaux de signalement d'incidents ; la lecture du volet IA diverge selon les sources."
+  },
+  "2026-11-02": {
+    "titre_court": "Orange : le Conseil d'État confirme les 50 M€ d'amende de la CNIL",
+    "theme": "jurisprudence",
+    "quoi": "Le 16 octobre 2026, le Conseil d'État a rejeté le recours d'Orange contre la sanction de 50 M€ prononcée par la CNIL en novembre 2024.",
+    "qui": "Les utilisateurs de Mail Orange, exposés à des publicités en forme de courriel sans consentement et à des cookies lus après leur refus.",
+    "change": "Les deux manquements sont confirmés ; lire un cookie après le retrait du consentement suffit, même sans traitement ultérieur des données.",
+    "voir": [
+      "2026-10-30"
+    ]
+  },
+  "2026-11-03": {
+    "titre_court": "Fuite France Titres : la CNIL ouvre des contrôles, l'amende contre l'État en question",
+    "theme": "RGPD",
+    "quoi": "Selon la presse, la présidente de la CNIL a ordonné des contrôles chez France Titres (ex-ANTS) après l'incident de sécurité du 15 avril 2026 et plusieurs plaintes.",
+    "qui": "Les usagers du portail ants.gouv.fr et l'organisme public chargé des titres d'identité.",
+    "change": "Un contrôle n'est pas une sanction ; une source secondaire, à vérifier, indique que la loi exclut l'amende pour les traitements mis en œuvre par l'État.",
+    "voir": [
+      "2026-08-18",
+      "2026-08-22"
+    ]
+  },
+  "2026-11-04": {
+    "titre_court": "NIS2 : le projet de loi Résilience peut revenir à l'Assemblée, l'article sur le chiffrement en débat",
+    "theme": "cyber",
+    "quoi": "Déprogrammé le 6 octobre 2026, le projet de loi qui transpose NIS2 pourrait être examiné dans les prochains jours selon LCP (4 novembre 2026).",
+    "qui": "Les entités essentielles et importantes visées par NIS2, et les utilisateurs de messageries chiffrées concernés par l'article 16 bis.",
+    "change": "Selon une source secondaire, le gouvernement soutiendrait la suppression de l'article qui interdit d'imposer des portes dérobées au chiffrement ; l'échéance de transposition était le 17 octobre 2024.",
+    "voir": [
+      "2026-08-06",
+      "2026-07-19"
+    ]
+  },
+  "2026-11-05": {
+    "titre_court": "Phishing : la CJUE impose à la banque de rembourser d'abord, même si elle invoque une négligence grave",
+    "theme": "jurisprudence",
+    "quoi": "Dans l'affaire C-70/25, la Cour de justice de l'UE a jugé le 15 octobre 2026 qu'une opération de paiement non autorisée doit être remboursée immédiatement.",
+    "qui": "Les clients victimes d'hameçonnage et leurs banques, au titre de la directive PSD2.",
+    "change": "Le remboursement intervient au plus tard le jour ouvrable suivant le signalement ; la banque peut ensuite chercher à prouver la négligence grave, la charge de la preuve lui revient."
   }
 }
