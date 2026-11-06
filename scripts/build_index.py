@@ -600,6 +600,17 @@ mark{background:var(--mark);color:inherit;border-radius:2px;box-shadow:0 1px 0 v
   color:var(--accent);font-weight:600;font-size:var(--fs-sm)}
 .about ol.steps strong{display:block}
 
+/* ---- page podcast ---- */
+.steps-mini{margin:var(--space-6) 0;padding-left:var(--space-6)}
+.steps-mini li{margin-bottom:var(--space-2)}
+.prompt{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);margin:var(--space-6) 0 var(--space-4)}
+.prompt__bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);
+  padding:var(--space-2) var(--space-2) var(--space-2) var(--space-4);border-bottom:1px solid var(--border)}
+.prompt__label{font-size:var(--fs-sm);font-weight:600}
+.prompt__text{display:block;width:100%;border:0;resize:vertical;background:transparent;color:var(--text);
+  font:var(--fs-sm)/1.6 var(--mono);padding:var(--space-4);min-height:16rem}
+.prompt__text:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
 /* ---- 404 ---- */
 .notfound{text-align:left;padding-top:var(--space-12)}
 .notfound .code{color:var(--accent);font-size:var(--fs-sm);}
@@ -822,6 +833,8 @@ ICONS = {
     "chart": '<path d="M3 3v18h18M7 15l4-4 3 3 5-6"/>',
     "file": '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/>',
     "download": '<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',
+    "mic": '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/>',
+    "copy": '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
 }
 
 def icon(name, cls="icon"):
@@ -1326,20 +1339,14 @@ def render_fiche(x, i, listed, by_id):
         parts.append(f'<section aria-labelledby="voir"><h2 id="voir">Sur le même sujet</h2>{rel_html}</section>')
 
     # Annexes regroupees et en retrait : sources, documents, mots-cles
+    # Annexes : un seul lien utile en plus des sources (l'infographie et les .md
+    # restent servis a leur adresse, mais ne sont plus proposes)
     docs = []
-    if x["infographie"]:
-        docs.append(f'<a href="{prefix}{x["infographie"]}">{icon("chart")}Infographie</a>')
-    if x["brief"]:
-        docs.append(f'<a href="{prefix}{x["brief"][:-3]}.html">{icon("file")}Brief</a>')
-    if x["source"]:
-        docs.append(f'<a href="{prefix}{x["source"][:-3]}.html">{icon("file")}Source NotebookLM</a>')
-    if x["brief"]:
-        docs.append(f'<a href="{prefix}{x["brief"]}" download>{icon("download")}Brief en Markdown</a>')
-    if x["source"]:
-        docs.append(f'<a href="{prefix}{x["source"]}" download>{icon("download")}Source en Markdown</a>')
+    if x["source"] or body_md:
+        docs.append(f'<a href="{prefix}{podcast_href(x)}">{icon("mic")}Créer votre podcast</a>')
     side = ""
     if docs:
-        side += ('<h3 class="annexes__h">Documents</h3><ul class="docs">'
+        side += ('<h3 class="annexes__h">Écouter plutôt que lire</h3><ul class="docs">'
                  + "".join(f"<li>{d}</li>" for d in docs) + '</ul>')
     if x["tags"]:
         chips = "".join(f'<li><a href="{prefix}index.html?tag={t}">#{html.escape(t)}</a></li>'
@@ -1369,6 +1376,60 @@ def render_fiche(x, i, listed, by_id):
     canon = fiche_href(ref) if ref else None
     return shell(f'{x["short"]} — Droit Vivant', body, prefix, desc=desc,
                  path=fiche_href(x), canonical=canon, og_type="article")
+
+PODCAST_DIR = "podcast"
+
+def podcast_href(x, prefix=""):
+    return f"{prefix}{PODCAST_DIR}/{module_id(x)}.html"
+
+PODCAST_PROMPT = """Crée un podcast audio en français, d'environ 8 à 10 minutes, à deux voix, \
+qui explique l'affaire décrite dans le document ci-dessous à des professionnels de la \
+cybersécurité qui ne sont pas juristes.
+
+Structure :
+1. Ce qui s'est passé, avec la date et l'institution concernée.
+2. Qui est concerné, concrètement.
+3. Ce qui change, et ce qui reste incertain ou à confirmer.
+4. Trois points à retenir, en conclusion.
+
+Règles :
+- Appuie-toi uniquement sur le document. N'invente aucun fait, aucun chiffre, aucune citation.
+- Cite les dates, les montants et les références (articles, numéros d'affaire) tels qu'ils y figurent.
+- Si une information manque ou si le document la signale comme incertaine, dis-le.
+- Ton clair et factuel, sans jargon inutile. Ce n'est pas un conseil juridique.
+
+Document :
+"""
+
+def render_podcast(x):
+    """Page « Créer votre podcast » : un prompt pret a copier, qui contient le texte
+    de l'affaire (source longue a defaut le brief), a coller dans un outil qui
+    genere un podcast audio a partir d'un texte."""
+    prefix = "../"
+    doc = read(x["_source_path"]) or split_brief(read(x["_brief_path"]))[0]
+    prompt = PODCAST_PROMPT + "\n" + doc.strip() + "\n"
+    body = (
+        '<main class="page fiche podcast" id="main"><article>'
+        f'<p class="backlink"><a href="{prefix}{fiche_href(x)}">{icon("arrow-left")} Revenir à la fiche</a></p>'
+        f'<div class="fiche__meta">{date_tag(x["date"], long=True)}{theme_badge(x["theme"])}</div>'
+        '<h1>Créer votre podcast</h1>'
+        f'<p class="lede">Pour écouter l’affaire plutôt que la lire : « {html.escape(x["short"])} ».</p>'
+        '<ol class="steps-mini">'
+        '<li>Copiez le prompt ci-dessous. Il contient déjà tout le texte de l’affaire.</li>'
+        '<li>Collez-le dans un outil qui génère un podcast audio à partir d’un texte, '
+        'par exemple la fonction « résumé audio » de NotebookLM.</li>'
+        '<li>Écoutez, puis vérifiez les points importants dans les sources de la fiche.</li>'
+        '</ol>'
+        '<div class="prompt">'
+        '<div class="prompt__bar"><span class="prompt__label" id="prompt-label">Prompt prêt à copier</span>'
+        f'<button type="button" class="btn needs-js" data-copy="prompt-text">{icon("copy")}<span>Copier</span></button></div>'
+        f'<textarea id="prompt-text" class="prompt__text" readonly rows="14" aria-labelledby="prompt-label">'
+        f'{html.escape(prompt)}</textarea></div>'
+        '<p class="hint">Le podcast généré peut contenir des erreurs : seules les sources citées dans la fiche font foi.</p>'
+        '</article></main>')
+    return shell(f'Créer votre podcast : {x["short"]} — Droit Vivant', body, prefix,
+                 desc=f'Prompt prêt à copier pour générer un podcast sur : {x["short"]}',
+                 path=podcast_href(x), extra='<meta name="robots" content="noindex">')
 
 def sibling_href(x):
     """Lien vers une autre fiche depuis une fiche (meme dossier)."""
@@ -1678,6 +1739,25 @@ SITE_JS = r"""
     });
   }
 
+  /* ---- bouton « Copier » (page podcast) ---- */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (b) {
+    var target = document.getElementById(b.getAttribute('data-copy'));
+    var label = b.querySelector('span');
+    if (!target) return;
+    b.addEventListener('click', function () {
+      function done(ok) {
+        label.textContent = ok ? 'Copié' : 'Sélectionnez le texte et copiez-le';
+        setTimeout(function () { label.textContent = 'Copier'; }, 2500);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(target.value).then(function () { done(true); }, function () { done(false); });
+      } else {
+        target.focus(); target.select();
+        try { done(document.execCommand('copy')); } catch (e) { done(false); }
+      }
+    });
+  });
+
   /* ---- dates relatives : « aujourd'hui », « il y a 3 jours » ---- */
   var today = new Date(); today.setHours(0, 0, 0, 0);
   Array.prototype.forEach.call(document.querySelectorAll('[data-ago]'), function (el) {
@@ -1753,8 +1833,9 @@ def build_about():
          "de justice, communiqués d’autorités, presse spécialisée."),
         ("Rédaction",
          "Pour chaque sujet, la tâche produit trois documents : un brief (texte court, "
-         "sources à l’appui), une infographie HTML et un texte source plus long, destiné à "
-         "NotebookLM pour la production d’un podcast."),
+         "sources à l’appui) et un texte source plus long. Sur chaque fiche, la page "
+         "« Créer votre podcast » transforme ce texte en prompt prêt à copier, pour "
+         "écouter l’affaire plutôt que la lire."),
         ("Archivage",
          "Les trois fichiers sont déposés dans le dépôt Git du projet, dans un dossier par "
          "date (<code>archive/AAAA-MM-JJ/</code>)."),
@@ -2062,6 +2143,7 @@ def main():
             if f.suffix in (".avif", ".webp", ".jpg"):   # l'original .png n'est pas publie
                 shutil.copy(f, SITE / "assets" / "hero" / f.name)
     (SITE / FICHES_DIR).mkdir(parents=True, exist_ok=True)
+    (SITE / PODCAST_DIR).mkdir(parents=True, exist_ok=True)
 
     modules = collect()
     resumes = load_resumes()
@@ -2098,6 +2180,8 @@ def main():
                                raw_label="Version .md brute (pour NotebookLM)"),
                 encoding="utf-8")
         (SITE / fiche_href(x)).write_text(render_fiche(x, pos.get(module_id(x)), listed, by_id), encoding="utf-8")
+        if x["source"] or x["brief"]:
+            (SITE / podcast_href(x)).write_text(render_podcast(x), encoding="utf-8")
 
         if x["doublon_de"]:
             continue
