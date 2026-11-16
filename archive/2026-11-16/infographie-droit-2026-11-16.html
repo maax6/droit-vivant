@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gemini a-t-il le droit de « recopier » la presse ? — Droit Vivant</title>
+<style>
+:root{--bg:#fff;--fg:#1a1a1a;--muted:#5a5a5a;--border:#d4d4d8;--tint:#f4f4f5;--tint2:#eef2f7;--tint3:#f6f1ea}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--fg:#ececec;--muted:#a0a0a8;--border:#3a3a40;--tint:#1d1d21;--tint2:#1a2029;--tint3:#241f19}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:24px 16px}
+.kicker{color:var(--muted);font-size:.85rem;margin-bottom:8px}
+h1{font-size:1.7rem;line-height:1.25;margin:0 0 20px}
+h2{font-size:1.05rem;margin:0 0 8px}
+.principle,.why,.card{border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--tint)}
+.principle{background:var(--tint2);margin-bottom:16px}
+.why{background:var(--tint3);margin:16px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.card.full{margin-top:16px}
+.ref ul{margin:0;padding-left:20px}
+code{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0 4px;font-size:.9em}
+dl.glossary dt{font-weight:600;margin-top:8px}
+dl.glossary dd{margin:0 0 0 0;color:var(--muted)}
+footer{margin-top:24px;color:var(--muted);font-size:.85rem}
+a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="kicker">Droit Vivant · Droit d'auteur &amp; IA · 16 novembre 2026</div>
+<h1>Gemini a-t-il le droit de « recopier » la presse ? L'avocat général de la CJUE trace la ligne — l'arrêt reste à venir</h1>
+
+<div class="principle"><strong>Principe-clé :</strong> le droit voisin des éditeurs de presse protège la forme d'expression et l'investissement d'une publication, pas les simples faits ; si un chatbot en reprend de façon reconnaissable l'expression, ou a contourné une barrière technique pour y accéder, son fournisseur peut porter la responsabilité.</div>
+
+<div class="grid">
+<div class="card">
+<h2>Textes de référence</h2>
+<div class="ref"><ul>
+<li>Directive (UE) 2019/790, <code>art. 15, § 1</code> : droit voisin des éditeurs de presse (reproduction et mise à disposition du public)</li>
+<li>Directive (UE) 2019/790, <code>art. 4</code> : exception de fouille de textes et de données</li>
+<li>Droits de reproduction et de communication au public (directive 2001/29/CE, modifiée par la directive 2019/790)</li>
+<li>CJUE, affaire <code>C-250/25</code>, Like Company : conclusions de l'avocat général du 3 novembre 2026 (communiqué n° 155/26)</li>
+</ul></div>
+</div>
+<div class="card case">
+<h2>L'affaire</h2>
+<p>Une juridiction de <b>Budapest-agglomération</b> interroge la Cour : <b>Like Company</b>, opérateur hongrois de portails d'information, reproche à <b>Google Ireland</b> (qui exploite <b>Gemini</b>) la réutilisation de ses publications dans des réponses générées entre le <b>13 juin 2023 et le 31 mai 2024</b>. L'avocat général <b>Maciej Szpunar</b> propose d'écarter comme <b>irrecevables</b> les questions sur l'<b>entraînement</b> (aucune preuve que les articles aient servi à entraîner Gemini), tout en notant qu'entraîner un LLM est « en règle générale » couvert par la fouille de textes et de données. Sur les <b>réponses</b>, tout dépend : <b>accès illicite</b> (contournement d'un mur payant ou d'un blocage du moissonnage) et <b>reprise reconnaissable</b> de la forme d'expression plutôt que de simples faits. Il écarte la responsabilité de l'utilisateur au profit de celle du <b>fournisseur</b>. <b>Ses conclusions ne lient pas la Cour.</b></p>
+</div>
+</div>
+
+<div class="why">
+<h2>Pourquoi c'est important</h2>
+<p>C'est la première fois que la Cour de justice est saisie de l'IA générative sous l'angle du droit d'auteur : sa réponse fixera si les chatbots « avec recherche » doivent respecter les paywalls et les signaux anti-moissonnage, et jusqu'où une réponse peut résumer un article. Pour un chercheur en sécurité, la frontière du « contournement d'une mesure technique » est un point de contact direct avec les pratiques de crawling et de RAG.</p>
+</div>
+
+<div class="card full">
+<h2>Mini-glossaire</h2>
+<dl class="glossary">
+<dt>Conclusions de l'avocat général</dt><dd>Avis juridique indépendant présenté avant l'arrêt ; la Cour est libre de le suivre ou non.</dd>
+<dt>Fouille de textes et de données (TDM)</dt><dd>Analyse automatisée de grandes quantités de contenus pour en extraire des informations ; exception prévue à l'art. 4 de la directive 2019/790.</dd>
+<dt>Droit voisin de l'éditeur de presse</dt><dd>Droit propre de l'éditeur sur ses publications (art. 15), distinct du droit d'auteur du journaliste.</dd>
+<dt>RAG (génération augmentée par récupération)</dt><dd>Technique où un chatbot va chercher des contenus en ligne pour construire sa réponse.</dd>
+</dl>
+</div>
+
+<footer>Source principale : <a href="https://curia.europa.eu/site/upload/docs/application/pdf/2026-11/cp260155fr.pdf">CURIA — communiqué de presse n° 155/26</a>. Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.</footer>
+</div>
+</body>
+</html>
