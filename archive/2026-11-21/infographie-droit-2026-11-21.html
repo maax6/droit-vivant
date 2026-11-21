@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Droit Vivant — 5 M€ pour des mots de passe en clair (21 novembre 2026)</title>
+<style>
+  :root{--bg:#fafafa;--fg:#1a1a1a;--border:#d0d4da;--tint:#eef1f5;--tint2:#f3f0e8;--muted:#555;}
+  @media (prefers-color-scheme: dark){:root{--bg:#0e1116;--fg:#e6e6e6;--border:#343b46;--tint:#171c24;--tint2:#1d1b16;--muted:#a0a6b0;}}
+  body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.5;margin:0;padding:1.5rem;}
+  .wrap{max-width:860px;margin:0 auto;}
+  .kicker{color:var(--muted);font-size:.85rem;margin-bottom:.5rem;}
+  h1{font-size:1.6rem;line-height:1.25;margin:.2rem 0 1rem;}
+  h2{font-size:1.05rem;margin:0 0 .5rem;}
+  .principle,.why,.card{border:1px solid var(--border);border-radius:8px;padding:1rem;margin:1rem 0;}
+  .principle{background:var(--tint);}
+  .why{background:var(--tint2);}
+  .card{background:var(--bg);}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  @media (max-width:700px){.grid{grid-template-columns:1fr;}}
+  .grid .card{margin:0;}
+  .case{background:var(--tint);}
+  code{background:var(--tint);padding:0 .25rem;border-radius:4px;}
+  dt{font-weight:600;margin-top:.5rem;}
+  dd{margin:0 0 .25rem 0;}
+  footer{color:var(--muted);font-size:.85rem;margin-top:1.5rem;}
+  a{color:inherit;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="kicker">Droit Vivant · Droit du numérique / RGPD · 21 novembre 2026</div>
+<h1>Mots de passe stockés en clair : 5 millions d'euros d'amende — et la CNIL publie le dossier sans nommer l'entreprise</h1>
+
+<div class="principle"><strong>Principe-clé :</strong> l'article 32 du RGPD oblige à protéger les données par des mesures techniques adaptées au risque (stocker des mots de passe en clair n'en est pas une), et l'article 5-1-e impose de ne pas les conserver plus longtemps que nécessaire à la finalité du traitement.</div>
+
+<div class="grid">
+<div class="card">
+<h2>Textes de référence</h2>
+<div class="ref"><ul>
+<li>RGPD (UE) 2016/679, <code>article 32</code> : sécurité du traitement</li>
+<li>RGPD, <code>article 5-1-e</code> : limitation de la durée de conservation</li>
+<li>RGPD, <code>article 83</code> : plafonds des amendes administratives</li>
+<li>CNIL, formation restreinte, <code>délibération SAN-2026-016 du 12 novembre 2026</code></li>
+<li>Communiqué CNIL du 18 novembre 2026</li>
+</ul></div>
+</div>
+<div class="card case">
+<h2>L'affaire</h2>
+<p>La formation restreinte de la CNIL a prononcé une amende de <b>5 millions d'euros</b> contre une société <b>que la CNIL ne nomme pas</b>, après avoir été alertée puis avoir réalisé un contrôle. Constats : <b>mots de passe des espaces clients conservés en clair</b>, <b>identifiants partagés entre plusieurs salariés</b> pour accéder aux bases clients (pas de traçabilité individuelle), formulaire de contact conservé <b>plus de 10 ans</b> et données de connexion gardées au-delà de la durée d'un an fixée par la politique interne.</p>
+<p>La société a supprimé les mots de passe et l'historique, mis en place une purge mensuelle et renforcé la sécurité pendant la procédure. La délibération est publiée « à des fins pédagogiques ». Aucune fuite de données n'est mentionnée dans le communiqué.</p>
+</div>
+</div>
+
+<div class="why">
+<h2>Pourquoi c'est important</h2>
+<p>Une sanction de cette ampleur sans incident ni fuite connue montre que la CNIL sanctionne l'absence de mesures de base, pas seulement leurs conséquences. Pour un auditeur, c'est une liste de points de contrôle très concrète : hachage des mots de passe, comptes nominatifs, journalisation, purge des données. La société n'étant pas nommée, aucune personne ni marque ne peut être associée à ces faits.</p>
+</div>
+
+<div class="card full">
+<h2>Mini-glossaire</h2>
+<dl class="glossary">
+<dt>Formation restreinte</dt><dd>Organe de la CNIL, distinct de sa présidence, qui prononce les sanctions.</dd>
+<dt>Mot de passe en clair</dt><dd>Mot de passe stocké lisible, sans hachage : toute personne accédant à la base peut le lire et le réutiliser.</dd>
+<dt>Durée de conservation</dt><dd>Période pendant laquelle une donnée est gardée ; elle doit être définie et proportionnée à la finalité.</dd>
+<dt>Traçabilité</dt><dd>Capacité à attribuer chaque accès à une personne précise, impossible avec des comptes partagés.</dd>
+</dl>
+</div>
+
+<footer>Source principale : <a href="https://www.cnil.fr/fr/conservation-des-mots-de-passe-sanction-5-millions-deuros">CNIL — Conservation des mots de passe clients en clair : sanction de 5 millions d'euros (18 novembre 2026)</a>. Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.</footer>
+</div>
+</body>
+</html>
