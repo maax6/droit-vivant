@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Health Data Hub chez Microsoft : le Conseil d'État valide, mais le risque américain « ne peut être totalement exclu »</title>
+<style>
+:root{--bg:#fff;--fg:#1a1a1a;--muted:#555;--border:#d0d0d0;--tint:#f4f6f8;--tint2:#f1f5f1;--tint3:#f8f4ee;--accent:#1f4e79}
+@media (prefers-color-scheme:dark){:root{--bg:#141414;--fg:#eaeaea;--muted:#a8a8a8;--border:#3a3a3a;--tint:#1d2126;--tint2:#1d231d;--tint3:#26221c;--accent:#8fb8e0}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:24px 16px}
+.kicker{color:var(--muted);font-size:.9rem;margin-bottom:8px}
+h1{font-size:1.7rem;line-height:1.25;margin:0 0 16px}
+h2{font-size:1.1rem;margin:0 0 8px;color:var(--accent)}
+.principle,.why,.card{border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:16px}
+.principle{background:var(--tint)}
+.why{background:var(--tint3)}
+.card{background:var(--tint2)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid .card{margin-bottom:0}
+@media (max-width:700px){.grid{grid-template-columns:1fr}}
+.ref ul{margin:0;padding-left:18px}
+code{background:var(--tint);padding:1px 4px;border-radius:4px;font-size:.9em}
+dt{font-weight:600;margin-top:8px}dd{margin:2px 0 0 0;color:var(--muted)}
+footer{color:var(--muted);font-size:.85rem;margin-top:16px}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="kicker">Droit Vivant · Numérique / RGPD · 22 novembre 2026</div>
+<h1>Health Data Hub chez Microsoft : le Conseil d'État valide, mais le risque américain « ne peut être totalement exclu »</h1>
+<div class="principle"><strong>Principe-clé :</strong> un traitement de données de santé hébergé par la filiale européenne d'un groupe américain peut être autorisé par la CNIL si l'autorisation n'emporte aucun transfert de données de santé vers un pays tiers et si des garanties techniques et organisationnelles (pseudonymisation, durée limitée, traçabilité) réduisent le risque d'accès par des autorités étrangères.</div>
+<div class="grid">
+<div class="card"><h2>Textes de référence</h2><div class="ref"><ul>
+<li>RGPD : <code>art. 28</code> (sous-traitant), <code>art. 32</code> (sécurité), <code>art. 44 à 46</code> (transferts)</li>
+<li>Décision d'exécution (UE) 2023/1795 du 10 juillet 2023 (cadre de protection des données UE–États-Unis)</li>
+<li>Code de la santé publique : <code>art. L. 1111-8</code> (hébergement de données de santé), <code>art. R. 1461-1</code></li>
+<li>Loi n° 2024-449 du 21 mai 2024 (SREN), <code>art. 31</code></li>
+<li>CNIL, délibération n° 2025-014 du 13 février 2025</li>
+</ul></div></div>
+<div class="card case"><h2>L'affaire</h2><p>La CNIL a autorisé l'<b>Agence européenne des médicaments</b> (projet DARWIN EU) à traiter pendant <b>3 ans</b> des données du SNDS, extraites par la <b>Plateforme des données de santé</b> et hébergées par <b>Microsoft Ireland</b> dans des centres de données <b>situés en France</b>. Associations, syndicats et la LDH ont attaqué cette autorisation. Le <b>20 mars 2026</b> (n° <b>503159</b> et <b>504171</b>), le Conseil d'État rejette les requêtes : l'autorisation <b>n'autorise aucun transfert</b> de données de santé vers les États-Unis, et le risque d'accès par les autorités américaines, « ne pouvant être totalement exclu », est encadré par des mesures de sécurité. Pas de question préjudicielle à la CJUE sur l'article 28 § 3.</p></div>
+</div>
+<div class="why" style="margin-top:16px"><h2>Pourquoi c'est important</h2><p>Pour qui audite des architectures cloud, la décision montre ce que le juge regarde : localisation, pseudonymisation, rétention, analyse de réidentification à chaque export, traçabilité des accès et durée. Elle est propre à ce projet et ne dit pas que tout hébergement par un fournisseur soumis au droit américain est conforme. La certification SecNumCloud reste, selon la décision, hors d'atteinte d'une filiale d'un groupe de droit américain.</p></div>
+<div class="card full"><h2>Mini-glossaire</h2><dl class="glossary">
+<dt>SNDS</dt><dd>Système national des données de santé, base nationale de données de santé.</dd>
+<dt>Pseudonymisation</dt><dd>Remplacement des identifiants directs ; les données restent des données personnelles.</dd>
+<dt>SecNumCloud</dt><dd>Qualification de l'ANSSI pour les services cloud de confiance.</dd>
+<dt>Question préjudicielle</dt><dd>Question posée à la CJUE sur l'interprétation ou la validité du droit de l'Union.</dd>
+</dl></div>
+<footer>Source principale : <a href="https://www.conseil-etat.fr/content/download/237293/file/503159-504171.pdf">Conseil d'État, décision n° 503159-504171 du 20 mars 2026</a>. Contenu pédagogique ; ne constitue pas un conseil juridique personnalisé.</footer>
+</div>
+</body>
+</html>
